@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  ~ Copyright (c) jmelzer 2011.
+  ~ All rights reserved.
+  -->
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="hibernate.connection.pool_size">2</property>
+        <property name="show_sql">true</property>
+        <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="hibernate.cache.use_query_cache">false</property>
+        <mapping class="com.jmelzer.data.model.Issue" />
+        <mapping class="com.jmelzer.data.model.IssueType" />
+        <mapping class="com.jmelzer.data.model.Attachment" />
+        <mapping class="com.jmelzer.data.model.User" />
+        <mapping class="com.jmelzer.data.model.Project" />
+        <mapping class="com.jmelzer.data.model.DynamicProperty" />
+        <mapping class="com.jmelzer.data.model.Label" />
+        <mapping class="com.jmelzer.data.model.Priority" />
+        <mapping class="com.jmelzer.data.model.ActivationCode" />
+        <mapping class="com.jmelzer.data.model.Component"/>
+        <mapping class="com.jmelzer.data.model.IssueType"/>
+        <mapping class="com.jmelzer.data.model.ProjectVersion"/>
+        <mapping class="com.jmelzer.data.model.ui.View"/>
+        <mapping class="com.jmelzer.data.model.ui.ViewTab"/>
+        <mapping class="com.jmelzer.data.model.ui.UiField"/>
+
+    </session-factory>
+</hibernate-configuration>

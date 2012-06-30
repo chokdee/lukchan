@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://www.w3.org/1999/xhtml">
+<head>
+    <wicket:head>
+
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title> Wreckcontrol </title>
+        <meta name="Author" content="J. Melzer">
+        <meta name="Keywords" content="Bugtracker">
+
+        <link rel="stylesheet" type="text/css" href="css/default.css"/>
+        <link rel="stylesheet" type="text/css" href="css/global-blue.css"/>
+    </wicket:head>
+</head>
+<body>
+
+<wicket:border>
+    <div id="header">
+        <!--<div class="content">-->
+        <!--<div style="background-image:url(images/logo.gif); height:90px"/>-->
+        <div style="text-align: center;">
+            <h1>Wreckcontrol : The NEW Bugtracking System</h1>
+        </div>
+
+        <!-- Wrapper -->
+        <div class="wrapper">
+            <nav class="main-navigation">
+
+                <!-- Content Navigation -->
+                <ul class="mini-cart">
+                    <li>
+                        <a wicket:id="loginlogout" >
+                            <span wicket:id="loginlogoutLabel"/>
+                        </a>
+                    </li>
+                </ul>
+                <!-- .content navigation -->
+
+                <!-- Main Content Navigation -->
+                <ul>
+
+                    <li>
+                        <a href="">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="">Issues</a>
+
+                        <!-- Submenu 2 -->
+                        <ul class="children">
+                            <li>
+                                <a href="">Sports</a>
+                            </li>
+                            <li>
+                                <a href="">Science</a>
+                            </li>
+                        </ul>
+                        <!-- .submenu 2 -->
+
+                    </li>
+
+                    <li>
+                        <a href="secure/usersettings">My Account</a>
+
+                        <!-- Submenu 3 -->
+                        <ul class="children">
+                            <li>
+                                <a href="">Edit My Address</a>
+                            </li>
+                            <li>
+                                <a href="">View Order</a>
+                            </li>
+                            <li>
+                                <a href="">Change Password</a>
+                            </li>
+                        </ul>
+                        <!-- .submenu 3 -->
+
+                    </li>
+
+                    <li>
+                        <a href="">Contact</a></li>
+
+                </ul>
+                <!-- .main content navigation -->
+
+                <div class="clear"></div>
+
+            </nav>
+
+        </div>
+    </div>
+    <div id="content">
+        <div id="feedbackPanel">
+            <span wicket:id="feedback"/>
+        </div>
+        <!--<h2><label wicket:id="headerline"></label></h2>-->
+        <wicket:body/>
+    </div>
+
+    <!--   <div id="footer">
+<div class="content">
+   <p>Copyright &copy;2012 Juergen Melzer | <a href="http://www.upcoming.de" accesskey="C">Upcoming</a></p>
+
+        </div>
+    </div>
+-->
+
+</wicket:border>
+
+</body>
+</html>

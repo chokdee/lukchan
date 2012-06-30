@@ -1,0 +1,72 @@
+<!--
+  ~ Copyright (c) jmelzer 2011.
+  ~ All rights reserved.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--suppress ALL -->
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <wicket:head>
+        <!--<title>MySite</title>-->
+        <meta name="description" content="MySite"/>
+        <meta name="keywords"
+              content="wicket,cool,hot,neat"/>
+    </wicket:head>
+</head>
+<body>
+
+<span wicket:id="border">
+        <div id="maincol">
+            <div class="aui-panel" style="margin-left: auto;margin-right: auto;width: 572px;">
+
+                <form wicket:id="formid" class="aui">
+                    <div class="form-body">
+
+                        <!--<div class="aui-message info"><span class="aui-icon icon-info"></span>
+                            <p>Please enter your email below.</p>
+                        </div>-->
+                        <fieldset>
+                            <!--<div class="field-group">
+                                <label wicket:id="projectLabel" class="required" for="projectId"></label>
+                                <select id="projectId" wicket:id="projects"/>
+                                <span class="error" wicket:id="projectFieldErr"/>
+                            </div>-->
+                            <!--<div class="field-group">
+                                <label wicket:id="issuetypeLabel" class="required" for="issueId"></label>
+                                <select id="issueId" wicket:id="issuetype"/>
+                            </div>-->
+                            <wicket:container wicket:id="list">
+                                <div class="field-group">
+                                    <wicket:container wicket:id="component"/>
+                                    <!--<span class="error" wicket:id="projectFieldErr"/>-->
+                                </div>
+                            </wicket:container>
+                        </fieldset>
+
+                        <!--<ul>
+                            <li wicket:id="list">
+                                <label wicket:id="entryLabel" class="required" for="issueId"></label>
+                                <select id="issueId" wicket:id="issuetype"/>
+
+                            </li>
+                        </ul>-->
+                        <div style="height: 1px; border-top: 1px solid; background-color: #d3d3d3;"/>
+                    </div>
+
+                    <div class="buttons-container form-footer">
+
+                        <div class="buttons">
+                            <input type="submit" value="Save" id="submit" class="button" accesskey="s">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+
+   </span>
+
+</body>
+</html>

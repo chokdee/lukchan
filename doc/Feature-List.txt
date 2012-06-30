@@ -1,0 +1,55 @@
+Free (?)
+Easy to Install (embedded database).
+Easy to evaluate
+Demo
+Simple User Experience
+Web Based
+Supports any platform that runs Java
+Available in 2 localizations (simple to extend).
+Customizable Issue Pages
+Multiple Projects per instance
+Support for Projects, Sub-Projects, and Categories.
+Users can have a different access level per project
+Changelog Support
+Roadmap
+Dashboard
+Search and Filter
+Full Text Search
+Simple/Advanced Filters
+Shared Filters (across users / projects)
+Built-in Reporting (reports / graphs)
+Custom Fields
+Email notifications
+Users can monitor specific issues (watching)
+Attachments
+Issue Change History
+RSS Feeds (news, issues matching saved filters, issues matching a specific project)
+Customizable issue workflow
+Sponsorships Support - users are able to place bounties or sponsorships for specific issues, also developers can track such sponsorships / payments.
+Anonymous Access
+Signup with Captcha and Email Confirmation.
+Self-Service Reset Password Support
+Export to csv, Microsoft Excel, Microsoft Word
+Ability to extended functionality through hook (custom) functions.
+Ability to extended functionality through plugins.
+Source Control Integration (GIT, SVN and CVS).
+No limit on the number of users, issues, or projects.
+Time Tracking
+Ability to send messages to messages to other users in regards to a specific issue.
+Issue Relationships
+Issue Relationship Graphs
+Attachment Auto-Preview
+Group Actions: actions can be applied on multiple issues.
+Easy hyperlinks to issues and issue notes (e.g. TST-123 hyper links to issue number TST-123).
+Ability to view recently visited issues (the last 5 visited issues are visible by default at the top right corner).
+Authentication
+Default Wreckcontrol Authentication (recommended)
+LDAP Integration
+Multi-DBMS Support -
+    MySQL
+    MS SQL
+    PostgreSQL
+    Oracle
+    DB2
+Webservice interface
+User definied screens

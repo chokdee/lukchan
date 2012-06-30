@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright (c) jmelzer 2011.
+  ~ All rights reserved.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--suppress ALL -->
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <wicket:head>
+        <!--<title>MySite</title>-->
+        <meta name="description" content="MySite"/>
+        <meta name="keywords"
+              content="wicket,cool,hot,neat"/>
+        <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    </wicket:head>
+</head>
+<body>
+
+<span wicket:id="border">
+        <div id="maincol">
+            <div class="aui-panel" style="margin-left: auto;margin-right: auto;width: 572px;">
+
+                <span style="font-size: 25px;font-weight: bold;">Welcome to Wreckcontrol</span>
+
+                <form class="aui" wicket:id="loginForm">
+                    <div style=" display: block;">
+                        <fieldset>
+                            <div class="field-group">
+                                <label for="userid">Username</label>
+                                <input id="userid" class="text medium-field" type="text" wicket:id="userId"/>
+                            </div>
+                            <div class="field-group">
+                                <label for="passwordid">Password</label>
+                                <input id="passwordid" class="text medium-field" type="password" wicket:id="password"/>
+                            </div>
+
+                        </fieldset>
+                        <fieldset class="group ">
+                            <div class="checkbox">
+                                <input wicket:id="rememberMe" type="checkbox" id="login-form-remember-me" class="checkbox">
+                                <label for="login-form-remember-me">Remember my login on this computer</label>
+                            </div>
+                            <div class="field-group">
+                                Not a member? <a href="signup" id="signup">Sign up</a> for an account.
+                                <br>
+                                <a href="sendpassword" id="pw">Forgot password?</a>.
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <hr>
+                    <input type="submit" value="Login"/>
+                </form>
+            </div>
+
+        </div>
+
+   </span>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+    <display-name>wreckcontrol</display-name>
+
+    <!--
+           There are three means to configure Wickets configuration mode and they are
+           tested in the order given.
+           1) A system property: -Dwicket.configuration
+           2) servlet specific <init-param>
+           3) context specific <context-param>
+           The value might be either "development" (reloading when templates change)
+           or "deployment". If no configuration is found, "development" is the default.
+     -->
+    <context-param>
+        <param-name>wicket.configuration</param-name>
+        <param-value>development</param-value>
+    </context-param>
+    <filter>
+        <filter-name>opensessioninview</filter-name>
+        <filter-class>
+            org.springframework.orm.hibernate4.support.OpenSessionInViewFilter
+        </filter-class>
+        <init-param>
+            <param-name>sessionFactoryBeanName</param-name>
+            <param-value>hibernateSessionFactory</param-value>
+        </init-param>
+        <init-param>
+            <param-name>singleSession</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>opensessioninview</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>wicket.events</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <!--<init-param>
+            <param-name>applicationClassName</param-name>
+            <param-value>com.jmelzer.webapp.WicketApplication</param-value>
+        </init-param>-->
+        <init-param>
+            <param-name>applicationFactoryClassName</param-name>
+            <param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+        </init-param>
+        <init-param>
+            <param-name>beanName</param-name>
+            <param-value>wicketApplication</param-value>
+        </init-param>
+
+    </filter>
+    <filter-mapping>
+        <filter-name>wicket.events</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring.xml,classpath:spring-web.xml,classpath:security.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+
+</web-app>

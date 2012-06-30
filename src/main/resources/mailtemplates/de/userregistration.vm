@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>$subject</title>
+</head>
+<b>Hallo ${user.name},</b><br>
+<br>
+vielen Dank f&uuml;r Ihre Registrierung bei Wreckcontrol.<br>
+<br>
+Bitte klicken Sie zun&auml;chst auf folgenden Link, um Ihre Registrierung vollst&auml;ndig abzuschlie&szlig;en:<br>
+<br>
+<a href="$Registrierungslink">$Registrierungslink</a>
+<br>
+<br>
+Sollte der Link nicht aktiv sein oder nicht funktionieren, kopieren Sie diesen in die
+Adresszeile Ihres Browsers und best&auml;tigen Sie die Eingabe.<br>
+<br>
+Einen sch&ouml;nen Tag w&uuml;nscht<br>
+Ihr Service von Wreckcontrol<br>
+<br>

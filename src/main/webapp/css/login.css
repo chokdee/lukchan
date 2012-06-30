@@ -1,0 +1,6 @@
+.page-type-login #content > header, .page-type-message #content > header, .page-type-login .content-container, .page-type-message .content-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 572px;
+}
+
