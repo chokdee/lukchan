@@ -110,6 +110,9 @@ public class CreateIssuePage extends MainPage {
                                 getKey(Field.ISSUETYPE_ID),
                                 getKey(Field.PRIORITY_ID),
                                 comp);
+            PageParameters parameters = new PageParameters();
+            parameters.add("0", issue.getPublicId());
+            setResponsePage(ShowIssuePage.class, parameters);
         }
 
         Long getKey(long id) {
