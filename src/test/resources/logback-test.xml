@@ -13,7 +13,7 @@
     </encoder>
   </appender>
   <logger name="com.jmelzer" level="DEBUG"/>
-  <logger name="org.hibernate" level="DEBUG"/>
+  <logger name="org.hibernate" level="INFO"/>
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>

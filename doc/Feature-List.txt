@@ -3,8 +3,8 @@ Easy to Install (embedded database).
 Easy to evaluate
 Demo
 Simple User Experience
-Web Based
-Supports any platform that runs Java
+Web Based (?)
+Supports any platform that runs Java (?)
 Available in 2 localizations (simple to extend).
 Customizable Issue Pages
 Multiple Projects per instance

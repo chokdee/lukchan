@@ -123,7 +123,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 message.setFrom("webmaster@wreckcontrol.net"); // could be parameterized...
                 Map model = new HashMap();
                 model.put("user", user);
-                model.put("Registrierungslink", "http://wreckcontrol.net:8080/giira/registerfinish?key=" + activationcode);
+                model.put("Registrierungslink", "http://wreckcontrol.net:8080/wreckcontrol/registerfinish?key=" + activationcode);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(
                         velocityEngine, "mailtemplates/de/userregistration.vm", model);
                 message.setText(text, true);
@@ -142,7 +142,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 Map model = new HashMap();
                 model.put("user", user);
                 model.put("subject", "Password vergessen");  //todo localize
-                model.put("passwordlink", "http://wreckcontrol.net:8080/giira/changepassword?key=" + activationcode);
+                model.put("passwordlink", "http://wreckcontrol.net:8080/wreckcontrol/changepassword?key=" + activationcode);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(
                         velocityEngine, "mailtemplates/de/forget_password.vm", model);
                 message.setText(text, true);

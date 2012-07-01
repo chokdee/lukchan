@@ -101,8 +101,9 @@ public class CreateIssuePage extends MainPage {
             issue.setDescription(((StringModel) model.get(Field.DESCRIPTION_ID)).getString());
             String comp = (String) ((Model)model.get(Field.COMPONENT_ID)).getObject();
             String ver = (String) ((Model)model.get(Field.FIXVERSION_ID)).getObject();
-            String orgTime = (String) ((Model)model.get(Field.ORGESTIMATE_ID)).getObject();
-            String leftTime = (String) ((Model)model.get(Field.REMAININGESTIMATE_ID)).getObject();
+            //we have to wait for converting fields
+            String orgTime = ((StringModel)model.get(Field.ORGESTIMATE_ID)).getString();
+            String leftTime = ((StringModel)model.get(Field.REMAININGESTIMATE_ID)).getString();
             System.out.println("ver = " + ver);
             issue.setDueDate(((PropertyModel<Date>) model.get(Field.DUEDATE_ID)).getObject());
             issueManager.create(issue, getKey(Field.PROJECT_ID),
