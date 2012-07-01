@@ -16,6 +16,7 @@ import com.jmelzer.data.model.ui.UiField;
 import com.jmelzer.data.model.ui.View;
 import com.jmelzer.data.model.ui.ViewTab;
 import com.jmelzer.data.uimodel.Field;
+import com.jmelzer.service.IssueManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
 public class Setup extends AbstractBatch {
@@ -37,8 +38,11 @@ public class Setup extends AbstractBatch {
         ProjectDao projectDao = (ProjectDao) context.getBean("projectDao");
         PriorityDao priorityDao = (PriorityDao) context.getBean("priorityDao");
         IssueTypeDao issueTypeDao = (IssueTypeDao) context.getBean("issueTypeDao");
+        IssueManager issueManager = (IssueManager) context.getBean("issueManager");
         ViewDao viewDao = (ViewDao) context.getBean("viewDao");
         ActivationCodeDao activationCodeDao = (ActivationCodeDao) context.getBean("activationCodeDao");
+        User dev;
+        User jm;
         {
             User user = userDao.findByUserNameNonLocked("admin");
             if (user == null) {
@@ -54,33 +58,33 @@ public class Setup extends AbstractBatch {
             userDao.save(user);
         }
         {
-            User user = userDao.findByUserNameNonLocked("jm");
-            if (user == null) {
-                user = new User();
+            jm = userDao.findByUserNameNonLocked("jm");
+            if (jm == null) {
+                jm = new User();
             }
-            user.setName("jm");
-            user.setPassword(encoder.encodePassword("42", "jm"));
-            user.setEmail("jm@wreckcontrol.net");
-            user.setLoginName("jm");
-            user.setLocked(false);
-            userDao.save(user);
+            jm.setName("jm");
+            jm.setPassword(encoder.encodePassword("42", "jm"));
+            jm.setEmail("jm@wreckcontrol.net");
+            jm.setLoginName("jm");
+            jm.setLocked(false);
+            userDao.save(jm);
         }
         {
-            User user = userDao.findByUserNameNonLocked("developer");
-            if (user == null) {
-                user = new User();
+            dev = userDao.findByUserNameNonLocked("developer");
+            if (dev == null) {
+                dev = new User();
             }
-            user.setName("developer");
-            user.setPassword(encoder.encodePassword("42", "developer"));
-            user.setEmail("developer@wreckcontrol.net");
-            user.setLoginName("developer");
-            user.setLocked(false);
-            userDao.save(user);
+            dev.setName("developer");
+            dev.setPassword(encoder.encodePassword("42", "developer"));
+            dev.setEmail("developer@wreckcontrol.net");
+            dev.setLoginName("developer");
+            dev.setLocked(false);
+            userDao.save(dev);
         }
-
+        Project project;
         {
             //dummy project for testing
-            Project project = new Project();
+            project = new Project();
             project.setName("Test");
             project.setShortName("TST");
             Project projectDb = projectDao.findOneByExample(project);
@@ -110,21 +114,50 @@ public class Setup extends AbstractBatch {
             }
             projectDao.save(project);
         }
+        IssueType issueType;
         {
             issueTypeDao.save(new IssueType("Bug", "images/bug.gif"));
-            issueTypeDao.save(new IssueType("Feature", "images/newfeature.gif"));
+            issueType = new IssueType("Feature", "images/newfeature.gif");
+            issueTypeDao.save(issueType);
             issueTypeDao.save(new IssueType("Task", "images/task.gif"));
         }
-        createPriorities(priorityDao);
+        Priority prio = createPriorities(priorityDao);
         createViews(viewDao);
+        createSampleIssue(issueManager, project.getId(),
+                          issueType.getId(),prio.getId(), "service",
+                          dev, jm);
     }
 
-    private void createPriorities(PriorityDao priorityDao) {
+    private void createSampleIssue(IssueManager issueManager,
+                                   Long projectId,
+                                   Long issueTypeId,
+                                   Long prioId,
+                                   String componentName,
+                                   User assignee,
+                                   User reporter) {
+        Issue issue = new Issue();
+        issue.setAssignee(assignee);
+        issue.setReporter(reporter);
+        issue.setSummary("this is an example test issue.");
+        issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu können benötigen wir die Möglichkeit, einen Blick in den Index (in die für eine Kampagne erstellten Suchwörter) zu werfen." +
+                             "<br>" +
+                             "Dabei haben wir im wesentlich zwei Anforderungen:.");
+        issueManager.create(issue,
+                            projectId,
+                            issueTypeId,
+                            prioId,
+                            componentName
+                            );
+    }
+
+    private Priority createPriorities(PriorityDao priorityDao) {
         priorityDao.save(new Priority("Blocker", 1));
         priorityDao.save(new Priority("Critical", 2));
-        priorityDao.save(new Priority("Major", 3));
+        Priority prio = new Priority("Major", 3);
+        priorityDao.save(prio);
         priorityDao.save(new Priority("Minor", 4));
         priorityDao.save(new Priority("Trivial", 5));
+        return prio;
     }
 
     private void createViews(ViewDao viewDao) {

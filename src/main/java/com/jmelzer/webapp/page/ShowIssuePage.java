@@ -13,12 +13,16 @@ package com.jmelzer.webapp.page;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.service.IssueManager;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.datetime.DateConverter;
+import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+
+import java.util.Date;
 
 public class ShowIssuePage extends MainPage {
     private static final long serialVersionUID = 8265687758416857282L;
@@ -49,5 +53,22 @@ public class ShowIssuePage extends MainPage {
 
         add(new Label("prioritylabel", new StringResourceModel("priority", new Model(""))));
         add(new Label("priority", issue.getPriority().getName()));
+
+        add(new Label("assigneelabel", new StringResourceModel("assignee", new Model(""))));
+        add(new Label("assignee", issue.getAssigneeName()));
+
+        add(new Label("reporterlabel", new StringResourceModel("reporter", new Model(""))));
+        add(new Label("reporter", issue.getReporterName()));
+
+        add(new Label("creationlabel", new StringResourceModel("creation", new Model(""))));
+        add(DateLabel.forDateStyle("creation", new Model<Date>(issue.getCreationDate()) ,"MM"));
+
+        add(new Label("updatelabel", new StringResourceModel("update", new Model(""))));
+        add(DateLabel.forDateStyle("update", new Model<Date>(issue.getUpdateDate()) ,"MM"));
+
+        add(new Label("desclabel", new StringResourceModel("desc", new Model(""))));
+        Label desc = new Label("desc", issue.getDescription());
+        desc.setEscapeModelStrings(false);
+        add(desc);
     }
 }

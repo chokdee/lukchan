@@ -30,8 +30,10 @@ public class Issue extends ModelBase implements Serializable {
 
     IssueType type;
     Date creationDate;
+    Date updateDate;
     Priority priority;
     User assignee;
+    User reporter;
     String summary;
     String description;
     Date dueDate;
@@ -49,6 +51,7 @@ public class Issue extends ModelBase implements Serializable {
 
     public Issue() {
         creationDate = new Date();
+        updateDate = new Date();
     }
 
     @ManyToOne(optional = false)
@@ -96,6 +99,14 @@ public class Issue extends ModelBase implements Serializable {
         this.creationDate = creationDate;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
     public void addAttachment(Attachment attachment) {
         attachments.add(attachment);
     }
@@ -129,8 +140,34 @@ public class Issue extends ModelBase implements Serializable {
         return assignee;
     }
 
+    @Transient
+    public String getAssigneeName() {
+        if (assignee != null) {
+            return assignee.getName();
+        }
+        return null;
+    }
+
     public void setAssignee(User assignee) {
         this.assignee = assignee;
+    }
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "reporter_id")
+    public User getReporter() {
+        return reporter;
+    }
+
+    @Transient
+    public String getReporterName() {
+        if (reporter != null) {
+            return reporter.getName();
+        }
+        return null;
+    }
+
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
     }
 
     @Column(name = "public_id", nullable = false, unique = true)
@@ -159,6 +196,7 @@ public class Issue extends ModelBase implements Serializable {
     public void setSummary(String summary) {
         this.summary = summary;
     }
+
     @Column(name = "due")
     public Date getDueDate() {
         return dueDate;
@@ -167,6 +205,7 @@ public class Issue extends ModelBase implements Serializable {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
+
     @OneToMany(cascade = CascadeType.DETACH)
     @JoinColumn(name = "component_id", nullable = true, insertable = false, updatable = false)
     public Set<Component> getComponents() {
@@ -180,6 +219,7 @@ public class Issue extends ModelBase implements Serializable {
     public void addComponent(Component component) {
         components.add(component);
     }
+
     @OneToMany(cascade = CascadeType.DETACH)
     @JoinColumn(name = "affected_id", nullable = true, insertable = false, updatable = false)
     public Set<ProjectVersion> getAffectedVersions() {
@@ -193,11 +233,13 @@ public class Issue extends ModelBase implements Serializable {
     public void addAffectedVersion(ProjectVersion version) {
         affectedVersions.add(version);
     }
+
     @OneToMany(cascade = CascadeType.DETACH)
     @JoinColumn(name = "fixed_id", nullable = true, insertable = false, updatable = false)
     public Set<ProjectVersion> getFixInVersions() {
         return fixInVersions;
     }
+
     public void addFixInVersion(ProjectVersion version) {
         fixInVersions.add(version);
     }
