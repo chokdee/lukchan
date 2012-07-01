@@ -59,6 +59,11 @@ public class IssueManagerImpl implements IssueManager {
         projectDao.save(issue.getProject());
     }
 
+    @Override
+    public Issue getIssueByShortName(String issueName) {
+        return issueDao.findIssueByShortName(issueName);
+    }
+
     private Component findComponent(Project project, String componentName) {
         for (Component component : project.getComponents()) {
             if (component.getName().equals(componentName)) {

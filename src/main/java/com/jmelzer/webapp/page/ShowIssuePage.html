@@ -1,0 +1,153 @@
+<!--
+  ~ Copyright (c) jmelzer 2011.
+  ~ All rights reserved.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--suppress ALL -->
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <wicket:head>
+        <title>Show an issue</title>
+        <meta name="description" content="MySite"/>
+        <meta name="keywords"
+              content="wicket,cool,hot,neat"/>
+    </wicket:head>
+</head>
+<body>
+
+<span wicket:id="border">
+        <div id="maincol">
+            <div class="issue-header">
+                <div style="float: left">
+                    <img class="project-avatar" width="50" height="50" src="images/default-project-avatar.png" alt="">
+                </div>
+                <div class="project-path">
+                    <span wicket:id="projectname"/>
+                    <span> / </span>
+                    <a wicket:id="self">
+                        <span wicket:id="name"/>
+                    </a>
+                </div>
+
+                <div class="issue-summary">
+                    <span wicket:id="issuesummary"/>
+                </div>
+                <!--<a href="/browse/JOBS-476" rel="22502" id="key-val">JOBS-476</a>-->
+
+            </div>
+            <div class="aui-panel" style="margin-left: auto;margin-right: auto;width: 75%;">
+
+                <div class="content">
+                    <div class="mod-header">
+                        <h3 class="toggle-title">Details</h3>
+                    </div>
+                    <div class="mod-content">
+                        <ul class="property-list two-cols" id="issuedetails">
+                            <li class="item">
+                                <div class="wrap">
+                                    <strong class="name">Type:</strong>
+                                <span class="value" id="type-val">
+                                <img width="16" height="16" title="New Feature - A new feature of the product, which has yet to be developed."
+                                     src="/images/icons/newfeature.gif" alt="New Feature">
+             New Feature
+            </span>
+                                </div>
+                            </li>
+                            <li class="item item-right">
+                                <div class="wrap">
+                                    <strong class="name">Status:</strong>
+            <span class="value" id="status-val">
+                                                        <img width="16" height="16" title="Open - The issue is open and ready for the assignee to start work on it."
+                                                             src="/images/icons/status_open.gif" alt="Open">
+             Open
+            </span>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="wrap">
+                                    <strong class="name">Priority:</strong>
+                <span class="value" id="priority-val">
+                                                                <img width="16" height="16" title="Major - Major loss of function." src="/images/icons/priority_major.gif"
+                                                                     alt="Major">
+             Major
+                </span>
+                                </div>
+                            </li>
+                            <li class="item item-right">
+                                <div class="wrap">
+                                    <strong class="name">Resolution:</strong>
+                <span class="value unresolved" id="resolution-val">
+                                    Unresolved
+                                </span>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="wrap">
+                                    <strong class="name">Affects Version/s:</strong>
+                <span class="value" id="versions-val">
+                                            None
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="item item-right">
+                                <div class="wrap">
+                                    <strong class="name">Fix Version/s:</strong>
+                <span class="value" id="fixfor-val">
+                                            None
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <div class="wrap">
+                                    <strong class="name">Component/s:</strong>
+                <span class="value" id="components-val">
+                                            None
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="item full-width">
+                                <div id="wrap-labels" class="wrap">
+                                    <strong class="name">Labels:</strong>
+
+                                    <div class="labels-wrap value">
+                                        <ul id="labels-22502-value" class="labels">
+                                            <li><a title="sm" href="/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=labels+%3D+sm" class="lozenge"><span>sm</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                        <div id="customfieldmodule">
+
+
+                            <ul class="property-list" id="tabCellPane1">
+
+
+                                <li class="item" id="rowForcustomfield_10941">
+                                    <div class="wrap">
+                                        <strong class="name" title="Prio Fachbereich">Prio Fachbereich:</strong>
+
+                                        <div class="value type-select" id="customfield_10941-val">
+                                            2 dringend
+
+                                        </div>
+                                    </div>
+                                </li>
+
+
+                            </ul>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+   </span>
+
+</body>
+</html>

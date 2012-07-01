@@ -14,4 +14,5 @@ import com.jmelzer.data.model.Issue;
 
 public interface IssueDao extends AbstractDao<Issue> {
 
+    Issue findIssueByShortName(String shortName);
 }

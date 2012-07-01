@@ -12,6 +12,7 @@ import com.jmelzer.webapp.security.MyAuthenticatedWebSession;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -55,6 +56,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         mount(new QueryStringUrlCodingStrategy("sendpassword", SendPasswordPage.class));
         mount(new QueryStringUrlCodingStrategy("changepassword", ChangePasswordPage.class));
         mount(new QueryStringUrlCodingStrategy("createissue", CreateIssuePage.class));
+        mount(new IndexedParamUrlCodingStrategy("issue", ShowIssuePage.class));
         mount(new QueryStringUrlCodingStrategy("choice", ChoicePage.class));
         mount(new QueryStringUrlCodingStrategy("secure/usersettings", UserSettings.class));
 

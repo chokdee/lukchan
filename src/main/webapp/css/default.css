@@ -389,9 +389,67 @@ form.aui .typename {
 
 .autocomplete span {
     margin-top: -3x;
-    f
 }
 
 .autocomplete img {
     margin-top: -2px;
+}
+
+/*todo copied from xxx rename*/
+
+.mod-header, .mod-content, .mod-footer {
+    clear: both;
+    display: block;
+    height: 1%;
+    padding: 5px 5px 5px 1em;
+    position: relative;
+}
+
+.property-list {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.two-cols .item {
+    width: 50%;
+}
+
+.property-list .item, .property-list .item-right {
+    clear: left;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.issue-header {
+    margin-left: auto;
+    width: 75%;
+    min-height: 48px;
+    padding: 12px 12px 20px;
+    position: relative;
+    margin-right: auto;
+    /*width: 100%;*/
+}
+
+.project-avatar {
+    height: 50px;
+    left: 12px;
+    overflow: hidden;
+    position: absolute;
+    top: 12px;
+    width: 50px;
+}
+
+.project-path {
+    margin-left: 65px;
+    padding: 0;
+}
+
+.issue-summary {
+    margin-left: 65px;
+    padding: 0;
+    font-size: 25px;
 }

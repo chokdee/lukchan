@@ -14,4 +14,6 @@ import com.jmelzer.data.model.Issue;
 
 public interface IssueManager {
     void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName);
+
+    Issue getIssueByShortName(String issueName);
 }
