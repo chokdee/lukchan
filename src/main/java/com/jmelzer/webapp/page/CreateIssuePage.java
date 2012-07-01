@@ -51,7 +51,6 @@ public class CreateIssuePage extends MainPage {
 
         issue = new Issue();
 
-
         final IssueForm form = new IssueForm("formid");
         add(form);
 

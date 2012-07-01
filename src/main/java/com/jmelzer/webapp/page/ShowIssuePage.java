@@ -40,6 +40,8 @@ public class ShowIssuePage extends MainPage {
         if (issue == null) {
             //todo
         }
+        addDirectly(new Label("title", String.format("[%s] %s",
+                                             issue.getPublicId(), issue.getSummary())));
         add(new Label("projectname", issue.getProject().getName()));
         Link link = new BookmarkablePageLink("self2", ShowIssuePage.class, parameters);
         link.add(new Label("issuesummary", issue.getSummary()));

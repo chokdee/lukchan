@@ -18,6 +18,9 @@ public abstract class MainPage extends WebPage {
     private static final long serialVersionUID = -3460787298344490939L;
     private Border border;
 
+    public MarkupContainer addDirectly(final Component child) {
+        return super.add(child);
+    }
     public MarkupContainer add(final Component child) {
         // Add children of the page to the page's border component
         if (border == null) {
