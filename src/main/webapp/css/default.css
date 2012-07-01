@@ -397,12 +397,30 @@ form.aui .typename {
 
 /*todo copied from xxx rename*/
 
-.mod-header, .mod-content, .mod-footer {
+.detail-header {
+    width: 70%;
+    background: url("/wreckcontrol/images/detail_header_bg.png") repeat-x scroll 0 16px #FFFFFF;
+    padding: 4px 0 0;
+}
+
+.detail-header, .detail-content, .detail-footer {
     clear: both;
     display: block;
     height: 1%;
-    padding: 5px 5px 5px 1em;
+    /*padding: 5px 5px 5px 1em;*/
     position: relative;
+}
+
+.module {
+    background-color: #FFFFFF;
+    clear: both;
+    margin-bottom: 0.5em;
+}
+
+.detail-header h3 {
+    display:inline;
+    background-color: white;
+
 }
 
 .property-list {
