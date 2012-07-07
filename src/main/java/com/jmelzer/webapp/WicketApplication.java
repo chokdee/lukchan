@@ -16,6 +16,7 @@ import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
 import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.time.Duration;
 
 /**
@@ -26,6 +27,7 @@ import org.apache.wicket.util.time.Duration;
 public class WicketApplication extends AuthenticatedWebApplication {
 
     boolean isInitialized = false;
+
 
     /** Constructor */
     public WicketApplication() {
@@ -76,5 +78,10 @@ public class WicketApplication extends AuthenticatedWebApplication {
     @Override
     protected Class<? extends AuthenticatedWebSession> getWebSessionClass() {
         return MyAuthenticatedWebSession.class;
+    }
+
+    public Folder getUploadFolder() {
+        //todo inject
+        return new Folder("c:\\tmp\\wreckcontrol");
     }
 }

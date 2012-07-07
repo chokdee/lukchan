@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>Modal dialog</title>
+
+</head>
+<body>
+<form wicket:id="html5Upload">
+    <fieldset>
+        <legend>Please upload your files....</legend>
+        <p>
+            <label>File</label>
+            <input wicket:id="fileInput" type="file" />
+            <label>Comment</label>
+            <textarea style="width:350px; height: 100px" id="descriptionId" wicket:id="textfield" ></textarea>
+        </p>
+        <input type="submit" value="Upload!"/>
+
+    </fieldset>
+</form>
+
+<p>
+    <a wicket:id="close">Fertig</a><br/>
+</body>
+</html>
