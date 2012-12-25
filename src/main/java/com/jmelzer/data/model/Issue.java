@@ -152,8 +152,8 @@ public class Issue extends ModelBase implements Serializable {
         this.assignee = assignee;
     }
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "reporter_id")
+    @ManyToOne(targetEntity = User.class )
+    @JoinColumn(name = "reporter_id", nullable = false)
     public User getReporter() {
         return reporter;
     }

@@ -539,7 +539,7 @@ form.aui .typename {
     width: 100%;
 }
 
-.module > .mod-content:after {
+/*.module > .mod-content:after {
     clear: both;
     content: "";
     display: block;
@@ -554,7 +554,7 @@ form.aui .typename {
 .module > .mod-header, .module > .mod-content, .module > .mod-footer {
     display: block;
     position: relative;
-}
+}*/
 
 .content-body {
     -moz-border-bottom-colors: none;
@@ -578,4 +578,12 @@ form.aui .typename {
     color: #FFFFFF;
     background-color: #FFFFFF;
     height: 1px;
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+.show-issue-label {
+    color: #808080;
+    float: left;
+    width: 120px;
 }

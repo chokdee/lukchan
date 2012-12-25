@@ -61,6 +61,9 @@ public class ShowIssuePage extends MainPage {
         add(new Label("prioritylabel", new StringResourceModel("priority", new Model(""))));
         add(new Label("priority", issue.getPriority().getName()));
 
+//        add(new Label("statuslabel", new StringResourceModel("status", new Model(""))));
+//        add(new Label("priority", issue.get().getName()));
+
         add(new Label("assigneelabel", new StringResourceModel("assignee", new Model(""))));
         add(new Label("assignee", issue.getAssigneeName()));
 
