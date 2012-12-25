@@ -8,7 +8,7 @@
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <wicket:head>
-        <title wicket:id="title"> </title>
+        <title wicket:id="title"></title>
         <meta name="description" content="MySite"/>
         <meta name="keywords"
               content="wicket,cool,hot,neat"/>
@@ -18,10 +18,6 @@
 
 <span wicket:id="border">
         <div id="maincol">
-            <div wicket:id="modal1"></div>
-            <a wicket:id="upload">Upload</a>
-
-            <!--<span wicket:id="title"/>-->
             <div class="issue-header">
                 <div style="float: left">
                     <img class="project-avatar" width="50" height="50" src="images/default-project-avatar.png" alt="">
@@ -42,20 +38,36 @@
                 <!--<a href="/browse/JOBS-476" rel="22502" id="key-val">JOBS-476</a>-->
 
             </div>
-            <div style="margin-left: 15px;width: 74%;float: left">
+            <!--<a wicket:id="upload">Upload</a>-->
+            <div class="commandbar">
+                <div class="ops-cont" >
+                    <form action="#" wicket:id="ajaxform">
+                        <button class="button-menu">Edit</button>
+                        <button class="button-menu">Comment</button>
+                        <button class="button-menu" wicket:id="upload">Attach File</button>
+                    </form>
+                    <br/>
+                    <br/>
+                </div>
+            </div>
+            <!--<span wicket:id="title"/>-->
 
-                <div class="module">
+            <div class="content-body aui-panel">
+
+                <div class="module toggle-wrap">
                     <div class="detail-header">
                         <h3 class="toggle-title">Details&nbsp;&nbsp;&nbsp;</h3>
                     </div>
-                </div>
-                <div>
-                    <span wicket:id="issuetypelabel"/>
-                    <span wicket:id="issuetype"/>
-                </div>
-                <div>
-                    <span wicket:id="prioritylabel"/>
-                    <span wicket:id="priority"/>
+                    <div class="mod-content">
+                    <div>
+                        <span wicket:id="issuetypelabel"/>
+                        <span wicket:id="issuetype"/>
+                    </div>
+                    <div>
+                        <span wicket:id="prioritylabel"/>
+                        <span wicket:id="priority"/>
+                    </div>
+                    </div>
                 </div>
 
                 <div class="module">
@@ -66,40 +78,44 @@
                 <div>
                     <span wicket:id="desc"/>
                 </div>
+
+                <div style="width: 22%;float: left">
+                    <div class="module">
+                        <div class="detail-header">
+                            <!--todo locale-->
+                            <h3 class="toggle-title">Personen&nbsp;&nbsp;</h3>
+                        </div>
+                    </div>
+                    <div>
+                        <span wicket:id="reporterlabel"/>
+                        <span wicket:id="reporter"/>
+                    </div>
+                    <div>
+                        <span wicket:id="assigneelabel"/>
+                        <span wicket:id="assignee"/>
+                    </div>
+
+                    <div class="module">
+                        <div class="detail-header">
+                            <h3 class="toggle-title">Daten&nbsp;&nbsp;</h3>
+                        </div>
+                    </div>
+                    <div>
+                        <span wicket:id="creationlabel"/>
+                        <span wicket:id="creation"/>
+                    </div>
+                    <div>
+                        <span wicket:id="updatelabel"/>
+                        <span wicket:id="update"/>
+                    </div>
+
+                </div>
             </div>
             <!--right container-->
-            <div style="width: 22%;float: left">
-                <div class="module">
-                    <div class="detail-header">
-                        <!--todo locale-->
-                        <h3 class="toggle-title">Personen&nbsp;&nbsp;</h3>
-                    </div>
-                </div>
-                <div>
-                    <span wicket:id="reporterlabel"/>
-                    <span wicket:id="reporter"/>
-                </div>
-                <div>
-                    <span wicket:id="assigneelabel"/>
-                    <span wicket:id="assignee"/>
-                </div>
 
-                <div class="module">
-                    <div class="detail-header">
-                        <h3 class="toggle-title">Daten&nbsp;&nbsp;</h3>
-                    </div>
-                </div>
-                <div>
-                    <span wicket:id="creationlabel"/>
-                    <span wicket:id="creation"/>
-                </div>
-                <div>
-                    <span wicket:id="updatelabel"/>
-                    <span wicket:id="update"/>
-                </div>
 
-            </div>
         </div>
+        <div wicket:id="modal1"></div>
    </span>
 
 </body>

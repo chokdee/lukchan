@@ -16,9 +16,11 @@ import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
@@ -108,14 +110,20 @@ public class ShowIssuePage extends MainPage {
                 return true;
             }
         });
-
-        add(new AjaxLink("upload") {
+        Form ajaxForm = new Form("ajaxform");
+        add(ajaxForm);
+        ajaxForm.add(new AjaxButton("upload") {
             private static final long serialVersionUID = 3307386729657199285L;
 
             @Override
-            public void onClick(AjaxRequestTarget target) {
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 modal1.show(target);
             }
+
+//            @Override
+//            public void onClick(AjaxRequestTarget target) {
+//
+//            }
         });
     }
 
