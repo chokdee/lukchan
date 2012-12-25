@@ -9,7 +9,7 @@
         <meta name="Author" content="J. Melzer">
         <meta name="Keywords" content="Bugtracker">
 
-        <!--<link rel="stylesheet" type="text/css" href="css/default.css"/>-->
+        <link rel="stylesheet" type="text/css" href="css/default.css"/>
         <link rel="stylesheet" type="text/css" href="css/global-blue.css"/>
         <link href="css/flexible-grids.css" rel="stylesheet" type="text/css"/>
         <!--[if lte IE 7]>
@@ -38,76 +38,80 @@
         <div class="wrapper">
             <nav class="main-navigation">
 
-            <!-- Content Navigation -->
-            <ul class="mini-cart">
-                <li>
-                    <a wicket:id="loginlogout">
-                        <span wicket:id="loginlogoutLabel"/>
-                    </a>
-                </li>
-            </ul>
-            <!-- .content navigation -->
+                <!-- Content Navigation -->
+                <ul class="mini-cart">
+                    <li>
+                        <a wicket:id="loginlogout">
+                            <span wicket:id="loginlogoutLabel"/>
+                        </a>
+                    </li>
+                </ul>
+                <!-- .content navigation -->
 
-            <!-- Main Content Navigation -->
-            <ul>
+                <!-- Main Content Navigation -->
+                <ul>
 
-                <li>
-                    <a href="">Dashboard</a>
-                </li>
-                <li>
-                    <a href="">Issues</a>
+                    <li>
+                        <a href="">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="">Issues</a>
 
-                    <!-- Submenu 2 -->
-                    <ul class="children">
-                        <li>
-                            <a href="createissue">Create new</a>
-                        </li>
-                        <li>
-                            <a href="">Science</a>
-                        </li>
-                    </ul>
-                    <!-- .submenu 2 -->
+                        <!-- Submenu 2 -->
+                        <ul class="children">
+                            <li>
+                                <a href="createissue">Create new</a>
+                            </li>
+                            <li>
+                                <a href="">Science</a>
+                            </li>
+                        </ul>
+                        <!-- .submenu 2 -->
 
-                </li>
+                    </li>
 
-                <li>
-                    <a href="secure/usersettings">My Account</a>
+                    <li>
+                        <a href="secure/usersettings">My Account</a>
 
-                    <!-- Submenu 3 -->
-                    <ul class="children">
-                        <li>
-                            <a href="">Edit My Address</a>
-                        </li>
-                        <li>
-                            <a href="">View Order</a>
-                        </li>
-                        <li>
-                            <a href="">Change Password</a>
-                        </li>
-                    </ul>
-                    <!-- .submenu 3 -->
+                        <!-- Submenu 3 -->
+                        <ul class="children">
+                            <li>
+                                <a href="">Edit My Address</a>
+                            </li>
+                            <li>
+                                <a href="">View Order</a>
+                            </li>
+                            <li>
+                                <a href="">Change Password</a>
+                            </li>
+                        </ul>
+                        <!-- .submenu 3 -->
 
-                </li>
+                    </li>
 
-                <li>
-                    <a href="">Contact</a></li>
+                    <li>
+                        <a href="">Contact</a></li>
 
-            </ul>
-            <!-- .main content navigation -->
+                </ul>
+                <!-- .main content navigation -->
 
                 <div class="clear"></div>
 
-        </nav>
+            </nav>
 
         </div>
     </div>
     <div id="main">
         <!--statusline-->
-        <div id="feedbackPanel">
-            <span wicket:id="feedback"/>
-        </div>
 
-        <wicket:body/>
+        <div class="ym-wrapper">
+            <div style="visibility: hidden;">
+                <span wicket:id="feedback"/>
+            </div>
+            <div class="ym-wbox">
+                <wicket:body/>
+            </div>
+        </div>
     </div>
     <footer>
         <div class="ym-wrapper">

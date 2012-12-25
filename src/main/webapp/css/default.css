@@ -6,7 +6,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    text-align: center;
+    /*text-align: center;*/
     font-family: tahoma,sans-serif;
 }
 
@@ -359,12 +359,14 @@ form.aui .field-group label {
     text-align: right;
     width: 150px;
 }
+.feedbackPanel {
 
+}
 .feedbackPanelERROR {
     clear: left;
     color: #CC0000;
     font-weight: bold;
-    margin-left: -20px;
+    /*margin-left: -20px;*/
     margin-bottom: -20px;
 }
 
@@ -453,10 +455,6 @@ form.aui .typename {
 
 .project-avatar {
     height: 50px;
-    left: 12px;
-    overflow: hidden;
-    position: absolute;
-    top: 12px;
     width: 50px;
 }
 
@@ -572,4 +570,12 @@ form.aui .typename {
     padding-top: 0;
     margin-left: 12px;
     margin-right: 12px;
+}
+
+.issue-header-line {
+    border: none;
+    border-top: 1px solid #a9a9a9;
+    color: #FFFFFF;
+    background-color: #FFFFFF;
+    height: 1px;
 }
