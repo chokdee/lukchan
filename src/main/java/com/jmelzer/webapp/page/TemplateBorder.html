@@ -9,102 +9,113 @@
         <meta name="Author" content="J. Melzer">
         <meta name="Keywords" content="Bugtracker">
 
-        <link rel="stylesheet" type="text/css" href="css/default.css"/>
+        <!--<link rel="stylesheet" type="text/css" href="css/default.css"/>-->
         <link rel="stylesheet" type="text/css" href="css/global-blue.css"/>
+        <link href="css/flexible-grids.css" rel="stylesheet" type="text/css"/>
+        <!--[if lte IE 7]>
+        <link href="yaml/core/iehacks.css" rel="stylesheet" type="text/css"/>
+        <![endif]-->
+
+        <!--[if lt IE 9]>
+        <script src="js/html5.js"></script>
+        <![endif]-->
     </wicket:head>
 </head>
 <body>
 
 <wicket:border>
+
     <div id="header">
         <!--<div class="content">-->
         <!--<div style="background-image:url(images/logo.gif); height:90px"/>-->
-        <div style="text-align: center;">
-            <h1>Wreckcontrol : The NEW Bugtracking System</h1>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                <h1>Wreckcontrol : The NEW Bugtracking System</h1>
+            </div>
         </div>
 
         <!-- Wrapper -->
         <div class="wrapper">
             <nav class="main-navigation">
 
-                <!-- Content Navigation -->
-                <ul class="mini-cart">
-                    <li>
-                        <a wicket:id="loginlogout" >
-                            <span wicket:id="loginlogoutLabel"/>
-                        </a>
-                    </li>
-                </ul>
-                <!-- .content navigation -->
+            <!-- Content Navigation -->
+            <ul class="mini-cart">
+                <li>
+                    <a wicket:id="loginlogout">
+                        <span wicket:id="loginlogoutLabel"/>
+                    </a>
+                </li>
+            </ul>
+            <!-- .content navigation -->
 
-                <!-- Main Content Navigation -->
-                <ul>
+            <!-- Main Content Navigation -->
+            <ul>
 
-                    <li>
-                        <a href="">Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="">Issues</a>
+                <li>
+                    <a href="">Dashboard</a>
+                </li>
+                <li>
+                    <a href="">Issues</a>
 
-                        <!-- Submenu 2 -->
-                        <ul class="children">
-                            <li>
-                                <a href="createissue">Create new</a>
-                            </li>
-                            <li>
-                                <a href="">Science</a>
-                            </li>
-                        </ul>
-                        <!-- .submenu 2 -->
+                    <!-- Submenu 2 -->
+                    <ul class="children">
+                        <li>
+                            <a href="createissue">Create new</a>
+                        </li>
+                        <li>
+                            <a href="">Science</a>
+                        </li>
+                    </ul>
+                    <!-- .submenu 2 -->
 
-                    </li>
+                </li>
 
-                    <li>
-                        <a href="secure/usersettings">My Account</a>
+                <li>
+                    <a href="secure/usersettings">My Account</a>
 
-                        <!-- Submenu 3 -->
-                        <ul class="children">
-                            <li>
-                                <a href="">Edit My Address</a>
-                            </li>
-                            <li>
-                                <a href="">View Order</a>
-                            </li>
-                            <li>
-                                <a href="">Change Password</a>
-                            </li>
-                        </ul>
-                        <!-- .submenu 3 -->
+                    <!-- Submenu 3 -->
+                    <ul class="children">
+                        <li>
+                            <a href="">Edit My Address</a>
+                        </li>
+                        <li>
+                            <a href="">View Order</a>
+                        </li>
+                        <li>
+                            <a href="">Change Password</a>
+                        </li>
+                    </ul>
+                    <!-- .submenu 3 -->
 
-                    </li>
+                </li>
 
-                    <li>
-                        <a href="">Contact</a></li>
+                <li>
+                    <a href="">Contact</a></li>
 
-                </ul>
-                <!-- .main content navigation -->
+            </ul>
+            <!-- .main content navigation -->
 
                 <div class="clear"></div>
 
-            </nav>
+        </nav>
 
         </div>
     </div>
-    <div id="content">
+    <div id="main">
+        <!--statusline-->
         <div id="feedbackPanel">
             <span wicket:id="feedback"/>
         </div>
-        <!--<h2><label wicket:id="headerline"></label></h2>-->
+
         <wicket:body/>
     </div>
-
-    <!--   <div id="footer">
-<div class="content">
-   <p>Copyright &copy;2012 Juergen Melzer | <a href="http://www.upcoming.de" accesskey="C">Upcoming</a></p>
-
+    <footer>
+        <div class="ym-wrapper">
+            <div class="ym-wbox">
+                <p>Copyright &copy;2012 J&uuml;rgen Melzer | <a href="http://www.wreckcontrol.de" accesskey="C">Wreckcontrol</a></p>
+            </div>
         </div>
-    </div>
--->
+    </footer>
 
 </wicket:border>
 
