@@ -36,6 +36,7 @@ public class Setup extends AbstractBatch {
 //        }
         UserDao userDao = (UserDao) context.getBean("userDao");
         ProjectDao projectDao = (ProjectDao) context.getBean("projectDao");
+        StatusDao statusDao = (StatusDao) context.getBean("statusDao");
         PriorityDao priorityDao = (PriorityDao) context.getBean("priorityDao");
         IssueTypeDao issueTypeDao = (IssueTypeDao) context.getBean("issueTypeDao");
         IssueManager issueManager = (IssueManager) context.getBean("issueManager");
@@ -81,6 +82,15 @@ public class Setup extends AbstractBatch {
             dev.setLocked(false);
             userDao.save(dev);
         }
+        Status status;
+        {
+            status = new Status("Open", 1);
+            statusDao.save(status);
+            statusDao.save(new Status("In Progress", 2));
+            statusDao.save(new Status("Resolved", 3));
+            statusDao.save(new Status("Reopened", 4));
+            statusDao.save(new Status("Closed", 5));
+        }
         Project project;
         {
             //dummy project for testing
@@ -124,12 +134,14 @@ public class Setup extends AbstractBatch {
         Priority prio = createPriorities(priorityDao);
         createViews(viewDao);
         createSampleIssue(issueManager, project.getId(),
-                          issueType.getId(),prio.getId(), "service",
+                          status,
+                          issueType.getId(), prio.getId(), "service",
                           dev, jm);
     }
 
     private void createSampleIssue(IssueManager issueManager,
                                    Long projectId,
+                                   Status status,
                                    Long issueTypeId,
                                    Long prioId,
                                    String componentName,
@@ -142,12 +154,13 @@ public class Setup extends AbstractBatch {
         issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu können benötigen wir die Möglichkeit, einen Blick in den Index (in die für eine Kampagne erstellten Suchwörter) zu werfen." +
                              "<br>" +
                              "Dabei haben wir im wesentlich zwei Anforderungen:.");
+        issue.setStatus(status);
         issueManager.create(issue,
                             projectId,
                             issueTypeId,
                             prioId,
                             componentName
-                            );
+        );
     }
 
     private Priority createPriorities(PriorityDao priorityDao) {

@@ -19,12 +19,16 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.WebResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.ResourceLink;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.resource.ContextRelativeResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import java.util.Date;
@@ -57,12 +61,14 @@ public class ShowIssuePage extends MainPage {
 
         add(new Label("issuetypelabel", new StringResourceModel("issuetype", new Model(""))));
         add(new Label("issuetype", issue.getType().getType()));
+        add(new Image("issuetypeimage",new ContextRelativeResource(issue.getType().getIconPath())));
 
         add(new Label("prioritylabel", new StringResourceModel("priority", new Model(""))));
         add(new Label("priority", issue.getPriority().getName()));
 
-//        add(new Label("statuslabel", new StringResourceModel("status", new Model(""))));
-//        add(new Label("priority", issue.get().getName()));
+        add(new Label("statuslabel", new StringResourceModel("status", new Model(""))));
+        add(new Label("status", issue.getStatus().getName()));
+        add(new Image("statusimage",new ContextRelativeResource(issue.getStatus().getIconPath())));
 
         add(new Label("assigneelabel", new StringResourceModel("assignee", new Model(""))));
         add(new Label("assignee", issue.getAssigneeName()));

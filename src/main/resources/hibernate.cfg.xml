@@ -25,6 +25,7 @@
         <mapping class="com.jmelzer.data.model.DynamicProperty" />
         <mapping class="com.jmelzer.data.model.Label" />
         <mapping class="com.jmelzer.data.model.Priority" />
+        <mapping class="com.jmelzer.data.model.Status" />
         <mapping class="com.jmelzer.data.model.ActivationCode" />
         <mapping class="com.jmelzer.data.model.Component"/>
         <mapping class="com.jmelzer.data.model.IssueType"/>

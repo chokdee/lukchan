@@ -39,6 +39,7 @@ public class Issue extends ModelBase implements Serializable {
     Date dueDate;
     Long remainingTime;
     Long orgEstimatedTime;
+    Status status;
 
 
     private Set<Issue> children = new LinkedHashSet<Issue>();
@@ -132,6 +133,16 @@ public class Issue extends ModelBase implements Serializable {
 
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @ManyToOne(targetEntity = User.class)
