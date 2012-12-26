@@ -47,9 +47,13 @@ public class IssueDaoTest {
     UserDao userDao;
     @Resource
     ProjectDao projectDao;
+    @Resource
+    StatusDao statusDao;
 
     IssueType issueType;
     Project project;
+
+    Status status;
 
     @Before
     public void before() {
@@ -78,6 +82,9 @@ public class IssueDaoTest {
         issueType = new IssueType("bla");
         issueTypeDao.save(issueType);
         assertNotNull(issueType.getId());
+
+        status = new Status("testi", 100);
+        statusDao.save(status);
 
     }
     @Test
@@ -142,10 +149,15 @@ public class IssueDaoTest {
     }
     @Test
     public void save() {
+        User user = new User("1", "2", "3");
+        userDao.save(user);
+
         Issue issue = new Issue();
 
         issue.setType(issueType);
         issue.setPublicId("UST-1");
+        issue.setStatus(status);
+        issue.setReporter(user);
         project.addIssue(issue);
         issue.addComponent(project.getComponent(0));
         issue.addComponent(project.getComponent(1));
@@ -157,6 +169,8 @@ public class IssueDaoTest {
         Issue child = new Issue();
         child.setType(issueType);
         child.setPublicId("UST-2");
+        child.setStatus(status);
+        child.setReporter(user);
         issue.addChild(child);
         issueDao.save(issue);
 
@@ -182,8 +196,7 @@ public class IssueDaoTest {
         issueDb.setPriority(priority);
         issueDao.save(issueDb);
 
-        User user = new User("1", "2", "3");
-        userDao.save(user);
+
 
         issueDb.setAssignee(user);
         issueDao.save(issueDb);
@@ -201,6 +214,15 @@ public class IssueDaoTest {
         issueDb = issueDao.findOne(issue.getId());
         assertEquals(2, issueDb.getAffectedVersions().size());
         assertEquals(2, issueDb.getFixInVersions().size());
+
+        issueDb.addComment(new Comment("1"));
+        issueDb.addComment(new Comment("2"));
+
+        issueDao.save(issueDb);
+        issueDb = issueDao.findOne(issue.getId());
+        assertEquals(2, issueDb.getComments().size());
+        assertEquals("1", issueDb.getComments().iterator().next().getText());
+
     }
 
     public void testCreate() {

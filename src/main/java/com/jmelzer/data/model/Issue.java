@@ -48,6 +48,7 @@ public class Issue extends ModelBase implements Serializable {
     private Set<Component> components = new LinkedHashSet<Component>();
     private Set<ProjectVersion> affectedVersions = new LinkedHashSet<ProjectVersion>();
     private Set<ProjectVersion> fixInVersions = new LinkedHashSet<ProjectVersion>();
+    private Set<Comment> comments = new LinkedHashSet<Comment>();
 
 
     public Issue() {
@@ -82,6 +83,19 @@ public class Issue extends ModelBase implements Serializable {
 
     public void setAttachments(Set<Attachment> attachments) {
         this.attachments = attachments;
+    }
+    @OneToMany(cascade = {CascadeType.ALL})
+    @OrderBy("creationDate")
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
     }
 
     public void addChild(Issue child) {
