@@ -20,7 +20,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-web.xml", "classpath:spring.xml", "classpath:security.xml"})
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
-public class TestHomePage {
+public class HomePageIntegrationTest {
     private WicketTester tester;
     @Autowired
     private ApplicationContext ctx;
