@@ -127,7 +127,7 @@ public class LoginPage extends MainPage {
         }
         private void setDefaultResponsePageIfNecessary() {
             continueToOriginalDestination();
-//                setResponsePage(getApplication().getHomePage());
+            setResponsePage(getApplication().getHomePage());
 
         }
         protected boolean getRememberMe() {
