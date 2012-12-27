@@ -10,8 +10,11 @@
 
 package com.jmelzer.webapp.page;
 
+import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
+import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.service.IssueManager;
+import com.visural.wicket.component.nicedit.RichTextEditor;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -30,6 +33,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.resource.ContextRelativeResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Date;
 
@@ -39,16 +43,15 @@ public class ShowIssuePage extends MainPage {
     @SpringBean(name = "issueManager")
     IssueManager issueManager;
 
+    String currentName;
+
     public ShowIssuePage(final PageParameters parameters) {
-        final String issueName = parameters.getString("0");
-        if (issueName == null) {
+        currentName = parameters.getString("0");
+        if (currentName == null) {
             //todo redirect
             return;
         }
-        Issue issue = issueManager.getIssueByShortName(issueName);
-        if (issue == null) {
-            //todo
-        }
+        Issue issue = getIssue();
         addDirectly(new Label("title", String.format("[%s] %s",
                                                      issue.getPublicId(), issue.getSummary())));
         add(new Label("projectname", issue.getProject().getName()));
@@ -57,7 +60,7 @@ public class ShowIssuePage extends MainPage {
         add(link);
         link = new BookmarkablePageLink("self", ShowIssuePage.class, parameters);
         add(link);
-        link.add(new Label("name", issueName));
+        link.add(new Label("name", currentName));
 
         add(new Label("issuetypelabel", new StringResourceModel("issuetype", new Model(""))));
         add(new Label("issuetype", issue.getType().getType()));
@@ -87,9 +90,66 @@ public class ShowIssuePage extends MainPage {
         desc.setEscapeModelStrings(false);
         add(desc);
 
-        createUploadPage();
+//        createUploadPage();
+        createCommentPage();
     }
 
+    private Issue getIssue() {
+        Issue issue = issueManager.getIssueByShortName(currentName);
+        if (issue == null) {
+            //todo
+        }
+        return issue;
+    }
+
+    private void createCommentPage() {
+        final ModalWindow modalWindow;
+        add(modalWindow = new ModalWindow("modalComment"));
+
+        modalWindow.setPageMapName("modal-2");
+        modalWindow.setCookieName("modal-2");
+
+        modalWindow.setPageCreator(new ModalWindow.PageCreator() {
+
+            private static final long serialVersionUID = -8304783732807067434L;
+
+            public Page createPage() {
+                return new CommentPage(ShowIssuePage.this, modalWindow);
+            }
+        });
+        modalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+
+            private static final long serialVersionUID = 7005964314882175967L;
+
+            public void onClose(AjaxRequestTarget target) {
+                System.out.println();
+//                target.addComponent(result);
+            }
+        });
+        modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+
+            private static final long serialVersionUID = -7300960030846812464L;
+
+            public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+//                setResult("Modal window 1 - close button");
+                System.out.println();
+                return true;
+            }
+        });
+        Form ajaxForm = new Form("modalForm1");
+        add(ajaxForm);
+        ajaxForm.add(new AjaxButton("comment") {
+            private static final long serialVersionUID = 3307386729657199285L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                modalWindow.show(target);
+            }
+
+        });
+//        ajaxForm.add(new RichTextEditor<String>("textfield", new StringModel("")));
+
+    }
     private void createUploadPage() {
         final ModalWindow modal1;
         add(modal1 = new ModalWindow("modal1"));
@@ -138,5 +198,11 @@ public class ShowIssuePage extends MainPage {
 
     public void setUploadComment(String comment) {
 
+    }
+
+    public void addComment(String string) {
+//        getIssue().addComment(new Comment(string));
+        String username = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        issueManager.addComment(currentName, string, username);
     }
 }

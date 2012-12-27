@@ -54,6 +54,7 @@ public class IssueDaoTest {
     Project project;
 
     Status status;
+    User user;
 
     @Before
     public void before() {
@@ -86,6 +87,9 @@ public class IssueDaoTest {
         status = new Status("testi", 100);
         statusDao.save(status);
 
+        user = new User("1", "2", "3");
+        userDao.save(user);
+
     }
     @Test
     public void saveError() {
@@ -107,6 +111,8 @@ public class IssueDaoTest {
         project.addIssue(issue);
         issue.setSummary("summmmm");
         issue.setDueDate(new Date());
+        issue.setReporter(user);
+        issue.setStatus(status);
         issueDao.save(issue);
         assertNotNull(issue.getId());
 
@@ -114,12 +120,14 @@ public class IssueDaoTest {
         child.setType(issueType);
         child.setPublicId("UST-1");
         issue.addChild(child);
+        child.setReporter(user);
+        child.setStatus(status);
         try {
             issueDao.save(issue);
             fail("unique key");
         } catch (ConstraintViolationException e) {
             //duplicate key
-            assertTrue(e.getMessage().contains("UST-1"));
+            assertTrue(e.getMessage(), e.getMessage().contains("UST-1"));
         }
     }
 
@@ -132,6 +140,8 @@ public class IssueDaoTest {
         project.addIssue(issue);
         issue.setSummary("summmmm");
         issue.setDueDate(new Date());
+        issue.setReporter(user);
+        issue.setStatus(status);
         issueDao.save(issue);
         assertNotNull(issue.getId());
 
@@ -149,8 +159,7 @@ public class IssueDaoTest {
     }
     @Test
     public void save() {
-        User user = new User("1", "2", "3");
-        userDao.save(user);
+
 
         Issue issue = new Issue();
 
@@ -215,8 +224,8 @@ public class IssueDaoTest {
         assertEquals(2, issueDb.getAffectedVersions().size());
         assertEquals(2, issueDb.getFixInVersions().size());
 
-        issueDb.addComment(new Comment("1"));
-        issueDb.addComment(new Comment("2"));
+        issueDb.addComment(new Comment("1", user));
+        issueDb.addComment(new Comment("2", user));
 
         issueDao.save(issueDb);
         issueDb = issueDao.findOne(issue.getId());

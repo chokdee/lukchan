@@ -10,13 +10,8 @@
 
 package com.jmelzer.service.impl;
 
-import com.jmelzer.data.dao.IssueDao;
-import com.jmelzer.data.dao.IssueTypeDao;
-import com.jmelzer.data.dao.PriorityDao;
-import com.jmelzer.data.dao.ProjectDao;
-import com.jmelzer.data.model.Component;
-import com.jmelzer.data.model.Issue;
-import com.jmelzer.data.model.Project;
+import com.jmelzer.data.dao.*;
+import com.jmelzer.data.model.*;
 import com.jmelzer.service.IssueManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +24,8 @@ public class IssueManagerImpl implements IssueManager {
 
     @Resource
     IssueDao issueDao;
+    @Resource
+    UserDao userDao;
 
     @Resource
     ProjectDao  projectDao;
@@ -62,6 +59,19 @@ public class IssueManagerImpl implements IssueManager {
     @Override
     public Issue getIssueByShortName(String issueName) {
         return issueDao.findIssueByShortName(issueName);
+    }
+
+    @Override
+    public void addComment(String issueName, String comment, String username) {
+        Issue issue = getIssueByShortName(issueName);
+        if (issue == null) {
+            throw new IllegalArgumentException(issueName + " doesn't exists");
+        }
+        User user = userDao.findByUserName(username);
+        if (user == null) {
+            throw new IllegalArgumentException(username + " doesn't exists");
+        }
+        issue.addComment(new Comment(comment, user));
     }
 
     private Component findComponent(Project project, String componentName) {

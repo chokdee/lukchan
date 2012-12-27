@@ -10,9 +10,7 @@
 
 package com.jmelzer.data.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -25,14 +23,16 @@ public class Comment extends ModelBase {
 
     String text;
     Date creationDate;
+    User owner;
 
     public Comment() {
         creationDate = new Date();
     }
 
-    public Comment(String text) {
+    public Comment(String text, User owner) {
         this();
         this.text = text;
+        this.owner = owner;
     }
 
     @Column(name = "text", length = 4048, nullable = false)
@@ -50,5 +50,15 @@ public class Comment extends ModelBase {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "owner_id", nullable = false)
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

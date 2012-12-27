@@ -333,11 +333,11 @@
             <artifactId>gmap2</artifactId>
             <version>1.4.20.1</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>org.wicketstuff</groupId>
             <artifactId>tinymce</artifactId>
             <version>1.4.20.1</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>net.htmlparser.jericho</groupId>
             <artifactId>jericho-html</artifactId>

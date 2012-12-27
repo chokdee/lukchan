@@ -18,6 +18,7 @@ import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.time.Duration;
+import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
@@ -27,10 +28,11 @@ import org.apache.wicket.util.time.Duration;
 public class WicketApplication extends AuthenticatedWebApplication {
 
     boolean isInitialized = false;
-
+    TinyMCESettings tinyMCESettings;
 
     /** Constructor */
     public WicketApplication() {
+
     }
 
 
@@ -68,6 +70,9 @@ public class WicketApplication extends AuthenticatedWebApplication {
             getResourceSettings().setResourcePollFrequency(Duration.ONE_SECOND);
         }
         getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.REDIRECT_TO_RENDER);
+
+//        tinyMCESettings = new TinyMCESettings(TinyMCESettings.Theme.simple);
+//        tinyMCESettings.setToolbarLocation(TinyMCESettings.Location.top);
     }
 
     @Override
@@ -84,4 +89,13 @@ public class WicketApplication extends AuthenticatedWebApplication {
         //todo inject
         return new Folder("c:\\tmp\\wreckcontrol");
     }
+
+    public TinyMCESettings getTinyMCESettings() {
+        if (tinyMCESettings == null) {
+            tinyMCESettings = new TinyMCESettings(TinyMCESettings.Theme.simple);
+            tinyMCESettings.setToolbarLocation(TinyMCESettings.Location.top);
+        }
+        return tinyMCESettings;
+    }
+
 }
