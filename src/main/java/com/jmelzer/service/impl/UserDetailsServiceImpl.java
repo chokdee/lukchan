@@ -40,7 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         //todo
-        GrantedAuthority[] authorities = new GrantedAuthority[]{new SimpleGrantedAuthority("ROLE_ADMIN")};
+        GrantedAuthority[] authorities = new GrantedAuthority[]{new SimpleGrantedAuthority("ROLE_ADMIN"),
+                new SimpleGrantedAuthority("ROLE_USER")};
         user.setAuthorities(CollectionUtils.arrayToList(authorities));
         return user;
     }

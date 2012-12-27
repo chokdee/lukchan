@@ -148,7 +148,7 @@ public class ShowIssuePage extends MainPage {
             }
 
         });
-        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ADMIN");
+        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER");
 
     }
     private void createUploadPage() {
