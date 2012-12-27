@@ -19,6 +19,9 @@ import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.time.Duration;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 
@@ -27,10 +30,11 @@ import wicket.contrib.tinymce.settings.TinyMCESettings;
  *
  * @see com.jmelzer.Start#main(String[])
  */
-public class WicketApplication extends AuthenticatedWebApplication {
+public class WicketApplication extends AuthenticatedWebApplication implements ApplicationContextAware {
 
     boolean isInitialized = false;
     TinyMCESettings tinyMCESettings;
+    ApplicationContext ctx;
 
     /** Constructor */
     public WicketApplication() {
@@ -44,7 +48,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
     }
 
     private void setListeners() {
-        getComponentInstantiationListeners().add(new SpringComponentInjector(this));
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this, ctx));
     }
 
 
@@ -99,5 +103,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
         }
         return tinyMCESettings;
     }
-
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.ctx = applicationContext;
+    }
 }
