@@ -12,15 +12,14 @@ package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.webapp.WicketApplication;
-import com.visural.wicket.component.nicedit.RichTextEditor;
+
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.IHeaderContributor;
-import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -51,13 +50,13 @@ public class CommentPage extends WebPage {
         textArea.add(new TinyMceBehavior(((WicketApplication) Application.get()).getTinyMCESettings()));
         form.add(textArea);
 
-        add(new HeaderContributor(new IHeaderContributor() {
-            private static final long serialVersionUID = 7351631938044011155L;
-
-            public void renderHead(IHeaderResponse response) {
-                response.renderJavascriptReference(TinyMCESettings.javaScriptReference());
-            }
-        }));
+//        add(new HeaderContributor(new IHeaderContributor() {
+//            private static final long serialVersionUID = 7351631938044011155L;
+//
+//            public void renderHead(IHeaderResponse response) {
+//                response.renderJavascriptReference(TinyMCESettings.javaScriptReference());
+//            }
+//        }));
 
         AjaxButton submitButton = new AjaxButton("submit", form) {
             private static final long serialVersionUID = 4978089672616474658L;

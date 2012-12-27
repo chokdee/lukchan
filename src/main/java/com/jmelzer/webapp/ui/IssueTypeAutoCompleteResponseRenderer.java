@@ -11,8 +11,8 @@
 package com.jmelzer.webapp.ui;
 
 import com.jmelzer.data.model.IssueType;
-import org.apache.wicket.Response;
-import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.request.Response;
+import org.apache.wicket.request.http.WebResponse;
 import org.wicketstuff.objectautocomplete.ObjectAutoCompleteResponseRenderer;
 
 import java.util.Iterator;

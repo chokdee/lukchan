@@ -96,8 +96,8 @@ public class ChoicePage extends MainPage {
 
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
-                target.addComponent(models);
-                target.addComponent(models2);
+                target.add(models);
+                target.add(models2);
             }
         });
     }

@@ -34,7 +34,7 @@ public class TemplateBorder extends Border {
         super(id);
 
         FeedbackPanel feedback = new FeedbackPanel("feedback");
-        add(feedback);
+        addToBorder(feedback);
         AbstractLink link;
         if (!MainPage.isLoggedIn()) {
             link = new BookmarkablePageLink("loginlogout", LoginPage.class);
@@ -43,7 +43,7 @@ public class TemplateBorder extends Border {
             link = new ExternalLink("loginlogout", "j_spring_security_logout" );
             link.add(new Label("loginlogoutLabel", "Logout"));
         }
-        add(link);
+        addToBorder(link);
 
 //        add(new Label("feedback"));
     }

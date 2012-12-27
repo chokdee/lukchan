@@ -10,7 +10,8 @@
 
 package com.jmelzer.data.uimodel;
 
-import org.apache.wicket.behavior.SimpleAttributeModifier;
+
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
@@ -29,7 +30,7 @@ public class TextPanel extends Panel implements IPanel {
         Label label = new Label("textLabel", new StringResourceModel(labelName, new Model("")));
         add(label);
         if (required) {
-            label.add(new SimpleAttributeModifier("class", "required"));
+            label.add(AttributeModifier.replace("class", "required"));
         }
         TextField tf = new TextField("text", stringModel);
         tf.setRequired(required);

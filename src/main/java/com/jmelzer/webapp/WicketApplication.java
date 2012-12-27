@@ -9,16 +9,18 @@ import com.jmelzer.webapp.examples.ChoicePage;
 import com.jmelzer.webapp.page.*;
 import com.jmelzer.webapp.page.secure.UserSettings;
 import com.jmelzer.webapp.security.MyAuthenticatedWebSession;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.RuntimeConfigurationType;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
+import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
-import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.time.Duration;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
+
 
 /**
  * Application object for your web application. If you want to run this application without deploying, run the Start class.
@@ -42,7 +44,7 @@ public class WicketApplication extends AuthenticatedWebApplication {
     }
 
     private void setListeners() {
-        addComponentInstantiationListener(new SpringComponentInjector(this));
+        getComponentInstantiationListeners().add(new SpringComponentInjector(this));
     }
 
 
@@ -54,22 +56,22 @@ public class WicketApplication extends AuthenticatedWebApplication {
         super.init();
         setListeners();
         isInitialized = true;
-        mount(new QueryStringUrlCodingStrategy("login", LoginPage.class));
-        mount(new QueryStringUrlCodingStrategy("signup", SignupPage.class));
-        mount(new QueryStringUrlCodingStrategy("registerfinish", SignupResultPage.class));
-        mount(new QueryStringUrlCodingStrategy("sendpassword", SendPasswordPage.class));
-        mount(new QueryStringUrlCodingStrategy("changepassword", ChangePasswordPage.class));
-        mount(new QueryStringUrlCodingStrategy("createissue", CreateIssuePage.class));
-        mount(new IndexedParamUrlCodingStrategy("issue", ShowIssuePage.class));
-        mount(new QueryStringUrlCodingStrategy("choice", ChoicePage.class));
-        mount(new QueryStringUrlCodingStrategy("secure/usersettings", UserSettings.class));
+        mount(new MountedMapper("login", LoginPage.class));
+        mount(new MountedMapper("signup", SignupPage.class));
+        mount(new MountedMapper("registerfinish", SignupResultPage.class));
+        mount(new MountedMapper("sendpassword", SendPasswordPage.class));
+        mount(new MountedMapper("changepassword", ChangePasswordPage.class));
+        mount(new MountedMapper("createissue", CreateIssuePage.class));
+        mountPage("/issue", ShowIssuePage.class);
+        mount(new MountedMapper("choice", ChoicePage.class));
+        mount(new MountedMapper("secure/usersettings", UserSettings.class));
 
-        String configurationType = getConfigurationType();
-        if (DEVELOPMENT.equalsIgnoreCase(configurationType)) {
+        RuntimeConfigurationType configurationType = getConfigurationType();
+        if (RuntimeConfigurationType.DEVELOPMENT == configurationType) {
             System.out.println("You are in DEVELOPMENT mode");
             getResourceSettings().setResourcePollFrequency(Duration.ONE_SECOND);
         }
-        getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.REDIRECT_TO_RENDER);
+        getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.RenderStrategy.REDIRECT_TO_RENDER);
 
 //        tinyMCESettings = new TinyMCESettings(TinyMCESettings.Theme.simple);
 //        tinyMCESettings.setToolbarLocation(TinyMCESettings.Location.top);

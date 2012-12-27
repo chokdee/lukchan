@@ -12,7 +12,6 @@ package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.webapp.WicketApplication;
-import com.visural.wicket.component.nicedit.RichTextEditor;
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -50,7 +49,6 @@ public class UploadPage extends WebPage {
     private class FileUploadForm extends Form<Void> {
         private static final long serialVersionUID = 1067014592676883583L;
         FileUploadField fileUploadField;
-        RichTextEditor<String> textEditor;
 
         /**
          * Construct.
@@ -65,7 +63,7 @@ public class UploadPage extends WebPage {
 
             // Add one file input field
             add(fileUploadField = new FileUploadField("fileInput"));
-            add(textEditor = new RichTextEditor<String>("textfield", new StringModel("")));
+//            add(textEditor = new RichTextEditor<String>("textfield", new StringModel("")));
 
             //todo configure
             setMaxSize(Bytes.megabytes(100));
@@ -88,7 +86,7 @@ public class UploadPage extends WebPage {
 
                     UploadPage.this.info("saved file: " + upload.getClientFileName());
 //                    caller.uploadCompleted(newFile);
-                    caller.setUploadComment(textEditor.getModel().getObject());
+
                 } catch (Exception e) {
                     throw new IllegalStateException("Unable to write file", e);
                 }

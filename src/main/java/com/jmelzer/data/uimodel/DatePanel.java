@@ -10,11 +10,10 @@
 
 package com.jmelzer.data.uimodel;
 
-import org.apache.wicket.behavior.SimpleAttributeModifier;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
@@ -35,7 +34,7 @@ public class DatePanel extends Panel implements IPanel {
         Label label = new Label("dateLabel", new StringResourceModel(labelName, new Model("")));
         add(label);
         if (required) {
-            label.add(new SimpleAttributeModifier("class", "required"));
+            label.add(AttributeModifier.replace("class", "required"));
         }
         DateTextField tf = new DateTextField("date", dateFieldModel);
         tf.setRequired(required);

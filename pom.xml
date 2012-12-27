@@ -29,7 +29,8 @@
     <url>https://github.com/chokdee/lukchan</url>
 
     <properties>
-        <wicket.version>1.4.17</wicket.version>
+        <wicket.version>6.4.0</wicket.version>
+        <wicket.stuff.version>6.3.0</wicket.stuff.version>
         <jetty.version>6.1.4</jetty.version>
         <org.springframework.version>3.1.1.RELEASE</org.springframework.version>
         <spring-security.version>3.1.0.RELEASE</spring-security.version>
@@ -41,7 +42,7 @@
         <!--  WICKET DEPENDENCIES -->
         <dependency>
             <groupId>org.apache.wicket</groupId>
-            <artifactId>wicket</artifactId>
+            <artifactId>wicket-core</artifactId>
             <version>${wicket.version}</version>
 
         </dependency>
@@ -318,6 +319,18 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.wicketstuff</groupId>
+            <artifactId>wicketstuff-security-swarm</artifactId>
+            <version>${wicket.stuff.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-log4j12</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
             <version>1.0.1</version>
@@ -328,15 +341,15 @@
             <version>1.2.0</version>
         </dependency>
 
-        <dependency>
+       <!-- <dependency>
             <groupId>org.wicketstuff</groupId>
             <artifactId>gmap2</artifactId>
             <version>1.4.20.1</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.wicketstuff</groupId>
-            <artifactId>tinymce</artifactId>
-            <version>1.4.20.1</version>
+            <artifactId>wicketstuff-tinymce</artifactId>
+            <version>${wicket.stuff.version}</version>
         </dependency>
         <dependency>
             <groupId>net.htmlparser.jericho</groupId>
@@ -378,11 +391,11 @@
 
         <dependency>
             <groupId>org.wicketstuff</groupId>
-            <artifactId>objectautocomplete</artifactId>
-            <version>1.4.20.1</version>
+            <artifactId>wicketstuff-objectautocomplete</artifactId>
+            <version>${wicket.stuff.version}</version>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.visural</groupId>
             <artifactId>visural-common</artifactId>
             <version>0.5.0</version>
@@ -391,7 +404,7 @@
             <groupId>com.visural</groupId>
             <artifactId>visural-wicket-w14</artifactId>
             <version>0.7.0</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <build>
         <resources>
@@ -471,7 +484,7 @@
         </repository>
         <repository>
             <id>wicket-snaps</id>
-            <url>http://wicketstuff.org/maven/repository</url>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
             <!--<snapshots>
                 <enabled>true</enabled>
             </snapshots>-->

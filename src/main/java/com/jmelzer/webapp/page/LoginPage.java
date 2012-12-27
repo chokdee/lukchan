@@ -13,11 +13,14 @@ package com.jmelzer.webapp.page;
 import javax.servlet.http.Cookie;
 
 import com.jmelzer.webapp.security.MyAuthenticatedWebSession;
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
+
+
+import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.WebResponse;
+
+import org.apache.wicket.request.http.WebResponse;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 
@@ -123,9 +126,9 @@ public class LoginPage extends MainPage {
             return sb.toString();
         }
         private void setDefaultResponsePageIfNecessary() {
-            if(!continueToOriginalDestination()) {
-                setResponsePage(getApplication().getHomePage());
-            }
+            continueToOriginalDestination();
+//                setResponsePage(getApplication().getHomePage());
+
         }
         protected boolean getRememberMe() {
             Boolean b = (Boolean) checkBox.getDefaultModelObject();

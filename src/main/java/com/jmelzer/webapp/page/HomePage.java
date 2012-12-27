@@ -5,12 +5,9 @@
 
 package com.jmelzer.webapp.page;
 
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.authentication.AuthenticatedWebSession;
+
 import org.apache.wicket.markup.html.basic.Label;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /** Homepage */
 public class HomePage extends MainPage {

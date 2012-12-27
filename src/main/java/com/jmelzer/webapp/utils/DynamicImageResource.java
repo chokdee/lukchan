@@ -7,6 +7,7 @@
 package com.jmelzer.webapp.utils;
 
 import org.apache.wicket.markup.html.image.resource.RenderedDynamicImageResource;
+import org.apache.wicket.request.resource.IResource;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,13 +19,15 @@ public class DynamicImageResource extends RenderedDynamicImageResource {
     public DynamicImageResource(int width, int height, BufferedImage media) {
         super(width, height);
         this.media = media;
-        setCacheable(false);
+
+        //todo
+//        setCacheable(false);
     }
 
+
     @Override
-    protected boolean render(Graphics2D graphics) {
+    protected boolean render(Graphics2D graphics, Attributes attributes) {
         graphics.drawImage(media, 0, 0, null);
         return true;
     }
-
 }

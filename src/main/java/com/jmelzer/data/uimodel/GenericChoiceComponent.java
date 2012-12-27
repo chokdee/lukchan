@@ -13,10 +13,10 @@ package com.jmelzer.data.uimodel;
 import com.jmelzer.data.model.ui.SelectOption;
 import com.jmelzer.data.model.ui.SelectOptionI;
 import com.jmelzer.webapp.ui.GenericChoiceRenderer;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
@@ -52,7 +52,7 @@ public class GenericChoiceComponent extends Panel implements IPanel {
         Label label = new Label("choiceLabel", new StringResourceModel(labelName, new Model("")));
         add(label);
         if (required) {
-            label.add(new SimpleAttributeModifier("class", "required"));
+            label.add(AttributeModifier.replace("class", "required"));
         }
         downChoice.setLabel(new StringResourceModel(labelName, new Model("")));
         add(downChoice);
@@ -82,7 +82,7 @@ public class GenericChoiceComponent extends Panel implements IPanel {
             protected void onUpdate(AjaxRequestTarget target) {
                 for (Component child : children) {
                     child.setOutputMarkupId(true);
-                    target.addComponent(child);
+                    target.add(child);
 
                 }
                 System.out.println("target = " + target);
