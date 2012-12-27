@@ -62,6 +62,7 @@ public class IssueManagerImpl implements IssueManager {
     }
 
     @Override
+    @Transactional
     public void addComment(String issueName, String comment, String username) {
         Issue issue = getIssueByShortName(issueName);
         if (issue == null) {

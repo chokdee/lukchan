@@ -12,6 +12,7 @@ package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
+import com.jmelzer.data.model.User;
 import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.service.IssueManager;
 import com.visural.wicket.component.nicedit.RichTextEditor;
@@ -89,6 +90,11 @@ public class ShowIssuePage extends MainPage {
         Label desc = new Label("desc", issue.getDescription());
         desc.setEscapeModelStrings(false);
         add(desc);
+
+        add(new Label("commentlabel", new StringResourceModel("comments", new Model(""))));
+//        Label commentLabel = new Label("comments", issue.getDescription());
+//        desc.setEscapeModelStrings(false);
+//        add(desc);
 
 //        createUploadPage();
         createCommentPage();
@@ -202,7 +208,12 @@ public class ShowIssuePage extends MainPage {
 
     public void addComment(String string) {
 //        getIssue().addComment(new Comment(string));
-        String username = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        issueManager.addComment(currentName, string, username);
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o instanceof String) {
+            getSession().error("Login please");
+            return;
+        }
+        User user = (User)o;
+        issueManager.addComment(currentName, string, user.getUsername());
     }
 }
