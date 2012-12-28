@@ -12,9 +12,7 @@ package com.jmelzer.data.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "issue")
@@ -88,6 +86,11 @@ public class Issue extends ModelBase implements Serializable {
     @OrderBy("creationDate")
     public Set<Comment> getComments() {
         return comments;
+    }
+
+    @Transient
+    public List<Comment> getCommentsAsList() {
+        return new ArrayList<Comment>(comments);
     }
 
     public void setComments(Set<Comment> comments) {

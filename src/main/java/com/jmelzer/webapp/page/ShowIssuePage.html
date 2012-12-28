@@ -41,7 +41,7 @@
                 </section>
                 <!--<a wicket:id="upload">Upload</a>-->
                 <div class="ym-fbox-button" style="margin-top: 10px; margin-bottom: 10px">
-                    <form action="#" wicket:id="modalForm1" >
+                    <form action="#" wicket:id="modalForm1">
                         <button class="ym-button">Edit</button>
                         <button class="ym-button" wicket:id="comment">Comment</button>
                     </form>
@@ -89,6 +89,20 @@
                             <!--comments-->
                             <h3><span wicket:id="commentlabel"/></h3>
                             <hr class="issue-header-line"/>
+                            <div class="section">
+                                <ul wicket:id="comments">
+                                    <div style="width: 100%; white-space:nowrap;">
+                                            <a wicket:id="userlink">
+                                                <img wicket:id="userimage"/>
+                                                <span wicket:id="username"/>
+                                            </a>
+                                            <span>added a comment -</span>
+                                            <span wicket:id="commentdate"/>
+                                            <span wicket:id="commentText"></span>
+
+                                    </div>
+                                </ul>
+                            </div>
                             <!--<table cellspacing="0" cellpadding="2" border="1">
                                 <tr wicket:id="rows">
                                     <td wicket:id="cols"><span wicket:id="firstName">[firstname]</span></td>

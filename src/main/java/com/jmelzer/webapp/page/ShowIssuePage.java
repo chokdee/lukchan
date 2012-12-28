@@ -10,6 +10,7 @@
 
 package com.jmelzer.webapp.page;
 
+import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
 import com.jmelzer.service.IssueManager;
@@ -24,6 +25,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -47,7 +50,7 @@ public class ShowIssuePage extends MainPage {
             //todo redirect
             return;
         }
-        Issue issue = getIssue();
+        final Issue issue = getIssue();
         addDirectly(new Label("title", String.format("[%s] %s",
                                                      issue.getPublicId(), issue.getSummary())));
         add(new Label("projectname", issue.getProject().getName()));
@@ -60,14 +63,14 @@ public class ShowIssuePage extends MainPage {
 
         add(new Label("issuetypelabel", new StringResourceModel("issuetype", new Model(""))));
         add(new Label("issuetype", issue.getType().getType()));
-        add(new Image("issuetypeimage",new ContextRelativeResource(issue.getType().getIconPath())));
+        add(new Image("issuetypeimage", new ContextRelativeResource(issue.getType().getIconPath())));
 
         add(new Label("prioritylabel", new StringResourceModel("priority", new Model(""))));
         add(new Label("priority", issue.getPriority().getName()));
 
         add(new Label("statuslabel", new StringResourceModel("status", new Model(""))));
         add(new Label("status", issue.getStatus().getName()));
-        add(new Image("statusimage",new ContextRelativeResource(issue.getStatus().getIconPath())));
+        add(new Image("statusimage", new ContextRelativeResource(issue.getStatus().getIconPath())));
 
         add(new Label("assigneelabel", new StringResourceModel("assignee", new Model(""))));
         add(new Label("assignee", issue.getAssigneeName()));
@@ -87,12 +90,34 @@ public class ShowIssuePage extends MainPage {
         add(desc);
 
         add(new Label("commentlabel", new StringResourceModel("comments", new Model(""))));
-//        Label commentLabel = new Label("comments", issue.getDescription());
+
+        //comments
+        ListView listView = new ListView<Comment>("comments", issue.getCommentsAsList()) {
+
+            private static final long serialVersionUID = 551542895268094109L;
+
+            @Override
+            protected void populateItem(ListItem<Comment> item) {
+                Comment comment = item.getModelObject();
+                Link link = new BookmarkablePageLink("userlink", HomePage.class, parameters);
+                link.add(new Label("username", comment.getOwner().getUsername()));
+                Image image = new Image("userimage", new ContextRelativeResource(issue.getType().getIconPath()));
+                link.add(image);
+                item.add(link);
+                Label label1 = new Label("commentdate", comment.getCreationDate());
+                item.add(label1);
+                Label label = new Label("commentText", comment.getText());
+                label.setEscapeModelStrings(false);
+                item.add(label);
+            }
+        };
+        add(listView);
 //        desc.setEscapeModelStrings(false);
 //        add(desc);
 
 //        createUploadPage();
         createCommentPage();
+
     }
 
     private Issue getIssue() {
@@ -151,6 +176,7 @@ public class ShowIssuePage extends MainPage {
         MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER");
 
     }
+
     private void createUploadPage() {
         final ModalWindow modal1;
         add(modal1 = new ModalWindow("modal1"));
@@ -190,11 +216,8 @@ public class ShowIssuePage extends MainPage {
                 modal1.show(target);
             }
 
-//            @Override
-//            public void onClick(AjaxRequestTarget target) {
-//
-//            }
         });
+
     }
 
     public void setUploadComment(String comment) {
@@ -208,7 +231,7 @@ public class ShowIssuePage extends MainPage {
             getSession().error("Login please");
             return;
         }
-        User user = (User)o;
+        User user = (User) o;
         issueManager.addComment(currentName, string, user.getUsername());
     }
 }

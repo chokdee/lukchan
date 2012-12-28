@@ -10,6 +10,9 @@ html, body {
     font-family: tahoma,sans-serif;
 }
 
+body {
+    font-size: 13px !important;
+}
 #pagewidth {
     width: 1100px;
     text-align: left;
