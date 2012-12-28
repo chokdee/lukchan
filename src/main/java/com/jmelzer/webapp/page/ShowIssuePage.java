@@ -13,6 +13,7 @@ package com.jmelzer.webapp.page;
 import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
+import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -23,6 +24,7 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -30,10 +32,16 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.ContextRelativeResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.imgscalr.Scalr;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Date;
 
 public class ShowIssuePage extends MainPage {
@@ -101,7 +109,10 @@ public class ShowIssuePage extends MainPage {
                 Comment comment = item.getModelObject();
                 Link link = new BookmarkablePageLink("userlink", HomePage.class, parameters);
                 link.add(new Label("username", comment.getOwner().getUsername()));
-                Image image = new Image("userimage", new ContextRelativeResource(issue.getType().getIconPath()));
+                BufferedDynamicImageResource resource = new BufferedDynamicImageResource();
+                resource.setImage(calcImage(comment.getOwner().getAvatar()));
+                Image image = new Image("userimage",resource);
+//                                        new ByteArrayResource("image/png", comment.getOwner().getAvatar()));
                 link.add(image);
                 item.add(link);
                 Label label1 = new Label("commentdate", comment.getCreationDate());
@@ -234,4 +245,16 @@ public class ShowIssuePage extends MainPage {
         User user = (User) o;
         issueManager.addComment(currentName, string, user.getUsername());
     }
+    BufferedImage calcImage(byte[] bytes) {
+        BufferedImage bufferedImage = null;
+        try {
+            bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+            bufferedImage = Scalr.resize(bufferedImage, 20, 20);
+            return bufferedImage;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

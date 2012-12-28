@@ -16,6 +16,7 @@ import com.jmelzer.data.model.ui.UiField;
 import com.jmelzer.data.model.ui.View;
 import com.jmelzer.data.model.ui.ViewTab;
 import com.jmelzer.data.uimodel.Field;
+import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
@@ -55,6 +56,7 @@ public class Setup extends AbstractBatch {
             user.setEmail("admin@wreckcontrol.net");
             user.setLoginName("admin");
             user.setLocked(false);
+            user.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("admin.png")));
 
             userDao.save(user);
         }
@@ -68,6 +70,7 @@ public class Setup extends AbstractBatch {
             jm.setEmail("jm@wreckcontrol.net");
             jm.setLoginName("jm");
             jm.setLocked(false);
+            jm.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("user.png")));
             userDao.save(jm);
         }
         {

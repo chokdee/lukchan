@@ -64,7 +64,7 @@
                                 <div class="ym-g50  ym-gl">
                                     <div>
                                         <span class="show-issue-label" wicket:id="issuetypelabel"/>
-                                        <img wicket:id="issuetypeimage">
+                                        <img wicket:id="issuetypeimage" style="vertical-align:middle">
                                         <span wicket:id="issuetype"/>
                                     </div>
                                     <div>
@@ -76,7 +76,7 @@
 
                                     <div>
                                         <span class="show-issue-label" wicket:id="prioritylabel"/>
-                                        <img wicket:id="statusimage">
+                                        <img wicket:id="statusimage" style="vertical-align:middle">
                                         <span wicket:id="priority"/>
                                     </div>
                                 </div>
@@ -92,13 +92,15 @@
                             <div class="section">
                                 <ul wicket:id="comments">
                                     <div style="width: 100%; white-space:nowrap;">
-                                            <a wicket:id="userlink">
-                                                <img wicket:id="userimage"/>
-                                                <span wicket:id="username"/>
-                                            </a>
-                                            <span>added a comment -</span>
-                                            <span wicket:id="commentdate"/>
-                                            <span wicket:id="commentText"></span>
+                                        <a wicket:id="userlink">
+                                            <img wicket:id="userimage" style="vertical-align:middle"/>
+                                            <span wicket:id="username"/>
+                                        </a>
+                                        <span>added a comment -</span>
+                                        <span wicket:id="commentdate"/>
+                                        <br/>
+                                        <br/>
+                                        <span wicket:id="commentText"></span>
 
                                     </div>
                                 </ul>

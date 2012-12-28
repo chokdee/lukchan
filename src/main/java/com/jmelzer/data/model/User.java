@@ -51,6 +51,7 @@ public class User extends ModelBase implements UserDetails, Serializable, Compar
     private String email;
     private String locale;
     private boolean locked = true;
+    byte[] avatar;
 
     private Set<Issue> assignedIssues = new LinkedHashSet<Issue>();
 
@@ -229,5 +230,15 @@ public class User extends ModelBase implements UserDetails, Serializable, Compar
     @Transient
     public String getValue() {
         return getName();
+    }
+
+    @Column( name = "avatar" )
+    @Lob
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 }
