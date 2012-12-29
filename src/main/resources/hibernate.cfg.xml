@@ -34,6 +34,7 @@
         <mapping class="com.jmelzer.data.model.ui.View"/>
         <mapping class="com.jmelzer.data.model.ui.ViewTab"/>
         <mapping class="com.jmelzer.data.model.ui.UiField"/>
+        <mapping class="com.jmelzer.data.model.ActivityLog"/>
 
     </session-factory>
 </hibernate-configuration>
