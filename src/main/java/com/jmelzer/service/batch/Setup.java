@@ -164,6 +164,16 @@ public class Setup extends AbstractBatch {
                             prioId,
                             componentName
         );
+
+        issueManager.addComment(issue.getPublicId(), "Das ist doch alles nix hier", "developer");
+        issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
+        issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
+        issueManager.addComment(issue.getPublicId(), " <H2>Demonstrating a few HTML features</H2>\n" +
+                                                     "\n" +
+                                                     "</CENTER>\n" +
+                                                     "\n" +
+                                                     "HTML is really a very simple language. It consists of ordinary text, with commands that are enclosed by \"<\" and \">\" characters, or bewteen an \"&\" and a \";\". <P>\n" +
+                                                     " ", "developer");
     }
 
     private Priority createPriorities(PriorityDao priorityDao) {

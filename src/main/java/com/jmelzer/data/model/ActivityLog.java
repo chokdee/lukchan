@@ -50,6 +50,9 @@ public class ActivityLog extends ModelBase implements Serializable {
     int actionTypeAsInt;
     Action actionType;
 
+    public ActivityLog() {
+    }
+
     public ActivityLog(Action action) {
         created = new Date();
         updated = new Date();

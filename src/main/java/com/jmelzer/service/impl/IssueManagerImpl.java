@@ -12,6 +12,7 @@ package com.jmelzer.service.impl;
 
 import com.jmelzer.data.dao.*;
 import com.jmelzer.data.model.*;
+import com.jmelzer.service.ActivityLogManager;
 import com.jmelzer.service.IssueManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,8 @@ public class IssueManagerImpl implements IssueManager {
     IssueTypeDao issueTypeDao;
     @Resource
     PriorityDao priorityDao;
+    @Resource
+    ActivityLogManager activityLogManager;
 
     @Override
     @Transactional
@@ -54,6 +57,9 @@ public class IssueManagerImpl implements IssueManager {
         issueDao.save(issue);
         issue.getProject().setIssueCounter(id);
         projectDao.save(issue.getProject());
+
+        activityLogManager.addActivity(issue.getReporter().getUsername(),
+                                       issue, ActivityLog.Action.CREATE_ISSUE);
     }
 
     @Override
@@ -73,6 +79,8 @@ public class IssueManagerImpl implements IssueManager {
             throw new IllegalArgumentException(username + " doesn't exists");
         }
         issue.addComment(new Comment(comment, user));
+
+        activityLogManager.addActivity(username, issue, ActivityLog.Action.COMMENT_ISSUE);
     }
 
     private Component findComponent(Project project, String componentName) {

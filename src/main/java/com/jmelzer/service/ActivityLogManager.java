@@ -13,7 +13,10 @@ package com.jmelzer.service;
 import com.jmelzer.data.model.ActivityLog;
 import com.jmelzer.data.model.Issue;
 
+import java.util.List;
+
 public interface ActivityLogManager {
 
     void addActivity(String username, Issue issue, ActivityLog.Action action);
+    List<ActivityLog> getLatestActivities();
 }
