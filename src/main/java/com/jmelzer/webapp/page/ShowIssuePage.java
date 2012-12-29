@@ -168,8 +168,6 @@ public class ShowIssuePage extends MainPage {
             private static final long serialVersionUID = -7300960030846812464L;
 
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-//                setResult("Modal window 1 - close button");
-                System.out.println();
                 return true;
             }
         });

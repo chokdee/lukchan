@@ -21,8 +21,11 @@ import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.ajax.TinyMceAjaxSubmitModifier;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
@@ -36,16 +39,20 @@ public class CommentPage extends WebPage {
     public CommentPage(ShowIssuePage page, final ModalWindow window) {
         this.caller = page;
 
-        add(new AjaxLink("close") {
+        AjaxLink closeLink = new AjaxLink("close") {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void onClick(AjaxRequestTarget target) {
                 window.close(target);
             }
-        });
+        };
+        add(closeLink);
+        closeLink.add(new Label("cancellink", new StringResourceModel("cancellink", new Model(""))));
+
         final Form form = new Form("commentForm");
         add(form);
+        form.add(new Label("commentlabel", new StringResourceModel("commentlabel", new Model(""))));
         TextArea textArea = new TextArea("textfield", textModel);
         textArea.add(new TinyMceBehavior(((WicketApplication) Application.get()).getTinyMCESettings()));
         form.add(textArea);

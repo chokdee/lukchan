@@ -590,3 +590,15 @@ form.aui .typename {
     float: left;
     width: 120px;
 }
+
+.w_captionText {
+    font-size: 12px;
+    color: red;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+/*
+.w_content_2 {
+    padding-top: 20px;
+}*/
