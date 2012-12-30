@@ -83,6 +83,7 @@ public class Setup extends AbstractBatch {
             dev.setEmail("developer@wreckcontrol.net");
             dev.setLoginName("developer");
             dev.setLocked(false);
+            dev.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("user.png")));
             userDao.save(dev);
         }
         Status status;
@@ -139,7 +140,7 @@ public class Setup extends AbstractBatch {
         createSampleIssue(issueManager, project.getId(),
                           status,
                           issueType.getId(), prio.getId(), "service",
-                          dev, jm);
+                          dev, jm.getUsername());
     }
 
     private void createSampleIssue(IssueManager issueManager,
@@ -149,10 +150,9 @@ public class Setup extends AbstractBatch {
                                    Long prioId,
                                    String componentName,
                                    User assignee,
-                                   User reporter) {
+                                   String reporter) {
         Issue issue = new Issue();
         issue.setAssignee(assignee);
-        issue.setReporter(reporter);
         issue.setSummary("this is an example test issue.");
         issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu können benötigen wir die Möglichkeit, einen Blick in den Index (in die für eine Kampagne erstellten Suchwörter) zu werfen." +
                              "<br>" +
@@ -162,8 +162,8 @@ public class Setup extends AbstractBatch {
                             projectId,
                             issueTypeId,
                             prioId,
-                            componentName
-        );
+                            componentName,
+                            reporter);
 
         issueManager.addComment(issue.getPublicId(), "Das ist doch alles nix hier", "developer");
         issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");

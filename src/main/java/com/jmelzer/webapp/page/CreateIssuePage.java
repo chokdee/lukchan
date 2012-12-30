@@ -6,6 +6,7 @@
 package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.model.Issue;
+import com.jmelzer.data.model.User;
 import com.jmelzer.data.model.ui.SelectOptionI;
 import com.jmelzer.data.model.ui.UiField;
 import com.jmelzer.data.model.ui.View;
@@ -23,6 +24,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -95,6 +97,12 @@ public class CreateIssuePage extends MainPage {
 
         @Override
         public void onSubmit() {
+            Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (o instanceof String) {
+                getSession().error("Login please");
+                return;
+            }
+            User user = (User) o;
             Issue issue = new Issue();
 
             issue.setSummary(((StringModel) model.get(Field.SUMMARY_ID)).getString());
@@ -109,9 +117,10 @@ public class CreateIssuePage extends MainPage {
             issueManager.create(issue, getKey(Field.PROJECT_ID),
                                 getKey(Field.ISSUETYPE_ID),
                                 getKey(Field.PRIORITY_ID),
-                                comp);
+                                comp,
+                                user.getUsername());
             PageParameters parameters = new PageParameters();
-            parameters.add("0", issue.getPublicId());
+            parameters.set(0, issue.getPublicId());
             setResponsePage(ShowIssuePage.class, parameters);
         }
 

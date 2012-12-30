@@ -22,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 
@@ -73,4 +76,10 @@ public class ActivityLogDaoTest {
 
     }
 
+    @Test
+    public void findLast() {
+        List<ActivityLog> list = activityLogDao.findLast(0, 1);
+        assertNotNull(list);
+        assertEquals(1, list.size());
+    }
 }

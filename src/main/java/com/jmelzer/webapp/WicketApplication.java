@@ -22,6 +22,13 @@ import org.apache.wicket.util.time.Duration;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import ro.fortsoft.wicket.dashboard.Dashboard;
+import ro.fortsoft.wicket.dashboard.DefaultDashboard;
+import ro.fortsoft.wicket.dashboard.WidgetRegistry;
+import ro.fortsoft.wicket.dashboard.web.DashboardContext;
+import ro.fortsoft.wicket.dashboard.web.DashboardContextInjector;
+import ro.fortsoft.wicket.dashboard.widget.loremipsum.LoremIpsumWidget;
+import ro.fortsoft.wicket.dashboard.widget.loremipsum.LoremIpsumWidgetDescriptor;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 
@@ -35,6 +42,7 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
     boolean isInitialized = false;
     TinyMCESettings tinyMCESettings;
     ApplicationContext ctx;
+
 
     /** Constructor */
     public WicketApplication() {
@@ -77,8 +85,18 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
         }
         getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.RenderStrategy.REDIRECT_TO_RENDER);
 
-//        tinyMCESettings = new TinyMCESettings(TinyMCESettings.Theme.simple);
-//        tinyMCESettings.setToolbarLocation(TinyMCESettings.Location.top);
+        // >>> begin dashboard settings
+
+        // register some widgets
+        DashboardContext dashboardContext = new DashboardContext();
+        WidgetRegistry widgetRegistry = dashboardContext.getWidgetRegistry();
+        widgetRegistry.registerWidget(new LoremIpsumWidgetDescriptor());
+
+        // add dashboard context injector
+        DashboardContextInjector dashboardContextInjector = new DashboardContextInjector(dashboardContext);
+        getComponentInstantiationListeners().add(dashboardContextInjector);
+
+
     }
 
     @Override
@@ -106,4 +124,6 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.ctx = applicationContext;
     }
+
+
 }

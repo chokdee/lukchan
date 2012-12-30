@@ -14,6 +14,7 @@ import com.jmelzer.data.dao.*;
 import com.jmelzer.data.model.*;
 import com.jmelzer.service.ActivityLogManager;
 import com.jmelzer.service.IssueManager;
+import com.jmelzer.service.WorkflowManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ public class IssueManagerImpl implements IssueManager {
     UserDao userDao;
 
     @Resource
+    WorkflowManager workflowManager;
+
+    @Resource
     ProjectDao  projectDao;
     @Resource
     IssueTypeDao issueTypeDao;
@@ -39,7 +43,7 @@ public class IssueManagerImpl implements IssueManager {
 
     @Override
     @Transactional
-    public void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName) {
+    public void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName, String reporter) {
         //todo do validation
 
         //reload entities
@@ -54,6 +58,9 @@ public class IssueManagerImpl implements IssueManager {
         if (comp != null) {
             issue.addComponent(comp);
         }
+        User user = userDao.findByUserName(reporter);
+        issue.setReporter(user);
+        issue.setStatus(workflowManager.getFirstStatus());
         issueDao.save(issue);
         issue.getProject().setIssueCounter(id);
         projectDao.save(issue.getProject());

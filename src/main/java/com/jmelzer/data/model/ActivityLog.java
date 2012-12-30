@@ -132,4 +132,5 @@ public class ActivityLog extends ModelBase implements Serializable {
     public void setIssue(Issue issue) {
         this.issue = issue;
     }
+
 }

@@ -232,7 +232,7 @@ public class User extends ModelBase implements UserDetails, Serializable, Compar
         return getName();
     }
 
-    @Column( name = "avatar" )
+    @Column( name = "avatar", nullable = false)
     @Lob
     public byte[] getAvatar() {
         return avatar;

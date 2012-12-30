@@ -13,7 +13,7 @@ package com.jmelzer.service;
 import com.jmelzer.data.model.Issue;
 
 public interface IssueManager {
-    void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName);
+    void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName, String reporter);
 
     Issue getIssueByShortName(String issueName);
 

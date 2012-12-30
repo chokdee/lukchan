@@ -274,4 +274,9 @@ public class DateUtilsJm {
             return 0;
         }
     }
+
+    public static long diffSince(Date date) {
+        Date now = new Date();
+        return date.getTime()-now.getTime();
+    }
 }

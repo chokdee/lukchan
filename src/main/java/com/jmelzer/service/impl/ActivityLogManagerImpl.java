@@ -64,7 +64,7 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
     }
 
     public List<ActivityLog> getLatestActivities() {
-        List<ActivityLog> list = activityLogDao.findAll();
+        List<ActivityLog> list = activityLogDao.findLast(0, 5);
         List<ActivityLog> retList = new ArrayList<ActivityLog>(5);
         int n = 0;
         for (ActivityLog activityLog : list) {

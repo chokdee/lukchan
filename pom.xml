@@ -331,6 +331,16 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>ro.fortsoft.wicket.dashboard</groupId>
+            <artifactId>wicket-dashboard-core</artifactId>
+            <version>0.6-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ro.fortsoft.wicket.dashboard.widgets</groupId>
+            <artifactId>wicket-dashboard-loremipsum</artifactId>
+            <version>0.6-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
             <version>1.0.1</version>
