@@ -60,6 +60,9 @@ public class ActivityLogWidgetView extends WidgetView {
                 Label label = new Label("logAction", activityLog.getActivityAsString());
                 label.setEscapeModelStrings(false);
                 item.add(label);
+                label = new Label("logDetail", activityLog.getDetail());
+                label.setEscapeModelStrings(false);
+                item.add(label);
                 HumanTime ht = new HumanTime(DateUtilsJm.diffSince(activityLog.getUpdated()));
                 Label label1 = new Label("logDate", ht.getApproximately());
                 item.add(label1);

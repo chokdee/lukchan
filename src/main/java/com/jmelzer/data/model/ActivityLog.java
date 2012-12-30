@@ -30,6 +30,7 @@ public class ActivityLog extends ModelBase implements Serializable {
     User updateAuthor;
     Date updated;
     String activityAsString;
+    String detail;
     Issue issue;
 
     public enum Action {
@@ -132,5 +133,12 @@ public class ActivityLog extends ModelBase implements Serializable {
     public void setIssue(Issue issue) {
         this.issue = issue;
     }
+    @Column(nullable = true, length = 2048)
+    public String getDetail() {
+        return detail;
+    }
 
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
 }

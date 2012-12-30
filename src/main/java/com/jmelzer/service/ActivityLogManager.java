@@ -17,6 +17,6 @@ import java.util.List;
 
 public interface ActivityLogManager {
 
-    void addActivity(String username, Issue issue, ActivityLog.Action action);
+    void addActivity(String username, Issue issue, ActivityLog.Action action, String body);
     List<ActivityLog> getLatestActivities();
 }

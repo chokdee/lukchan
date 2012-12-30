@@ -66,7 +66,7 @@ public class IssueManagerImpl implements IssueManager {
         projectDao.save(issue.getProject());
 
         activityLogManager.addActivity(issue.getReporter().getUsername(),
-                                       issue, ActivityLog.Action.CREATE_ISSUE);
+                                       issue, ActivityLog.Action.CREATE_ISSUE, null);
     }
 
     @Override
@@ -87,7 +87,8 @@ public class IssueManagerImpl implements IssueManager {
         }
         issue.addComment(new Comment(comment, user));
 
-        activityLogManager.addActivity(username, issue, ActivityLog.Action.COMMENT_ISSUE);
+        activityLogManager.addActivity(username, issue, ActivityLog.Action.COMMENT_ISSUE,
+                                       comment);
     }
 
     private Component findComponent(Project project, String componentName) {

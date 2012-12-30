@@ -150,7 +150,7 @@ public class Setup extends AbstractBatch {
                                    Long prioId,
                                    String componentName,
                                    User assignee,
-                                   String reporter) {
+                                   String reporter) throws InterruptedException {
         Issue issue = new Issue();
         issue.setAssignee(assignee);
         issue.setSummary("this is an example test issue.");
@@ -166,8 +166,11 @@ public class Setup extends AbstractBatch {
                             reporter);
 
         issueManager.addComment(issue.getPublicId(), "Das ist doch alles nix hier", "developer");
+        Thread.sleep(1000L);
         issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
+        Thread.sleep(1000L);
         issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
+        Thread.sleep(1000L);
         issueManager.addComment(issue.getPublicId(), " <H2>Demonstrating a few HTML features</H2>\n" +
                                                      "\n" +
                                                      "</CENTER>\n" +

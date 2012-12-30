@@ -43,7 +43,7 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
     }
 
     @Override
-    public void addActivity(String username, Issue issue, ActivityLog.Action action) {
+    public void addActivity(String username, Issue issue, ActivityLog.Action action, String body) {
         ActivityLog activityLog = new ActivityLog(action);
         activityLog.setIssue(issue);
         activityLog.setAuthor(userDao.findByUserName(username));
@@ -60,6 +60,7 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
                 break;
         }
         activityLog.setActivityAsString(activityAsString);
+        activityLog.setDetail(body);
         activityLogDao.save(activityLog);
     }
 
