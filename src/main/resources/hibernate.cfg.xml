@@ -21,6 +21,7 @@
         <mapping class="com.jmelzer.data.model.IssueType" />
         <mapping class="com.jmelzer.data.model.Attachment" />
         <mapping class="com.jmelzer.data.model.User" />
+        <mapping class="com.jmelzer.data.model.UserRole" />
         <mapping class="com.jmelzer.data.model.Project" />
         <mapping class="com.jmelzer.data.model.DynamicProperty" />
         <mapping class="com.jmelzer.data.model.Label" />

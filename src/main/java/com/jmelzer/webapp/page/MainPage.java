@@ -6,11 +6,14 @@
 
 package com.jmelzer.webapp.page;
 
+import com.jmelzer.data.model.User;
+import com.jmelzer.data.model.UserRole;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.border.Border;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class MainPage extends WebPage {
@@ -40,5 +43,21 @@ public abstract class MainPage extends WebPage {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (authentication!=null && !"anonymousUser".equals(authentication.getPrincipal()));
     }
-
+    public boolean isSameUserAsLoggedIn(User tocheck) {
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o instanceof String) {
+            return false;
+        }
+        User user = (User) o;
+        return (user.getId().equals(tocheck.getId()));
+    }
+    //todo move to other class
+    public boolean isAdmin() {
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o instanceof String) {
+            return false;
+        }
+        User user = (User) o;
+        return user.isAdmin();
+    }
 }

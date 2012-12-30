@@ -39,27 +39,20 @@
 
                     </div>
                 </section>
-                <!--<a wicket:id="upload">Upload</a>-->
+                <!--todo i18n-->
                 <div class="ym-fbox-button" style="margin-top: 10px; margin-bottom: 10px">
                     <form action="#" wicket:id="modalForm1">
                         <button class="ym-button">Edit</button>
                         <button class="ym-button" wicket:id="comment">Comment</button>
                     </form>
 
-                    <!--<form action="#" wicket:id="ajaxform">-->
-                    <!--<button class="ym-button" wicket:id="upload">Attach File</button>-->
-                    <!--</form>-->
                 </div>
-                <!--<span wicket:id="title"/>-->
 
                 <section class="ym-grid linearize-level-1">
                     <article class="ym-g66 ym-gl content">
                         <div class="ym-gbox-left ym-clearfix">
                             <h3>Details</h3>
                             <hr class="issue-header-line"/>
-                            <!--<hr style="color: white; background: black; height: 1px;" />-->
-                            <!--<div style="width: 100%; height: 1px; border: 1px solid #000000"/>-->
-
                             <div class="ym-grid">
                                 <div class="ym-g50  ym-gl">
                                     <div>
@@ -89,7 +82,7 @@
                             <!--comments-->
                             <h3><span wicket:id="commentlabel"/></h3>
                             <hr class="issue-header-line"/>
-                            <div >
+                            <div>
                                 <ul wicket:id="comments">
                                     <div style="width: 100%; ">
                                         <a wicket:id="userlink">
@@ -99,32 +92,26 @@
                                         <!--todo i18n-->
                                         <span>added a comment -</span>
                                         <span wicket:id="commentdate"/>
+
                                         <div class="comments_body">
                                             <span wicket:id="commentText"></span>
                                         </div>
-
+                                        <!--todo i18n-->
+                                        <form action="#" wicket:id="commentForm">
+                                            <button class="ym-button" wicket:id="editComment">edit</button>
+                                            <button class="ym-button" wicket:id="deleteComment">delete</button>
+                                        </form>
                                     </div>
                                 </ul>
                             </div>
-                            <!--<table cellspacing="0" cellpadding="2" border="1">
-                                <tr wicket:id="rows">
-                                    <td wicket:id="cols"><span wicket:id="firstName">[firstname]</span></td>
-                                </tr>
-                            </table>-->
-
                         </div>
                     </article>
                     <!--right side-->
                     <aside class="ym-g33 ym-gr">
                         <div class="ym-gbox-right ym-clearfix">
-                            <!--<div style="width: 22%;float: left">-->
-                            <!--<div class="module">-->
-                            <!--<div class="detail-header">-->
                             <!--todo locale-->
                             <h3 class="toggle-title">Personen</h3>
                             <hr class="issue-header-line"/>
-                            <!--</div>-->
-                            <!--</div>-->
                             <div>
                                 <span class="show-issue-label" wicket:id="reporterlabel"/>
                                 <span wicket:id="reporter"/>

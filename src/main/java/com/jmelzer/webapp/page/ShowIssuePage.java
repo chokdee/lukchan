@@ -113,6 +113,7 @@ public class ShowIssuePage extends MainPage {
                 Label label = new Label("commentText", comment.getText());
                 label.setEscapeModelStrings(false);
                 item.add(label);
+                createCommentButtons(item);
             }
         };
         add(listView);
@@ -121,6 +122,7 @@ public class ShowIssuePage extends MainPage {
 
 //        createUploadPage();
         createCommentPage();
+
 
     }
 
@@ -177,6 +179,39 @@ public class ShowIssuePage extends MainPage {
         });
         MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER");
 
+    }
+    private void createCommentButtons(ListItem<Comment> item) {
+        final Comment comment = item.getModelObject();
+        Form ajaxForm = new Form("commentForm");
+        item.add(ajaxForm);
+        ajaxForm.add(new AjaxButton("editComment") {
+            private static final long serialVersionUID = 3343073444590521014L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                //todo
+            }
+            @Override
+            public boolean isVisible() {
+                return isSameUserAsLoggedIn(comment.getOwner()) || isAdmin();
+            }
+
+        });
+        ajaxForm.add(new AjaxButton("deleteComment") {
+            private static final long serialVersionUID = 6963676069941072498L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                //todo
+            }
+
+            @Override
+            public boolean isVisible() {
+                return isSameUserAsLoggedIn(comment.getOwner()) || isAdmin();
+            }
+        });
+
+//        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER");
     }
 
     private void createUploadPage() {

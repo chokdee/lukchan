@@ -31,11 +31,8 @@ public class Setup extends AbstractBatch {
     @Override
     void doIt() throws Exception {
         Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-//        if (true) {
-//            System.out.println(encoder.encodePassword("11", "jm"));
-//            return;
-//        }
         UserDao userDao = (UserDao) context.getBean("userDao");
+        UserRoleDao userRoleDao = (UserRoleDao) context.getBean("userRoleDao");
         ProjectDao projectDao = (ProjectDao) context.getBean("projectDao");
         StatusDao statusDao = (StatusDao) context.getBean("statusDao");
         PriorityDao priorityDao = (PriorityDao) context.getBean("priorityDao");
@@ -43,6 +40,15 @@ public class Setup extends AbstractBatch {
         IssueManager issueManager = (IssueManager) context.getBean("issueManager");
         ViewDao viewDao = (ViewDao) context.getBean("viewDao");
         ActivationCodeDao activationCodeDao = (ActivationCodeDao) context.getBean("activationCodeDao");
+
+        UserRole userRoleDev = new UserRole(UserRole.Roles.ROLE_DEVELOPER.toString());
+        userRoleDao.save(userRoleDev);
+        UserRole userRoleAdmin = new UserRole(UserRole.Roles.ROLE_ADMIN.toString());
+        userRoleDao.save(userRoleAdmin);
+        UserRole userRoleUser = new UserRole(UserRole.Roles.ROLE_USER.toString());
+        userRoleDao.save(userRoleUser);
+
+
         User dev;
         User jm;
         {
@@ -57,7 +63,7 @@ public class Setup extends AbstractBatch {
             user.setLoginName("admin");
             user.setLocked(false);
             user.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("admin.png")));
-
+            user.addRole(userRoleAdmin);
             userDao.save(user);
         }
         {
@@ -71,6 +77,7 @@ public class Setup extends AbstractBatch {
             jm.setLoginName("jm");
             jm.setLocked(false);
             jm.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("user.png")));
+            jm.addRole(userRoleUser);
             userDao.save(jm);
         }
         {
@@ -84,6 +91,7 @@ public class Setup extends AbstractBatch {
             dev.setLoginName("developer");
             dev.setLocked(false);
             dev.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("user.png")));
+            dev.addRole(userRoleDev);
             userDao.save(dev);
         }
         Status status;

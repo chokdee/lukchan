@@ -39,10 +39,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        //todo
-        GrantedAuthority[] authorities = new GrantedAuthority[]{new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_USER")};
-        user.setAuthorities(CollectionUtils.arrayToList(authorities));
+        user.fillAuthorities();
         return user;
     }
 }

@@ -18,7 +18,9 @@ package com.jmelzer.data.model;
 
 import com.jmelzer.data.model.ui.SelectOptionI;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,10 +30,6 @@ import java.util.Set;
 
 /**
  * Standard User entity with attributes such as name, password etc.
- * The parent relationship is used for easy grouping of users and
- * flexible inheritance of permission schemes TODO.  The user type
- * determines if this is a normal user or a user group.  Only
- * user groups can have child references.
  *
  * We also tie in to the security framework and implement
  * the Acegi UserDetails interface so that Acegi can take care
@@ -54,6 +52,7 @@ public class User extends ModelBase implements UserDetails, Serializable, Compar
     byte[] avatar;
 
     private Set<Issue> assignedIssues = new LinkedHashSet<Issue>();
+    private Set<UserRole> roles = new LinkedHashSet<UserRole>();
 
     Collection<GrantedAuthority> authorities;
 
@@ -240,5 +239,38 @@ public class User extends ModelBase implements UserDetails, Serializable, Compar
 
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    @OneToMany
+    @JoinTable(name = "USER_TO_ROLES", joinColumns = @JoinColumn(name = "USER_ID"),
+               inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(UserRole userRole) {
+        roles.add(userRole);
+    }
+    @Transient
+    public boolean isAdmin() {
+        for (UserRole role : roles) {
+            if (role.getName().equals(UserRole.Roles.ROLE_ADMIN.name())){
+                return true;
+            }
+        }
+        return false;
+    }
+    @Transient
+    public void fillAuthorities() {
+        GrantedAuthority[] authorities = new GrantedAuthority[roles.size()];
+        int i = 0;
+        for (UserRole role : roles) {
+            authorities[i++] = new SimpleGrantedAuthority(role.getName());
+        }
+        setAuthorities(CollectionUtils.arrayToList(authorities));
     }
 }
