@@ -91,7 +91,7 @@
                             <hr class="issue-header-line"/>
                             <div >
                                 <ul wicket:id="comments">
-                                    <div style="width: 100%; white-space:nowrap;">
+                                    <div style="width: 100%; ">
                                         <a wicket:id="userlink">
                                             <img wicket:id="userimage" style="vertical-align:middle"/>
                                             <span wicket:id="username"/>
@@ -99,9 +99,9 @@
                                         <!--todo i18n-->
                                         <span>added a comment -</span>
                                         <span wicket:id="commentdate"/>
-                                        <br/>
-                                        <br/>
-                                        <span wicket:id="commentText"></span>
+                                        <div class="comments_body">
+                                            <span wicket:id="commentText"></span>
+                                        </div>
 
                                     </div>
                                 </ul>
