@@ -14,9 +14,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Mit den dynamischen Properties können Attributerweiterung bei Custimisierungen vermieden werden.
+ * Mit den dynamischen Properties k\u00F6nnen Attributerweiterung bei Custimisierungen vermieden werden.
  * Hier wird statt einem Feld eine Assoziation benutzt.
- * In dieser Klasse wird der Typ, Wert und name gespeichert, damit die entsprecheden Konvertierungen gemacht werden können.
+ * In dieser Klasse wird der Typ, Wert und name gespeichert, damit die entsprecheden Konvertierungen gemacht werden k\u00F6nnen.
  *
  * @author J. Melzer
  */
@@ -36,9 +36,9 @@ public class DynamicProperty extends ModelBase implements Serializable {
 
     ModelBase source;
 
-    /** Konstante für den Typ, siehe {@link #type}. */
+    /** Konstante fuer den Typ, siehe {@link #type}. */
     public static final int INTEGER = 1;
-    /** Konstante für den Typ, siehe {@link #type}. */
+    /** Konstante fuer den Typ, siehe {@link #type}. */
     public static final int STRING = 2;
 
     /** default constructor. */
