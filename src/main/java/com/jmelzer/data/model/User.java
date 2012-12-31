@@ -147,7 +147,7 @@ public class User extends ModelBase implements UserDetails, Serializable, Compar
     public void setType(Integer type) {
         this.type = type;
     }
-    
+    @Column(nullable = false)
     public String getLoginName() {
         return loginName;
     }

@@ -12,9 +12,9 @@ package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.ActivityLogDao;
 import com.jmelzer.data.model.ActivityLog;
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository("activityLogDao")
@@ -23,9 +23,9 @@ public class ActivityLogDaoHbm extends AbstractDaoHbm<ActivityLog> implements Ac
 
     @Override
     public List<ActivityLog> findLast(int offset, int count) {
-        Query query = getCurrentSession().createQuery("from ActivityLog log order by  log.updated desc");
+        Query query = getEntityManager().createQuery("from ActivityLog log order by  log.updated desc");
         query.setFirstResult(offset);
         query.setMaxResults(count);
-        return query.list();
+        return query.getResultList();
     }
 }

@@ -85,6 +85,7 @@ public class GenericChoiceComponent extends Panel implements IPanel {
                     target.add(child);
 
                 }
+//                target.add(downChoice);
                 System.out.println("target = " + target);
             }
         });

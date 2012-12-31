@@ -16,24 +16,20 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.PersistenceException;
 
 import java.util.Date;
 
 import static junit.framework.Assert.*;
 
-@ContextConfiguration(locations = {
-        "classpath:spring.xml"}
-)
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-public class IssueDaoTest {
+public class IssueDaoTest extends AbstractBaseDaoTest{
 
     @Resource
     IssueDao issueDao;
@@ -87,8 +83,7 @@ public class IssueDaoTest {
         status = new Status("testi", 100);
         statusDao.save(status);
 
-        user = new User("1", "2", "3");
-        userDao.save(user);
+        user = DaoUtil.createUser("1", userDao);
 
     }
     @Test
@@ -98,7 +93,7 @@ public class IssueDaoTest {
         try {
             issueDao.save(issue);
             fail("no type is set");
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             //ok
         }
     }
@@ -125,9 +120,8 @@ public class IssueDaoTest {
         try {
             issueDao.save(issue);
             fail("unique key");
-        } catch (ConstraintViolationException e) {
-            //duplicate key
-            assertTrue(e.getMessage(), e.getMessage().contains("UST-1"));
+        } catch (PersistenceException e) {
+            assertTrue(e.getMessage().contains("unique constraint"));
         }
     }
 
@@ -150,8 +144,9 @@ public class IssueDaoTest {
         try {
             issueDao.save(issue);
             fail();
-        } catch (TransientObjectException e) {
+        } catch (IllegalStateException e) {
             //ok
+            assertTrue(e.getMessage().contains("TransientObjectException"));
             assertNull("labels shall not be persistent indirectly",
                        label.getId());
         }

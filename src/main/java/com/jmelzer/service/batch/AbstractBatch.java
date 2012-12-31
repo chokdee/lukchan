@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -45,7 +46,7 @@ public abstract class AbstractBatch {
         }
 
         try {
-            final HibernateTransactionManager transactionManager = (HibernateTransactionManager) context.getBean("txManager");
+            final JpaTransactionManager transactionManager = (JpaTransactionManager) context.getBean("txManager");
             TransactionTemplate txTmpl = new TransactionTemplate(transactionManager);
             txTmpl.execute(new TransactionCallback<Object>() {
                 public Object doInTransaction(TransactionStatus status) {

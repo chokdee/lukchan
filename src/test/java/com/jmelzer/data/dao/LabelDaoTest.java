@@ -15,23 +15,20 @@ import com.jmelzer.data.model.User;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.PersistenceException;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 
-@ContextConfiguration(locations = {
-        "classpath:spring.xml"}
-)
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-public class LabelDaoTest {
+
+public class LabelDaoTest extends AbstractBaseDaoTest{
 
     @Resource
     LabelDao labelDao;
@@ -43,8 +40,8 @@ public class LabelDaoTest {
 
         try {
             labelDao.save(label);
-//            fail("mandatory fields not set");
-        } catch (ConstraintViolationException e) {
+            fail("mandatory fields not set");
+        } catch (PersistenceException e) {
             //ok
         }
 

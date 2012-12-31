@@ -20,16 +20,11 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.PersistenceException;
 
 import static junit.framework.Assert.*;
 
-@ContextConfiguration(locations = {
-        "classpath:spring.xml"}
-)
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-public class ProjectDaoTest {
+public class ProjectDaoTest extends AbstractBaseDaoTest{
 
     @Resource
     ProjectDao projectDao;
@@ -44,7 +39,7 @@ public class ProjectDaoTest {
         try {
             projectDao.save(project);
             fail("mandotory fields not set");
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             //ok
         }
 }

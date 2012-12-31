@@ -35,7 +35,7 @@ public class Attachment implements Serializable {
     private String fileName;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     public Long getId() {
         return id;
     }

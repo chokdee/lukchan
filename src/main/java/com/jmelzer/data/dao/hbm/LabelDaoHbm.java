@@ -12,16 +12,17 @@ package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.LabelDao;
 import com.jmelzer.data.model.Label;
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
 
 @Repository
 public class LabelDaoHbm extends AbstractDaoHbm<Label> implements LabelDao {
 
     @Override
     public Label findByName(String name) {
-        Query query = getCurrentSession().createQuery("from Label where name = ?");
-        query.setParameter(0, name);
-        return (Label) query.uniqueResult();
+        Query query = getEntityManager().createQuery("from Label where name = ?");
+        query.setParameter(1, name);
+        return (Label) query.getSingleResult();
     }
 }

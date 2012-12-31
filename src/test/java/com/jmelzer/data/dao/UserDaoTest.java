@@ -20,17 +20,13 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.PersistenceException;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 
-@ContextConfiguration(locations = {
-        "classpath:spring.xml"}
-)
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-@RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-public class UserDaoTest {
+
+public class UserDaoTest extends AbstractBaseDaoTest {
 
     @Resource
     UserDao userDao;
@@ -40,8 +36,10 @@ public class UserDaoTest {
     public void save() {
         User user = new User();
         user.setName("bla");
+        user.setLoginName("bla");
         user.setPassword("blub");
         user.setEmail("bla@bla.de");
+        user.setAvatar(new byte[] {0,1});
         userDao.save(user);
         assertNotNull(user.getId());
     }
@@ -53,7 +51,7 @@ public class UserDaoTest {
         try {
             userDao.save(user);
             fail("mandotory fields not set");
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             //ok
         }
     }
