@@ -15,7 +15,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import ro.fortsoft.wicket.dashboard.Dashboard;
 import ro.fortsoft.wicket.dashboard.DefaultDashboard;
 import ro.fortsoft.wicket.dashboard.web.DashboardPanel;
-import ro.fortsoft.wicket.dashboard.widget.loremipsum.LoremIpsumWidget;
+
 
 /** Homepage */
 public class HomePage extends MainPage {

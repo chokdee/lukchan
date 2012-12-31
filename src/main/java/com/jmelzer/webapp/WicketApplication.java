@@ -27,8 +27,6 @@ import ro.fortsoft.wicket.dashboard.DefaultDashboard;
 import ro.fortsoft.wicket.dashboard.WidgetRegistry;
 import ro.fortsoft.wicket.dashboard.web.DashboardContext;
 import ro.fortsoft.wicket.dashboard.web.DashboardContextInjector;
-import ro.fortsoft.wicket.dashboard.widget.loremipsum.LoremIpsumWidget;
-import ro.fortsoft.wicket.dashboard.widget.loremipsum.LoremIpsumWidgetDescriptor;
 import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 
@@ -90,7 +88,7 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
         // register some widgets
         DashboardContext dashboardContext = new DashboardContext();
         WidgetRegistry widgetRegistry = dashboardContext.getWidgetRegistry();
-        widgetRegistry.registerWidget(new LoremIpsumWidgetDescriptor());
+//        widgetRegistry.registerWidget(new LoremIpsumWidgetDescriptor());
 
         // add dashboard context injector
         DashboardContextInjector dashboardContextInjector = new DashboardContextInjector(dashboardContext);

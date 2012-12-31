@@ -13,7 +13,6 @@
 package com.jmelzer.webapp.ui.widgets;
 
 import com.jmelzer.data.model.ActivityLog;
-import de.svenjacobs.loremipsum.LoremIpsum;
 import org.apache.wicket.model.Model;
 import ro.fortsoft.wicket.dashboard.AbstractWidget;
 import ro.fortsoft.wicket.dashboard.Widget;
