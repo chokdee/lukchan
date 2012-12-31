@@ -162,7 +162,7 @@ public class Setup extends AbstractBatch {
         Issue issue = new Issue();
         issue.setAssignee(assignee);
         issue.setSummary("this is an example test issue.");
-        issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu können benötigen wir die Möglichkeit, einen Blick in den Index (in die für eine Kampagne erstellten Suchwörter) zu werfen." +
+        issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu k\u00F6nnen ben\u00F6tigen wir die M\u00F6glichkeit, einen Blick in den Index (in die f\u00FCr eine Kampagne erstellten Suchw\u00F6rter) zu werfen." +
                              "<br>" +
                              "Dabei haben wir im wesentlich zwei Anforderungen:.");
         issue.setStatus(status);
@@ -179,7 +179,7 @@ public class Setup extends AbstractBatch {
         Thread.sleep(1000L);
         issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
         Thread.sleep(1000L);
-        issueManager.addComment(issue.getPublicId(), " <H2>Demonstrating a few HTML features</H2>\n" +
+        issueManager.addComment(issue.getPublicId(), " <H2>Demonstrating a few HTML features</H2>\\n" +
                                                      "\n" +
                                                      "</CENTER>\n" +
                                                      "\n" +
