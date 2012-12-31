@@ -11,9 +11,7 @@ import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Border that holds layout elements that can be reused by pages.

@@ -10,7 +10,6 @@
 
 package com.jmelzer.data.dao;
 
-import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.IssueType;
 
 public interface IssueTypeDao extends AbstractDao<IssueType> {

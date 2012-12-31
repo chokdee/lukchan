@@ -12,14 +12,11 @@ package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.webapp.WicketApplication;
-
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.head.IHeaderResponse;
-import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -28,7 +25,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import wicket.contrib.tinymce.TinyMceBehavior;
 import wicket.contrib.tinymce.ajax.TinyMceAjaxSubmitModifier;
-import wicket.contrib.tinymce.settings.TinyMCESettings;
 
 public class CommentPage extends WebPage {
     private static final long serialVersionUID = -1248292189048177184L;

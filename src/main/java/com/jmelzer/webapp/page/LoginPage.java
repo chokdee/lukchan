@@ -10,21 +10,16 @@
 
 package com.jmelzer.webapp.page;
 
-import javax.servlet.http.Cookie;
-
 import com.jmelzer.webapp.security.MyAuthenticatedWebSession;
-
-
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.model.Model;
-
 import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 
-import java.util.Date;
+import javax.servlet.http.Cookie;
 
 public class LoginPage extends MainPage {
     private static final long serialVersionUID = 7767013194879565534L;

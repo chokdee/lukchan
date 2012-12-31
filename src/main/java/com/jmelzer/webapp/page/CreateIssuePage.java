@@ -15,7 +15,6 @@ import com.jmelzer.data.uimodel.IPanel;
 import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.Viewmanager;
-
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;

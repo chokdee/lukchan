@@ -11,14 +11,12 @@
 package com.jmelzer.data.uimodel;
 
 import com.jmelzer.data.dao.IssueTypeDao;
-import com.jmelzer.data.model.IssueType;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.Serializable;
 
 @Component("issuetypeField")
 @Scope("prototype")

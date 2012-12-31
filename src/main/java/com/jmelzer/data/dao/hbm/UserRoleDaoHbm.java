@@ -10,11 +10,8 @@
 
 package com.jmelzer.data.dao.hbm;
 
-import com.jmelzer.data.dao.UserDao;
 import com.jmelzer.data.dao.UserRoleDao;
-import com.jmelzer.data.model.User;
 import com.jmelzer.data.model.UserRole;
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository("userRoleDao")

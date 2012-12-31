@@ -11,7 +11,6 @@
 package com.jmelzer.data.dao;
 
 import com.jmelzer.data.model.User;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserDao extends AbstractDao<User> {
 

@@ -14,8 +14,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-
 @Component("duedatefield")
 @Scope("prototype")
 public class DueDateField extends AbstractField {

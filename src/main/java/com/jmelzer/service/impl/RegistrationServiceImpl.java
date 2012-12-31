@@ -15,7 +15,6 @@ import com.jmelzer.data.model.ActivationCode;
 import com.jmelzer.data.model.User;
 import com.jmelzer.data.model.exceptions.ActivationCodeException;
 import com.jmelzer.data.model.exceptions.UserNotFoundException;
-import com.jmelzer.data.util.DateUtilsJm;
 import com.jmelzer.service.RegistrationService;
 import com.jmelzer.service.UserService;
 import org.apache.commons.lang.time.DateUtils;

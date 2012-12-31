@@ -13,7 +13,6 @@
 package com.jmelzer.webapp.ui.widgets;
 
 import com.jmelzer.data.model.ActivityLog;
-import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.util.DateUtilsJm;
 import com.jmelzer.data.util.HumanTime;
 import com.jmelzer.service.impl.ImageUtil;

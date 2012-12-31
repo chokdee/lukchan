@@ -10,8 +10,6 @@
 
 package com.jmelzer.data.uimodel;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.Panel;
 
 public interface Field {

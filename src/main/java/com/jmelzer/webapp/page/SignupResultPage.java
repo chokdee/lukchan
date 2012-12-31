@@ -7,12 +7,9 @@ package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.model.exceptions.ActivationCodeException;
 import com.jmelzer.service.RegistrationService;
-
-
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /** Homepage */
 public class SignupResultPage extends MainPage {

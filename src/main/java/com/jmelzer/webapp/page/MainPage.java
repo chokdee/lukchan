@@ -7,13 +7,11 @@
 package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.model.User;
-import com.jmelzer.data.model.UserRole;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.border.Border;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class MainPage extends WebPage {

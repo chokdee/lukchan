@@ -10,7 +10,6 @@
 
 package com.jmelzer.webapp.page;
 
-import com.jmelzer.data.uimodel.StringModel;
 import com.jmelzer.webapp.WicketApplication;
 import org.apache.wicket.Application;
 import org.apache.wicket.ajax.AjaxRequestTarget;

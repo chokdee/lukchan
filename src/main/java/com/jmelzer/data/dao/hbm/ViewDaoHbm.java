@@ -14,8 +14,6 @@ import com.jmelzer.data.dao.ViewDao;
 import com.jmelzer.data.model.ui.View;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
-
 @Repository("viewDao")
 public class ViewDaoHbm extends AbstractDaoHbm<View> implements ViewDao {
 

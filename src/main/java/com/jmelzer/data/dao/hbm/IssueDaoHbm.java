@@ -14,8 +14,6 @@ import com.jmelzer.data.dao.IssueDao;
 import com.jmelzer.data.model.Issue;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
-
 @Repository
 public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
 

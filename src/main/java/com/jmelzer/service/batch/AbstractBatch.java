@@ -7,23 +7,12 @@ package com.jmelzer.service.batch;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-
-import javax.sql.DataSource;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
 
 /**
  * @author jmelzer
