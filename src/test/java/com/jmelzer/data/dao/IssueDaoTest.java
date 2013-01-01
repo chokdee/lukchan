@@ -99,15 +99,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
     }
     @Test
     public void saveDuplicateKey() {
-        Issue issue = new Issue();
-
-        issue.setType(issueType);
-        issue.setPublicId("UST-1");
-        project.addIssue(issue);
-        issue.setSummary("summmmm");
-        issue.setDueDate(new Date());
-        issue.setReporter(user);
-        issue.setStatus(status);
+        Issue issue = createIssue();
         issueDao.save(issue);
         assertNotNull(issue.getId());
 
@@ -127,15 +119,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
 
     @Test
     public void saveLabel() {
-        Issue issue = new Issue();
-
-        issue.setType(issueType);
-        issue.setPublicId("UST-1");
-        project.addIssue(issue);
-        issue.setSummary("summmmm");
-        issue.setDueDate(new Date());
-        issue.setReporter(user);
-        issue.setStatus(status);
+        Issue issue = createIssue();
         issueDao.save(issue);
         assertNotNull(issue.getId());
 
@@ -152,6 +136,20 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         }
 
     }
+
+    private Issue createIssue() {
+        Issue issue = new Issue();
+
+        issue.setType(issueType);
+        issue.setPublicId("UST-1");
+        project.addIssue(issue);
+        issue.setSummary("summmmm");
+        issue.setDueDate(new Date());
+        issue.setReporter(user);
+        issue.setStatus(status);
+        return issue;
+    }
+
     @Test
     public void save() {
 
@@ -228,8 +226,21 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         assertEquals("1", issueDb.getComments().iterator().next().getText());
 
     }
+    @Test
+    public void testComment() {
+        Issue issue = createIssue();
+        issue.addComment(new Comment("1", user));
+        issueDao.save(issue);
 
-    public void testCreate() {
+        Issue issueDb = issueDao.findOne(issue.getId());
+        Comment comment = issueDb.getComments().iterator().next();
+        assertEquals("1", comment.getText());
+        issueDao.saveComment(comment.getId(), "changed", user);
+
+        issueDb = issueDao.findOne(issue.getId());
+        comment = issueDb.getComments().iterator().next();
+        assertEquals("changed", comment.getText());
+        assertEquals(user.getUsername(), comment.getOwner().getUsername());
 
     }
 }

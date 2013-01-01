@@ -31,9 +31,14 @@ public class CommentPage extends WebPage {
 
     ShowIssuePage caller;
     StringModel textModel = new StringModel("");
+    private String value;
+    Long commentId;
 
-    public CommentPage(ShowIssuePage page, final ModalWindow window) {
+    public CommentPage(ShowIssuePage page, final ModalWindow window,
+                       String value, final Long commentId) {
         this.caller = page;
+        this.value = value;
+        this.commentId = commentId;
 
         AjaxLink closeLink = new AjaxLink("close") {
             private static final long serialVersionUID = 1L;
@@ -49,6 +54,7 @@ public class CommentPage extends WebPage {
         final Form form = new Form("commentForm");
         add(form);
         form.add(new Label("commentlabel", new StringResourceModel("commentlabel", new Model(""))));
+        textModel.setString(value);
         TextArea textArea = new TextArea("textfield", textModel);
         textArea.add(new TinyMceBehavior(((WicketApplication) Application.get()).getTinyMCESettings()));
         form.add(textArea);
@@ -66,9 +72,13 @@ public class CommentPage extends WebPage {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                System.out.println(textModel);
-                caller.addComment(textModel.getString());
+                if (commentId == null) {
+                    caller.addComment(textModel.getString());
+                } else {
+                    caller.modifyComment(commentId, textModel.getString());
+                }
                 window.close(target);
+//                target.add(caller);
             }
         };
         form.add(submitButton);
@@ -77,4 +87,11 @@ public class CommentPage extends WebPage {
     }
 
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setCommentId(Long commentId) {
+        this.commentId = commentId;
+    }
 }

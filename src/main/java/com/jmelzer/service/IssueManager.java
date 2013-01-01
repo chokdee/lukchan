@@ -18,4 +18,6 @@ public interface IssueManager {
     Issue getIssueByShortName(String issueName);
 
     void addComment(String issueName, String comment, String username);
+
+    void modifyComment(Long commentId, Long issueId, String string, String username);
 }

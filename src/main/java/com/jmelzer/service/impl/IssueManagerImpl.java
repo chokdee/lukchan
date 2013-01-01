@@ -91,6 +91,16 @@ public class IssueManagerImpl implements IssueManager {
                                        comment);
     }
 
+    @Override
+    @Transactional
+    public void modifyComment(Long commentId, Long issueId, String string, String username) {
+        issueDao.saveComment(commentId, string, userDao.findByUserName(username));
+
+        activityLogManager.addActivity(username, issueDao.findOne(issueId),
+                                       ActivityLog.Action.CHANGE_COMMENT_ISSUE,
+                                       string);
+    }
+
     private Component findComponent(Project project, String componentName) {
         for (Component component : project.getComponents()) {
             if (component.getName().equals(componentName)) {

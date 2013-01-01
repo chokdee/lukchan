@@ -58,4 +58,12 @@ public abstract class MainPage extends WebPage {
         User user = (User) o;
         return user.isAdmin();
     }
+    protected String getUsername() {
+        Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (o instanceof String) {
+            return null;
+        }
+        User user = (User) o;
+        return user.getUsername();
+    }
 }

@@ -11,8 +11,12 @@
 package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.IssueDao;
+import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
+import com.jmelzer.data.model.User;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
 
 @Repository
 public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
@@ -21,4 +25,14 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
     public Issue findIssueByShortName(String shortName) {
         return querySingleResult("from Issue where publicId = ?", shortName);
     }
+
+    @Override
+    public void saveComment(Long commentId, String string, User user) {
+        Comment comment = getEntityManager().find(Comment.class, commentId);
+        comment.setText(string);
+        comment.setOwner(user);
+        getEntityManager().persist(comment);
+    }
+
+
 }

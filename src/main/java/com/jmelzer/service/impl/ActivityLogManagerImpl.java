@@ -58,6 +58,9 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
             case COMMENT_ISSUE:
                 activityAsString = "{action.commented} <ISSUE>";
                 break;
+            case CHANGE_COMMENT_ISSUE:
+                activityAsString = "{action.change_comment} <ISSUE>";
+                break;
         }
         activityLog.setActivityAsString(activityAsString);
         activityLog.setDetail(body);

@@ -40,6 +40,6 @@ public class StringModel implements IModel {
 
     @Override
     public void detach() {
-        string = "";
+//        string = "";
     }
 }

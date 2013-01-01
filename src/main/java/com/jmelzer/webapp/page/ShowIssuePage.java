@@ -15,12 +15,16 @@ import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.impl.ImageUtil;
+import com.jmelzer.webapp.ui.CommentModalWindow;
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.EnclosureContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.image.Image;
@@ -29,6 +33,9 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.EmptyPanel;
+import org.apache.wicket.markup.html.panel.GenericPanel;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -45,6 +52,10 @@ public class ShowIssuePage extends MainPage {
     IssueManager issueManager;
 
     String currentName;
+    CommentModalWindow modalWindow;
+    Issue issue;
+    private ListView<Comment> listView;
+    WebMarkupContainer commentPanel;
 
     public ShowIssuePage(final PageParameters parameters) {
         currentName = parameters.get(0).toString();
@@ -52,7 +63,7 @@ public class ShowIssuePage extends MainPage {
             //todo redirect
             return;
         }
-        final Issue issue = getIssue();
+        readIssue();
         addDirectly(new Label("title", String.format("[%s] %s",
                                                      issue.getPublicId(), issue.getSummary())));
         add(new Label("projectname", issue.getProject().getName()));
@@ -93,8 +104,9 @@ public class ShowIssuePage extends MainPage {
 
         add(new Label("commentlabel", new StringResourceModel("comments", new Model(""))));
 
+
         //comments
-        ListView listView = new ListView<Comment>("comments", issue.getCommentsAsList()) {
+        listView = new ListView<Comment>("comments", issue.getCommentsAsList()) {
 
             private static final long serialVersionUID = 551542895268094109L;
 
@@ -116,9 +128,13 @@ public class ShowIssuePage extends MainPage {
                 createCommentButtons(item);
             }
         };
+
+        listView.setOutputMarkupId(true);
         add(listView);
-//        desc.setEscapeModelStrings(false);
-//        add(desc);
+        commentPanel = new WebMarkupContainer("commentPanel");
+        commentPanel.setOutputMarkupId(true);
+        add(commentPanel);
+        commentPanel.add(listView);
 
 //        createUploadPage();
         createCommentPage();
@@ -126,36 +142,28 @@ public class ShowIssuePage extends MainPage {
 
     }
 
-    private Issue getIssue() {
-        Issue issue = issueManager.getIssueByShortName(currentName);
+    private void readIssue() {
+        issue = issueManager.getIssueByShortName(currentName);
         if (issue == null) {
             //todo
         }
-        return issue;
     }
 
     private void createCommentPage() {
-        final ModalWindow modalWindow;
-        add(modalWindow = new ModalWindow("modalComment"));
+        add(modalWindow = new CommentModalWindow("modalComment", this));
 
-//        modalWindow.setPageMapName("modal-2");
         modalWindow.setCookieName("modal-2");
 
-        modalWindow.setPageCreator(new ModalWindow.PageCreator() {
-
-            private static final long serialVersionUID = -8304783732807067434L;
-
-            public Page createPage() {
-                return new CommentPage(ShowIssuePage.this, modalWindow);
-            }
-        });
         modalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
 
             private static final long serialVersionUID = 7005964314882175967L;
 
             public void onClose(AjaxRequestTarget target) {
                 System.out.println();
-//                target.addComponent(result);
+                readIssue();
+                listView.setModelObject(issue.getCommentsAsList());
+                target.add(commentPanel);
+//                setResponsePage(getPage());
             }
         });
         modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
@@ -163,6 +171,7 @@ public class ShowIssuePage extends MainPage {
             private static final long serialVersionUID = -7300960030846812464L;
 
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
+//                setResponsePage(ShowIssuePage.this);
                 return true;
             }
         });
@@ -177,7 +186,8 @@ public class ShowIssuePage extends MainPage {
             }
 
         });
-        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER");
+        //todo make it better
+        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER,ROLE_ADMIN");
 
     }
     private void createCommentButtons(ListItem<Comment> item) {
@@ -189,6 +199,10 @@ public class ShowIssuePage extends MainPage {
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                modalWindow.setCommentId(comment.getId());
+                modalWindow.setValue(comment.getText());
+                modalWindow.show(target);
+                System.out.println("target = " + target);
                 //todo
             }
             @Override
@@ -257,12 +271,7 @@ public class ShowIssuePage extends MainPage {
 
     }
 
-    public void setUploadComment(String comment) {
-
-    }
-
     public void addComment(String string) {
-//        getIssue().addComment(new Comment(string));
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (o instanceof String) {
             getSession().error("Login please");
@@ -271,5 +280,10 @@ public class ShowIssuePage extends MainPage {
         User user = (User) o;
         issueManager.addComment(currentName, string, user.getUsername());
     }
+
+    public void modifyComment(Long id, String string) {
+        issueManager.modifyComment(id, issue.getId(), string, getUsername());
+    }
+
 
 }
