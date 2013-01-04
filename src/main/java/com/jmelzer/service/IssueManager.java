@@ -20,4 +20,6 @@ public interface IssueManager {
     void addComment(String issueName, String comment, String username);
 
     void modifyComment(Long commentId, Long issueId, String string, String username);
+
+    void deleteComment(Long commentId, String username);
 }

@@ -11,11 +11,11 @@
 package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.StatusDao;
-import com.jmelzer.data.model.Status;
+import com.jmelzer.data.model.WorkflowStatus;
 import org.springframework.stereotype.Repository;
 
 @Repository("statusDao")
-public class StatusDaoHbm extends AbstractDaoHbm<Status> implements StatusDao {
+public class StatusDaoHbm extends AbstractDaoHbm<WorkflowStatus> implements StatusDao {
 
 
 }

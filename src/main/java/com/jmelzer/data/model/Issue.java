@@ -37,7 +37,7 @@ public class Issue extends ModelBase implements Serializable {
     Date dueDate;
     Long remainingTime;
     Long orgEstimatedTime;
-    Status status;
+    WorkflowStatus workflowStatus;
 
 
     private Set<Issue> children = new LinkedHashSet<Issue>();
@@ -154,12 +154,12 @@ public class Issue extends ModelBase implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
-    public Status getStatus() {
-        return status;
+    public WorkflowStatus getWorkflowStatus() {
+        return workflowStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setWorkflowStatus(WorkflowStatus workflowStatus) {
+        this.workflowStatus = workflowStatus;
     }
 
     @ManyToOne(targetEntity = User.class)
@@ -301,5 +301,18 @@ public class Issue extends ModelBase implements Serializable {
 
     public void setOrgEstimatedTime(Long orgEstimatedTime) {
         this.orgEstimatedTime = orgEstimatedTime;
+    }
+
+    public void removeComment(Long commentId) {
+        Comment c = null;
+        for (Comment comment : comments) {
+            if (commentId.equals(comment.getId())) {
+                c = comment;
+                break;
+            }
+        }
+        if (c != null) {
+            comments.remove(c);
+        }
     }
 }

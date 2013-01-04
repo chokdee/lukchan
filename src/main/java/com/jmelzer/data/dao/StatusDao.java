@@ -10,8 +10,8 @@
 
 package com.jmelzer.data.dao;
 
-import com.jmelzer.data.model.Status;
+import com.jmelzer.data.model.WorkflowStatus;
 
-public interface StatusDao extends AbstractDao<Status> {
+public interface StatusDao extends AbstractDao<WorkflowStatus> {
 
 }

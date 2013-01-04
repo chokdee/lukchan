@@ -61,6 +61,11 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
             case CHANGE_COMMENT_ISSUE:
                 activityAsString = "{action.change_comment} <ISSUE>";
                 break;
+            case DELETE_COMMENT_ISSUE:
+                activityAsString = "{action.change_comment} <ISSUE>";
+                break;
+            default:
+                throw new RuntimeException("action must be defined here");
         }
         activityLog.setActivityAsString(activityAsString);
         activityLog.setDetail(body);

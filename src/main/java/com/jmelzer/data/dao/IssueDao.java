@@ -20,4 +20,5 @@ public interface IssueDao extends AbstractDao<Issue> {
     void saveComment(Long commentId, String string, User user);
 
 
+    Issue deleteComment(Long commentId);
 }

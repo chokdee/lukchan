@@ -10,21 +10,24 @@
 
 package com.jmelzer.webapp.page;
 
+import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButton;
+import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButtons;
+import com.googlecode.wicket.jquery.ui.widget.dialog.DialogIcon;
+import com.googlecode.wicket.jquery.ui.widget.dialog.MessageDialog;
 import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.impl.ImageUtil;
 import com.jmelzer.webapp.ui.CommentModalWindow;
-import org.apache.wicket.Component;
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.EnclosureContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.image.Image;
@@ -33,9 +36,6 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.EmptyPanel;
-import org.apache.wicket.markup.html.panel.GenericPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -56,14 +56,19 @@ public class ShowIssuePage extends MainPage {
     Issue issue;
     private ListView<Comment> listView;
     WebMarkupContainer commentPanel;
+    CommentMessageDialog confirmDeleteCommentDialog;
 
     public ShowIssuePage(final PageParameters parameters) {
         currentName = parameters.get(0).toString();
         if (currentName == null) {
-            //todo redirect
-            return;
+            getSession().error("Invalid ID");
+            throw new RestartResponseException(HomePage.class);
         }
         readIssue();
+        if (issue == null) {
+            getSession().error("Invalid ID");
+            throw new RestartResponseException(HomePage.class);
+        }
         addDirectly(new Label("title", String.format("[%s] %s",
                                                      issue.getPublicId(), issue.getSummary())));
         add(new Label("projectname", issue.getProject().getName()));
@@ -82,8 +87,8 @@ public class ShowIssuePage extends MainPage {
         add(new Label("priority", issue.getPriority().getName()));
 
         add(new Label("statuslabel", new StringResourceModel("status", new Model(""))));
-        add(new Label("status", issue.getStatus().getName()));
-        add(new Image("statusimage", new ContextRelativeResource(issue.getStatus().getIconPath())));
+        add(new Label("status", issue.getWorkflowStatus().getName()));
+        add(new Image("statusimage", new ContextRelativeResource(issue.getWorkflowStatus().getIconPath())));
 
         add(new Label("assigneelabel", new StringResourceModel("assignee", new Model(""))));
         add(new Label("assignee", issue.getAssigneeName()));
@@ -117,7 +122,7 @@ public class ShowIssuePage extends MainPage {
                 link.add(new Label("username", comment.getOwner().getUsername()));
                 BufferedDynamicImageResource resource = new BufferedDynamicImageResource();
                 resource.setImage(ImageUtil.calcImage(comment.getOwner().getAvatar()));
-                Image image = new Image("userimage",resource);
+                Image image = new Image("userimage", resource);
                 link.add(image);
                 item.add(link);
                 Label label1 = new Label("commentdate", comment.getCreationDate());
@@ -139,6 +144,8 @@ public class ShowIssuePage extends MainPage {
 //        createUploadPage();
         createCommentPage();
 
+        confirmDeleteCommentDialog = new CommentMessageDialog();
+        this.add(confirmDeleteCommentDialog);
 
     }
 
@@ -159,11 +166,9 @@ public class ShowIssuePage extends MainPage {
             private static final long serialVersionUID = 7005964314882175967L;
 
             public void onClose(AjaxRequestTarget target) {
-                System.out.println();
                 readIssue();
                 listView.setModelObject(issue.getCommentsAsList());
                 target.add(commentPanel);
-//                setResponsePage(getPage());
             }
         });
         modalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
@@ -171,7 +176,6 @@ public class ShowIssuePage extends MainPage {
             private static final long serialVersionUID = -7300960030846812464L;
 
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-//                setResponsePage(ShowIssuePage.this);
                 return true;
             }
         });
@@ -187,9 +191,10 @@ public class ShowIssuePage extends MainPage {
 
         });
         //todo make it better
-        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER,ROLE_ADMIN");
+        MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER,ROLE_ADMIN,ROLE_DEVELOPER");
 
     }
+
     private void createCommentButtons(ListItem<Comment> item) {
         final Comment comment = item.getModelObject();
         Form ajaxForm = new Form("commentForm");
@@ -202,21 +207,23 @@ public class ShowIssuePage extends MainPage {
                 modalWindow.setCommentId(comment.getId());
                 modalWindow.setValue(comment.getText());
                 modalWindow.show(target);
-                System.out.println("target = " + target);
                 //todo
             }
+
             @Override
             public boolean isVisible() {
                 return isSameUserAsLoggedIn(comment.getOwner()) || isAdmin();
             }
 
         });
+
         ajaxForm.add(new AjaxButton("deleteComment") {
             private static final long serialVersionUID = 6963676069941072498L;
 
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                //todo
+                confirmDeleteCommentDialog.setComment(comment);
+                confirmDeleteCommentDialog.open(target);
             }
 
             @Override
@@ -285,5 +292,28 @@ public class ShowIssuePage extends MainPage {
         issueManager.modifyComment(id, issue.getId(), string, getUsername());
     }
 
+    class CommentMessageDialog extends MessageDialog {
+        Comment comment;
+        CommentMessageDialog() {
+            super("confirmdialog",
+                  ShowIssuePage.this.getString("warning"),
+                  ShowIssuePage.this.getString("confirm.delete"),
+                  DialogButtons.YES_NO, DialogIcon.INFO);
+        }
 
+        private static final long serialVersionUID = 680199527650907703L;
+
+        public void setComment(Comment comment) {
+            this.comment = comment;
+        }
+
+        protected void onClose(AjaxRequestTarget target, DialogButton button) {
+            if (button != null && button.toString().equals(LBL_YES)) {
+                ShowIssuePage.this.issueManager.deleteComment(comment.getId(), getUsername());
+                readIssue();
+                listView.setModelObject(issue.getCommentsAsList());
+                target.add(commentPanel);
+            }
+        }
+    }
 }

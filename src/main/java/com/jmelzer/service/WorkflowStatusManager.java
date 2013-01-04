@@ -3,7 +3,7 @@
 * All rights reserved.
 *
 * Author: juergi
-* Date: 30.12.12 
+* Date: 04.01.13 
 *
 */
 
@@ -12,7 +12,6 @@ package com.jmelzer.service;
 
 import com.jmelzer.data.model.WorkflowStatus;
 
-public interface WorkflowManager {
-
-    WorkflowStatus getFirstStatus();
+public interface WorkflowStatusManager {
+    void save(WorkflowStatus workflowStatus);
 }

@@ -60,7 +60,7 @@ public class IssueManagerImpl implements IssueManager {
         }
         User user = userDao.findByUserName(reporter);
         issue.setReporter(user);
-        issue.setStatus(workflowManager.getFirstStatus());
+        issue.setWorkflowStatus(workflowManager.getFirstStatus());
         issueDao.save(issue);
         issue.getProject().setIssueCounter(id);
         projectDao.save(issue.getProject());
@@ -99,6 +99,15 @@ public class IssueManagerImpl implements IssueManager {
         activityLogManager.addActivity(username, issueDao.findOne(issueId),
                                        ActivityLog.Action.CHANGE_COMMENT_ISSUE,
                                        string);
+    }
+
+    @Override
+    @Transactional
+    public void deleteComment(Long commentId, String username) {
+        Issue issue = issueDao.deleteComment(commentId);
+        activityLogManager.addActivity(username, issue,
+                                       ActivityLog.Action.DELETE_COMMENT_ISSUE,
+                                       "");
     }
 
     private Component findComponent(Project project, String componentName) {

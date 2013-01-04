@@ -45,7 +45,6 @@
             <groupId>org.apache.wicket</groupId>
             <artifactId>wicket-core</artifactId>
             <version>${wicket.version}</version>
-
         </dependency>
         <!--  <dependency>
             <groupId>org.apache.wicket</groupId>
@@ -56,6 +55,11 @@
             <groupId>org.apache.wicket</groupId>
             <artifactId>wicket-extensions</artifactId>
             <version>${wicket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.wicket-jquery-ui</groupId>
+            <artifactId>jquery-ui-core</artifactId>
+            <version>6.1.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.wicket</groupId>
@@ -512,9 +516,9 @@
         <repository>
             <id>wicket-snaps</id>
             <url>https://oss.sonatype.org/content/repositories/releases</url>
-            <!--<snapshots>
+            <snapshots>
                 <enabled>true</enabled>
-            </snapshots>-->
+            </snapshots>
             <releases>
                 <enabled>true</enabled>
             </releases>

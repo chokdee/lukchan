@@ -11,16 +11,8 @@
 package com.jmelzer.data.dao;
 
 import com.jmelzer.data.model.*;
-import org.hibernate.TransientObjectException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.PersistenceException;
@@ -49,7 +41,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
     IssueType issueType;
     Project project;
 
-    Status status;
+    WorkflowStatus workflowStatus;
     User user;
 
     @Before
@@ -80,8 +72,8 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         issueTypeDao.save(issueType);
         assertNotNull(issueType.getId());
 
-        status = new Status("testi", 100);
-        statusDao.save(status);
+        workflowStatus = new WorkflowStatus("testi", 100);
+        statusDao.save(workflowStatus);
 
         user = DaoUtil.createUser("1", userDao);
 
@@ -108,7 +100,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         child.setPublicId("UST-1");
         issue.addChild(child);
         child.setReporter(user);
-        child.setStatus(status);
+        child.setWorkflowStatus(workflowStatus);
         try {
             issueDao.save(issue);
             fail("unique key");
@@ -146,7 +138,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         issue.setSummary("summmmm");
         issue.setDueDate(new Date());
         issue.setReporter(user);
-        issue.setStatus(status);
+        issue.setWorkflowStatus(workflowStatus);
         return issue;
     }
 
@@ -158,7 +150,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
 
         issue.setType(issueType);
         issue.setPublicId("UST-1");
-        issue.setStatus(status);
+        issue.setWorkflowStatus(workflowStatus);
         issue.setReporter(user);
         project.addIssue(issue);
         issue.addComponent(project.getComponent(0));
@@ -171,7 +163,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         Issue child = new Issue();
         child.setType(issueType);
         child.setPublicId("UST-2");
-        child.setStatus(status);
+        child.setWorkflowStatus(workflowStatus);
         child.setReporter(user);
         issue.addChild(child);
         issueDao.save(issue);
@@ -242,5 +234,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         assertEquals("changed", comment.getText());
         assertEquals(user.getUsername(), comment.getOwner().getUsername());
 
+
+        issueDao.deleteComment(comment.getId());
     }
 }

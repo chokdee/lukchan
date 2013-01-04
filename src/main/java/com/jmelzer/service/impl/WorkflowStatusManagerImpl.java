@@ -3,7 +3,7 @@
 * All rights reserved.
 *
 * Author: juergi
-* Date: 30.12.12 
+* Date: 04.01.13 
 *
 */
 
@@ -12,21 +12,21 @@ package com.jmelzer.service.impl;
 
 import com.jmelzer.data.dao.StatusDao;
 import com.jmelzer.data.model.WorkflowStatus;
-import com.jmelzer.service.WorkflowManager;
+import com.jmelzer.service.WorkflowStatusManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
-@Service("workflowManager")
-public class WorkflowManagerImpl implements WorkflowManager {
+@Service("workflowStatusManager")
+public class WorkflowStatusManagerImpl implements WorkflowStatusManager {
 
     @Resource
     StatusDao statusDao;
 
     @Override
-    @Transactional(readOnly = true)
-    public WorkflowStatus getFirstStatus() {
-        return statusDao.findAll().get(0);
+    @Transactional
+    public void save(WorkflowStatus workflowStatus) {
+        statusDao.save(workflowStatus);
     }
 }

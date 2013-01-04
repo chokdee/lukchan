@@ -34,5 +34,13 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
         getEntityManager().persist(comment);
     }
 
+    @Override
+    public Issue deleteComment(Long commentId) {
+        Issue issue = querySingleResult("select i from Issue i join i.comments c where c.id = ?",
+                                            commentId);
+        issue.removeComment(commentId);
+        return issue;
+    }
+
 
 }

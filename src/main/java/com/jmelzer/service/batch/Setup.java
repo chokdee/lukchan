@@ -94,14 +94,14 @@ public class Setup extends AbstractBatch {
             dev.addRole(userRoleDev);
             userDao.save(dev);
         }
-        Status status;
+        WorkflowStatus workflowStatus;
         {
-            status = new Status("Open", 1);
-            statusDao.save(status);
-            statusDao.save(new Status("In Progress", 2));
-            statusDao.save(new Status("Resolved", 3));
-            statusDao.save(new Status("Reopened", 4));
-            statusDao.save(new Status("Closed", 5));
+            workflowStatus = new WorkflowStatus("Open", 1);
+            statusDao.save(workflowStatus);
+            statusDao.save(new WorkflowStatus("In Progress", 2));
+            statusDao.save(new WorkflowStatus("Resolved", 3));
+            statusDao.save(new WorkflowStatus("Reopened", 4));
+            statusDao.save(new WorkflowStatus("Closed", 5));
         }
         Project project;
         {
@@ -146,14 +146,14 @@ public class Setup extends AbstractBatch {
         Priority prio = createPriorities(priorityDao);
         createViews(viewDao);
         createSampleIssue(issueManager, project.getId(),
-                          status,
+                          workflowStatus,
                           issueType.getId(), prio.getId(), "service",
                           dev, jm.getUsername());
     }
 
     private void createSampleIssue(IssueManager issueManager,
                                    Long projectId,
-                                   Status status,
+                                   WorkflowStatus workflowStatus,
                                    Long issueTypeId,
                                    Long prioId,
                                    String componentName,
@@ -165,7 +165,7 @@ public class Setup extends AbstractBatch {
         issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu k\u00F6nnen ben\u00F6tigen wir die M\u00F6glichkeit, einen Blick in den Index (in die f\u00FCr eine Kampagne erstellten Suchw\u00F6rter) zu werfen." +
                              "<br>" +
                              "Dabei haben wir im wesentlich zwei Anforderungen:.");
-        issue.setStatus(status);
+        issue.setWorkflowStatus(workflowStatus);
         issueManager.create(issue,
                             projectId,
                             issueTypeId,

@@ -15,22 +15,21 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Represents a Label as in an Item can be assigned multiple Labels
- * allows for categorization of Items web 2.0 style
+ * Workflow Status entity
  */
 @Entity
-@Table(name = "status")
-public class Status extends ModelBase {
+@Table(name = "workflow_status")
+public class WorkflowStatus extends ModelBase {
     private static final long serialVersionUID = -394877377723475416L;
 
     String name;
     int value;
     String iconPath;
 
-    public Status() {
+    public WorkflowStatus() {
     }
 
-    public Status(String name, int value) {
+    public WorkflowStatus(String name, int value) {
         this.name = name;
         this.value = value;
     }
