@@ -15,6 +15,7 @@ import com.jmelzer.data.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.jvnet.mock_javamail.Mailbox;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -32,11 +33,15 @@ import static org.junit.Assert.assertTrue;
 )
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @Transactional
+@ActiveProfiles(profiles = "test")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RegistrationServiceTest {
 
     @Resource
     RegistrationService registrationService;
+
+    @Resource
+    UserService userService;
 
     @Resource
     ActivationCodeDao activationCodeDao;
@@ -58,6 +63,8 @@ public class RegistrationServiceTest {
 
     @Test
     public void testPw() throws Exception {
+
+        userService.createUser(EMAIL, "admin", "42", "admin");
 
         int sizeBefore = activationCodeDao.findAll().size();
 

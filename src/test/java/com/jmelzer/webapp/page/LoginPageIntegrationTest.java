@@ -5,10 +5,18 @@
 
 package com.jmelzer.webapp.page;
 
+import com.jmelzer.data.dao.DaoUtil;
+import com.jmelzer.data.dao.UserDao;
+import com.jmelzer.service.UserService;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
 
+import javax.annotation.Resource;
+
 public class LoginPageIntegrationTest extends AbstractPageIntegrationTest {
+
+    @Resource
+    UserService userService;
 
     @Test
     public void testInvalidLogin() {
@@ -36,6 +44,8 @@ public class LoginPageIntegrationTest extends AbstractPageIntegrationTest {
 
     @Test
     public void testValidLogin() {
+
+        userService.createUser("bla@bla.de", "admin", "42", "admin");
 
         //start and render the test page
         tester.startPage(LoginPage.class);

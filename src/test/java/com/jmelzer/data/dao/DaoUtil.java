@@ -17,7 +17,7 @@ public class DaoUtil {
         User user = new User();
         user.setLoginName(username);
         user.setName(username);
-        user.setPassword("blub");
+        user.setPassword("42");
         user.setEmail("bla@bla.de");
         user.setAvatar(new byte[] {0,1});
         userDao.save(user);

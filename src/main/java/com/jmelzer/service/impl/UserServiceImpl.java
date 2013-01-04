@@ -39,6 +39,9 @@ public class UserServiceImpl implements UserService {
         user.setEmail(email);
         user.setLoginName(userName);
         user.setName(name);
+        user.setLocked(false);
+        //todo read default
+        user.setAvatar(new byte[]{0});
         user.setPassword(encoder.encodePassword(pw, user.getLoginName()));
 
         userDao.save(user);

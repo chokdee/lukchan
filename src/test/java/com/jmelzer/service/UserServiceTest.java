@@ -14,6 +14,7 @@ import com.jmelzer.data.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -30,6 +31,7 @@ import static junit.framework.Assert.fail;
 )
 @RunWith(SpringJUnit4ClassRunner.class)
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@ActiveProfiles(profiles = "test")
 @Transactional
 public class UserServiceTest {
     @Resource
