@@ -98,7 +98,7 @@ html{
 	font-family: 'Cabin', sans-serif;
 	text-align: center;
 	overflow-x: hidden;
-	background-image:url(/wreckcontrol/images/bg.png);
+	/*background-image:url(/wreckcontrol/images/bg.png);*/
 	background-attachment: fixed;
 }
 
