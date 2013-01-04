@@ -18,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Locale;
+
 /** Simple test using the WicketTester */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:spring-web.xml", "classpath:spring.xml", "classpath:security.xml"})
@@ -37,6 +39,7 @@ public abstract class AbstractPageIntegrationTest {
     @Before
     public void onSetUp() throws Exception {
         if (tester == null) {
+            Locale.setDefault(Locale.GERMAN);
             tester = new WicketTester(myWebApplication);
             myWebApplication.setApplicationContext(ctx);
         }
