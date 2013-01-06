@@ -41,7 +41,9 @@ public class TemplateBorder extends Border {
             link = new ExternalLink("loginlogout", "j_spring_security_logout" );
             link.add(new Label("loginlogoutLabel", "Logout"));
         }
+
         addToBorder(link);
+        System.out.println("btngetPageRelativePath() = " + link.getPageRelativePath());
 
 //        add(new Label("feedback"));
     }

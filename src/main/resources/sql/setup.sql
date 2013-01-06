@@ -1,4 +1,7 @@
 
+drop database wreckcontrol;
+create database wreckcontrol;
+
 GRANT USAGE ON *.* TO wreckcontrol IDENTIFIED BY '42' REQUIRE NONE;
 create database wreckcontrol;
 GRANT Select  ON wreckcontrol.* TO wreckcontrol;

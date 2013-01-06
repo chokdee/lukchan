@@ -11,14 +11,19 @@
 package com.jmelzer.service.impl;
 
 import com.jmelzer.data.dao.UserDao;
+import com.jmelzer.data.dao.UserRoleDao;
 import com.jmelzer.data.model.User;
+import com.jmelzer.data.model.UserRole;
+import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.UserService;
+import com.jmelzer.service.batch.Setup;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,6 +31,8 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     UserDao userDao;
+    @Resource
+    UserRoleDao userRoleDao;
 
     @Override
     @Transactional
@@ -40,8 +47,17 @@ public class UserServiceImpl implements UserService {
         user.setLoginName(userName);
         user.setName(name);
         user.setLocked(false);
-        //todo read default
-        user.setAvatar(new byte[]{0});
+        //every user have at least the role user
+        UserRole userRoleUser = new UserRole(UserRole.Roles.ROLE_USER.toString());
+        userRoleDao.save(userRoleUser);
+        user.addRole(userRoleUser);
+
+        try {
+            byte[] b = StreamUtils.toByteArray(Setup.class.getResourceAsStream("user.png"));
+            user.setAvatar(b);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         user.setPassword(encoder.encodePassword(pw, user.getLoginName()));
 
         userDao.save(user);

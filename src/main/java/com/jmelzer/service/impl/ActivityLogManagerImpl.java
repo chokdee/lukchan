@@ -80,11 +80,13 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
 
             retList.add(activityLog);
             String activityAsString = activityLog.getActivityAsString();
-            String prop = activityAsString.substring(activityAsString.indexOf('{')+1,
-                                                     activityAsString.indexOf('}'));
-            String msgTranslated = context.getMessage(prop, null, Locale.getDefault());
-            String newStr = activityAsString.replace("{"+prop+"}", msgTranslated);
-            activityLog.setActivityAsString(newStr);
+            if (activityAsString.indexOf('{') > -1) {
+                String prop = activityAsString.substring(activityAsString.indexOf('{') + 1,
+                                                         activityAsString.indexOf('}'));
+                String msgTranslated = context.getMessage(prop, null, Locale.getDefault());
+                String newStr = activityAsString.replace("{" + prop + "}", msgTranslated);
+                activityLog.setActivityAsString(newStr);
+            }
             if (++n > 5) {
                 break;
             }

@@ -17,6 +17,8 @@ public class LoginPageIntegrationTest extends AbstractPageIntegrationTest {
 
     @Resource
     UserService userService;
+    @Resource
+    PageTestUtil pageTestUtil;
 
     @Test
     public void testInvalidLogin() {
@@ -45,24 +47,8 @@ public class LoginPageIntegrationTest extends AbstractPageIntegrationTest {
     @Test
     public void testValidLogin() {
 
-        userService.createUser("bla@bla.de", "admin", "42", "admin");
-
-        //start and render the test page
-        tester.startPage(LoginPage.class);
-
-        FormTester form = tester.newFormTester("border:border_body:loginForm");
-        // set the parameters for each component in the form
-        // notice that the name is relative to the form - so it's 'username', not 'form:username' as in assertComponent
-        form.setValue("userId", "admin");
-        // unset value is empty string (wicket binds this to null, so careful if your setter does not expect nulls)
-        form.setValue("password", "42");
-
-        form.submit();
-
-
-        //assert rendered page class
-        tester.assertRenderedPage(HomePage.class);
-
+        pageTestUtil.login(tester);
+        tester.assertLabel("border:loginlogout:loginlogoutLabel", "Logout");
 
     }
 }

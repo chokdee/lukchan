@@ -53,6 +53,7 @@ public class ShowIssuePage extends MainPage {
 
     String currentName;
     CommentModalWindow modalWindow;
+    ModalWindow uploadModalWindow;
     Issue issue;
     private ListView<Comment> listView;
     WebMarkupContainer commentPanel;
@@ -108,8 +109,7 @@ public class ShowIssuePage extends MainPage {
         add(desc);
 
         add(new Label("commentlabel", new StringResourceModel("comments", new Model(""))));
-
-
+        
         //comments
         listView = new ListView<Comment>("comments", issue.getCommentsAsList()) {
 
@@ -141,7 +141,7 @@ public class ShowIssuePage extends MainPage {
         add(commentPanel);
         commentPanel.add(listView);
 
-//        createUploadPage();
+        createUploadPage();
         createCommentPage();
 
         confirmDeleteCommentDialog = new CommentMessageDialog();
@@ -190,9 +190,19 @@ public class ShowIssuePage extends MainPage {
             }
 
         });
+
+        ajaxForm.add(new AjaxButton("upload") {
+
+            private static final long serialVersionUID = -6234179541878118285L;
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                uploadModalWindow.show(target);
+            }
+
+        });
         //todo make it better
         MetaDataRoleAuthorizationStrategy.authorize(ajaxForm, RENDER, "ROLE_USER,ROLE_ADMIN,ROLE_DEVELOPER");
-
     }
 
     private void createCommentButtons(ListItem<Comment> item) {
@@ -236,27 +246,27 @@ public class ShowIssuePage extends MainPage {
     }
 
     private void createUploadPage() {
-        final ModalWindow modal1;
-        add(modal1 = new ModalWindow("modal1"));
+        add(uploadModalWindow = new ModalWindow("modalUpload"));
+        System.out.println("modal1.getPageRelativePath() = " + uploadModalWindow.getPageRelativePath());
 
 //        modal1.setPageMapName("modal-1");
-        modal1.setCookieName("modal-1");
+        uploadModalWindow.setCookieName("modal-1");
 
-        modal1.setPageCreator(new ModalWindow.PageCreator() {
+        uploadModalWindow.setPageCreator(new ModalWindow.PageCreator() {
             private static final long serialVersionUID = -8304783732807067434L;
 
             public Page createPage() {
-                return new UploadPage(ShowIssuePage.this, modal1);
+                return new UploadPage(ShowIssuePage.this, uploadModalWindow);
             }
         });
-        modal1.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+        uploadModalWindow.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
             private static final long serialVersionUID = 7005964314882175967L;
 
             public void onClose(AjaxRequestTarget target) {
 //                target.addComponent(result);
             }
         });
-        modal1.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
+        uploadModalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
             private static final long serialVersionUID = -7300960030846812464L;
 
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
@@ -264,17 +274,17 @@ public class ShowIssuePage extends MainPage {
                 return true;
             }
         });
-        Form ajaxForm = new Form("ajaxform");
-        add(ajaxForm);
-        ajaxForm.add(new AjaxButton("upload") {
-            private static final long serialVersionUID = 3307386729657199285L;
-
-            @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                modal1.show(target);
-            }
-
-        });
+//        Form ajaxForm = new Form("ajaxform");
+//        add(ajaxForm);
+//        ajaxForm.add(new AjaxButton("upload") {
+//            private static final long serialVersionUID = 3307386729657199285L;
+//
+//            @Override
+//            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+//                modal1.show(target);
+//            }
+//
+//        });
 
     }
 

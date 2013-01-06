@@ -8,11 +8,18 @@ package com.jmelzer.webapp.page;
 import com.jmelzer.data.model.*;
 import com.jmelzer.service.*;
 import com.jmelzer.webapp.utils.PageParametersUtil;
+import org.apache.wicket.*;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.Resource;
 import java.util.Date;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
 
@@ -28,6 +35,8 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
     WorkflowStatusManager workflowStatusManager;
     @Resource
     UserService userManager;
+    @Resource
+    PageTestUtil pageTestUtil;
 
     @Test
     public void testRedirect() {
@@ -86,5 +95,33 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
                             null,
                             user.getLoginName());
         return issue;
+    }
+    @Test
+    public void testUpload() {
+        SecurityContextHolder.clearContext();
+
+        Issue issue = createIssue();
+
+        //start and render the test page
+        tester.startPage(ShowIssuePage.class, PageParametersUtil.createWithOneParam(issue.getPublicId()));
+
+        tester.assertRenderedPage(ShowIssuePage.class);
+
+        //no upload button shall be visible, cause of security reasons
+        tester.assertInvisible("border:border_body:modalForm1:upload");
+
+        pageTestUtil.login(tester);
+        tester.assertLabel("border:loginlogout:loginlogoutLabel", "Logout");
+        tester.startPage(ShowIssuePage.class, PageParametersUtil.createWithOneParam(issue.getPublicId()));
+        tester.assertLabel("border:loginlogout:loginlogoutLabel", "Logout");
+        tester.assertVisible("border:border_body:modalForm1:upload");
+        tester.assertComponent("border:border_body:modalForm1:upload", AjaxButton.class);
+
+        //security prepared for upload
+        org.apache.wicket.Component modalWindow = tester.getComponentFromLastRenderedPage("border:border_body:modalUpload");
+        assertFalse(((ModalWindow) modalWindow).isShown());
+        tester.executeAjaxEvent("border:border_body:modalForm1:upload", "onclick");
+        modalWindow = tester.getComponentFromLastRenderedPage("border:border_body:modalUpload");
+        assertTrue(((ModalWindow) modalWindow).isShown());
     }
 }
