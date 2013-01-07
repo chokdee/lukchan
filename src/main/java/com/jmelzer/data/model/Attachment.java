@@ -33,8 +33,8 @@ public class Attachment implements Serializable {
     Long id;
 
     private Attachment previous;
-    private long filePrefix;
     private String fileName;
+    private String previewFileName;
 
     private static Map<String, String> types = new HashMap<String, String>();
 
@@ -64,21 +64,20 @@ public class Attachment implements Serializable {
         this.previous = previous;
     }
 
-    @Column(name = "file_prefix")
-    public long getFilePrefix() {
-        return filePrefix;
-    }
-
-    public void setFilePrefix(long filePrefix) {
-        this.filePrefix = filePrefix;
-    }
-
-    @Column(name = "file_name")
+    @Column(name = "file_name", nullable = false)
     public String getFileName() {
         return fileName;
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+    @Column(name = "preview_file_name", nullable = true)
+    public String getPreviewFileName() {
+        return previewFileName;
+    }
+
+    public void setPreviewFileName(String previewFileName) {
+        this.previewFileName = previewFileName;
     }
 }

@@ -14,14 +14,12 @@ import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButton;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButtons;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogIcon;
 import com.googlecode.wicket.jquery.ui.widget.dialog.MessageDialog;
-import com.jmelzer.data.model.Attachment;
 import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.impl.ImageUtil;
 import com.jmelzer.webapp.ui.CommentModalWindow;
-import org.apache.solr.common.util.FileUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -265,7 +263,10 @@ public class ShowIssuePage extends MainPage {
             private static final long serialVersionUID = 7005964314882175967L;
 
             public void onClose(AjaxRequestTarget target) {
-//                target.addComponent(result);
+                readIssue();
+                listView.setModelObject(issue.getCommentsAsList());
+                target.add(commentPanel);
+
             }
         });
         uploadModalWindow.setCloseButtonCallback(new ModalWindow.CloseButtonCallback() {
@@ -273,6 +274,7 @@ public class ShowIssuePage extends MainPage {
 
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
 //                setResult("Modal window 1 - close button");
+
                 return true;
             }
         });
@@ -293,10 +295,7 @@ public class ShowIssuePage extends MainPage {
     }
 
     public void uploadCompleted(File newFile) {
-//        Attachment attachment = new Attachment();
-//        FileUtils.copyFile(newFile, );
-//        attachment.setFileName();
-        issueManager.addAttachment(issue, newFile);
+        issueManager.addAttachment(issue, newFile, getUsername());
     }
 
     class CommentMessageDialog extends MessageDialog {

@@ -25,5 +25,5 @@ public interface IssueManager {
 
     void deleteComment(Long commentId, String username);
 
-    void addAttachment(Issue issue, File file);
+    void addAttachment(Issue issue, File file, String username);
 }

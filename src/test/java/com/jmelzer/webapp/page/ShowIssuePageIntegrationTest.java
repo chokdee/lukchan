@@ -147,10 +147,13 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
         formTester.setFile("fileInput", new File("c:\\tmp\\1.txt"), MediaType.TEXT_PLAIN.toString());
         formTester.submit();
 
+        tester.executeAjaxEvent("html5Upload:ok", "onclick");
+
         //test business logic
         assertEquals("original file must be there", 1, FileUtils.listFiles(dir, new String[] {"txt"}, false).size());
         assertEquals("preview file must be there", 1, FileUtils.listFiles(dir, new String[] {"jpg"}, false).size());
 
-        //atachment must be show in the section attachments part
+        //attachment must be show in the section attachments part
+
     }
 }

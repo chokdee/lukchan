@@ -40,6 +40,7 @@ public class ActivityLog extends ModelBase implements Serializable {
         RESOLVE_ISSUE (4),
         CHANGE_COMMENT_ISSUE (5),
         DELETE_COMMENT_ISSUE (6),
+        ADD_ATTACHMENT_ISSUE (7),
         //todo add more actions here
         ;
 

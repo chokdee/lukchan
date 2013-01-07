@@ -122,7 +122,7 @@ public class IssueManagerImpl implements IssueManager {
 
     @Override
     @Transactional
-    public void addAttachment(Issue issue, File file) {
+    public void addAttachment(Issue issue, File file, String username) {
         Issue issueDb = issueDao.findOne(issue.getId());
         Attachment attachment = new Attachment();
         File dir = new File(attachmentPath);
@@ -147,10 +147,13 @@ public class IssueManagerImpl implements IssueManager {
             imageMagick.applyThumbnail(newFile.getAbsolutePath(),
                                        previewName,
                                        90, 90, 70);
+            attachment.setPreviewFileName(previewName);
         } catch (IOException e) {
             //todo: set default preview
             logger.error("", e);
         }
+        issueDao.save(issueDb);
+        activityLogManager.addActivity(username, issue, ActivityLog.Action.ADD_ATTACHMENT_ISSUE, null);
     }
 
     private String getPreviewName(File newFile) {
