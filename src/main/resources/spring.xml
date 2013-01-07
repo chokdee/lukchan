@@ -33,7 +33,9 @@
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
-
+    <bean id="attachment.path" class="java.lang.String">
+        <constructor-arg value="${attachment.path}"/>
+    </bean>
     <!-- enable the configuration of transactional behavior based on annotations -->
     <tx:annotation-driven transaction-manager="txManager"/>
 
@@ -76,6 +78,10 @@
         <property name="persistenceUnitName" value="base" />
         <property name="packagesToScan" value="com.jmelzer.data.model"/>
 
+    </bean>
+    <bean id="imageMagick" class="com.jmelzer.data.util.ImageMagick">
+        <property name="magickHome" value="${image.magick.path}"/>
+        <property name="printArgs" value="true"/>
     </bean>
 
     <beans profile="test">

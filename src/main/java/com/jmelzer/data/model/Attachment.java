@@ -12,6 +12,8 @@ package com.jmelzer.data.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "attachment")
@@ -33,6 +35,15 @@ public class Attachment implements Serializable {
     private Attachment previous;
     private long filePrefix;
     private String fileName;
+
+    private static Map<String, String> types = new HashMap<String, String>();
+
+    static {
+        types.put("image/gif", ".gif");
+        types.put("image/jpeg", ".jpg");
+        types.put("image/png", ".png");
+        //todo add mime types here
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

@@ -12,25 +12,35 @@ package com.jmelzer.service.impl;
 
 import com.jmelzer.data.dao.*;
 import com.jmelzer.data.model.*;
+import com.jmelzer.data.util.ImageMagick;
 import com.jmelzer.service.ActivityLogManager;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.WorkflowManager;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 
 @Service("issueManager")
 public class IssueManagerImpl implements IssueManager {
     private static final long serialVersionUID = 747495665864600796L;
+    private static final Logger logger = LoggerFactory.getLogger(IssueManagerImpl.class);
 
     @Resource
     IssueDao issueDao;
     @Resource
     UserDao userDao;
-
     @Resource
     WorkflowManager workflowManager;
+    @Resource(name = "attachment.path")
+    String attachmentPath;
+    @Resource
+    ImageMagick imageMagick;
 
     @Resource
     ProjectDao  projectDao;
@@ -108,6 +118,44 @@ public class IssueManagerImpl implements IssueManager {
         activityLogManager.addActivity(username, issue,
                                        ActivityLog.Action.DELETE_COMMENT_ISSUE,
                                        "");
+    }
+
+    @Override
+    @Transactional
+    public void addAttachment(Issue issue, File file) {
+        Issue issueDb = issueDao.findOne(issue.getId());
+        Attachment attachment = new Attachment();
+        File dir = new File(attachmentPath);
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new RuntimeException("could not create directory " + attachmentPath);
+        }
+        File newFile = new File(attachmentPath, file.getName());
+        try {
+            FileUtils.copyFile(file, newFile);
+        } catch (IOException e) {
+            logger.error("copy file", e);
+            throw new RuntimeException(e);
+        }
+        attachment.setFileName(newFile.getAbsolutePath());
+        issueDb.addAttachment(attachment);
+
+        //todo generate preview files
+
+        String previewName = getPreviewName(newFile);
+        try {
+            //todo config sizes?
+            imageMagick.applyThumbnail(newFile.getAbsolutePath(),
+                                       previewName,
+                                       90, 90, 70);
+        } catch (IOException e) {
+            //todo: set default preview
+            logger.error("", e);
+        }
+    }
+
+    private String getPreviewName(File newFile) {
+        int n = newFile.getAbsolutePath().lastIndexOf(".");
+        return newFile.getAbsolutePath().substring(0, n) + "-preview.jpg";
     }
 
     private Component findComponent(Project project, String componentName) {

@@ -8,16 +8,22 @@ package com.jmelzer.webapp.page;
 import com.jmelzer.data.model.*;
 import com.jmelzer.service.*;
 import com.jmelzer.webapp.utils.PageParametersUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.wicket.*;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Date;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -37,6 +43,8 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
     UserService userManager;
     @Resource
     PageTestUtil pageTestUtil;
+    @Resource(name = "attachment.path")
+    String attachmentPath;
 
     @Test
     public void testRedirect() {
@@ -97,9 +105,13 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
         return issue;
     }
     @Test
-    public void testUpload() {
+    public void testUpload() throws IOException {
         SecurityContextHolder.clearContext();
 
+        java.io.File dir = new java.io.File(attachmentPath);
+        if (dir.exists()) {
+            FileUtils.cleanDirectory(dir);
+        }
         Issue issue = createIssue();
 
         //start and render the test page
@@ -123,5 +135,22 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
         tester.executeAjaxEvent("border:border_body:modalForm1:upload", "onclick");
         modalWindow = tester.getComponentFromLastRenderedPage("border:border_body:modalUpload");
         assertTrue(((ModalWindow) modalWindow).isShown());
+
+        //I was not able to get the form in the modal window, but Wicket can handle this....
+        ShowIssuePage showIssuePage = (ShowIssuePage) tester.getLastRenderedPage();
+
+        UploadPage uploadPage = new UploadPage(showIssuePage, (ModalWindow) modalWindow);
+        tester.startPage(uploadPage);
+        tester.assertRenderedPage(UploadPage.class);
+
+        FormTester formTester = tester.newFormTester("html5Upload");
+        formTester.setFile("fileInput", new File("c:\\tmp\\1.txt"), MediaType.TEXT_PLAIN.toString());
+        formTester.submit();
+
+        //test business logic
+        assertEquals("original file must be there", 1, FileUtils.listFiles(dir, new String[] {"txt"}, false).size());
+        assertEquals("preview file must be there", 1, FileUtils.listFiles(dir, new String[] {"jpg"}, false).size());
+
+        //atachment must be show in the section attachments part
     }
 }

@@ -43,7 +43,6 @@ public class TemplateBorder extends Border {
         }
 
         addToBorder(link);
-        System.out.println("btngetPageRelativePath() = " + link.getPageRelativePath());
 
 //        add(new Label("feedback"));
     }

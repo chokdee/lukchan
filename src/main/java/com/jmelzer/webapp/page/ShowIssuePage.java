@@ -14,12 +14,14 @@ import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButton;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButtons;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogIcon;
 import com.googlecode.wicket.jquery.ui.widget.dialog.MessageDialog;
+import com.jmelzer.data.model.Attachment;
 import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.impl.ImageUtil;
 import com.jmelzer.webapp.ui.CommentModalWindow;
+import org.apache.solr.common.util.FileUtils;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -43,6 +45,7 @@ import org.apache.wicket.request.resource.ContextRelativeResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.io.File;
 import java.util.Date;
 
 public class ShowIssuePage extends MainPage {
@@ -247,7 +250,6 @@ public class ShowIssuePage extends MainPage {
 
     private void createUploadPage() {
         add(uploadModalWindow = new ModalWindow("modalUpload"));
-        System.out.println("modal1.getPageRelativePath() = " + uploadModalWindow.getPageRelativePath());
 
 //        modal1.setPageMapName("modal-1");
         uploadModalWindow.setCookieName("modal-1");
@@ -274,18 +276,6 @@ public class ShowIssuePage extends MainPage {
                 return true;
             }
         });
-//        Form ajaxForm = new Form("ajaxform");
-//        add(ajaxForm);
-//        ajaxForm.add(new AjaxButton("upload") {
-//            private static final long serialVersionUID = 3307386729657199285L;
-//
-//            @Override
-//            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-//                modal1.show(target);
-//            }
-//
-//        });
-
     }
 
     public void addComment(String string) {
@@ -300,6 +290,13 @@ public class ShowIssuePage extends MainPage {
 
     public void modifyComment(Long id, String string) {
         issueManager.modifyComment(id, issue.getId(), string, getUsername());
+    }
+
+    public void uploadCompleted(File newFile) {
+//        Attachment attachment = new Attachment();
+//        FileUtils.copyFile(newFile, );
+//        attachment.setFileName();
+        issueManager.addAttachment(issue, newFile);
     }
 
     class CommentMessageDialog extends MessageDialog {

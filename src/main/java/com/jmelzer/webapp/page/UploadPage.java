@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.file.Folder;
 import org.apache.wicket.util.lang.Bytes;
 
@@ -28,10 +29,16 @@ public class UploadPage extends WebPage {
     private static final long serialVersionUID = 432735795419261813L;
 
     ShowIssuePage caller;
+    ModalWindow window;
 
     public UploadPage(ShowIssuePage page, final ModalWindow window) {
         this.caller = page;
+        this.window = window;
 
+        init();
+    }
+
+    public void init() {
         add(new AjaxLink("close") {
             private static final long serialVersionUID = 1L;
 
@@ -62,7 +69,6 @@ public class UploadPage extends WebPage {
 
             // Add one file input field
             add(fileUploadField = new FileUploadField("fileInput"));
-//            add(textEditor = new RichTextEditor<String>("textfield", new StringModel("")));
 
             //todo configure
             setMaxSize(Bytes.megabytes(100));
@@ -84,7 +90,7 @@ public class UploadPage extends WebPage {
                     upload.writeTo(newFile);
 
                     UploadPage.this.info("saved file: " + upload.getClientFileName());
-//                    caller.uploadCompleted(newFile);
+                    caller.uploadCompleted(newFile);
 
                 } catch (Exception e) {
                     throw new IllegalStateException("Unable to write file", e);
