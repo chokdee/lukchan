@@ -32,7 +32,7 @@ public class UiField extends ModelBase {
     Long fieldId;
     private Field wicketField;
 
-    @Column(name = "position", nullable = false, unique = true)
+    @Column(name = "pos", nullable = false, unique = true)
     public Integer getPosition() {
         return position;
     }

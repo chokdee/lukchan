@@ -8,8 +8,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="wicketApplication" class="com.jmelzer.webapp.WicketApplication">
+    <bean id="wicketApplication" class="com.jmelzer.webapp.WicketApplication" depends-on="easyDbSetup">
     </bean>
-
+    <bean id="easyDbSetup" class="com.jmelzer.service.impl.EasyDbSetup"/>
 
 </beans>

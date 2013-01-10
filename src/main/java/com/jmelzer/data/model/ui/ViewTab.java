@@ -27,6 +27,7 @@ public class ViewTab extends ModelBase {
 
     private List<UiField> fields = new ArrayList<UiField>();
 
+    @Column(name = "pos", unique = true)
     public int getPosition() {
         return position;
     }
