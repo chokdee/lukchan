@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <html xmlns:wicket="http://wicket.apache.org/">
 <wicket:panel>
-    <ul wicket:id="logs">
-        <div style="width: 100%; ">
-            <a wicket:id="userlink">
-                <img wicket:id="userimage" style="vertical-align:middle"/>
-                <span wicket:id="username"/>
-            </a>
-            <span wicket:id="logAction"/>
-            <a wicket:id="issueLink"><span wicket:id="issueLinkLabel"/> </a>
-            <br/>
 
-
-            <div class="comments_body">
-                <span wicket:id="logDetail"/>
-            </div>
-            <span style="margin-left: 30px" wicket:id="logDate"></span> ago
-        </div>
-    </ul>
+    <!--<table cellspacing="0" class="dataview">
+        <tr>
+            <th>Icon</th>
+            <th>Issuekey</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Home Phone</th>
+            <th>Cell Phone</th>
+        </tr>
+        <tr wicket:id="myissues">
+            <td><img wicket:id="issuetypeimage">[actions]</img></td>
+            <td><a wicket:id="issueLink"><span wicket:id="issueLinkLabel"/></a> </td>
+            <td><span wicket:id="priority">[firstname]</span></td>
+            <td>bla</td>
+            <td>bla</td>
+            <td>bla</td>
+        </tr>
+    </table>
+    <span wicket:id="navigator">[dataview navigator]</span>-->
+    <table class="dataview" cellspacing="0" wicket:id="table">[table]</table>
 </wicket:panel>
 </html>    

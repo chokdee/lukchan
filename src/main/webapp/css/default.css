@@ -607,3 +607,10 @@ form.aui .typename {
     background-color: #e0ffff;
     margin-top: 5px;
 }
+
+table.dataview {
+    border-bottom: 1px solid #0079D6;
+    font-family: arial;
+    font-size: 1em;
+    margin-bottom: 10px;
+}

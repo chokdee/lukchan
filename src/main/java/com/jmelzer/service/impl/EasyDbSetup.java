@@ -60,6 +60,7 @@ public class EasyDbSetup {
             }
         });
 
+        //validate the transaction
         template.execute(new TransactionCallback<Object>() {
             @Override
             public Object doInTransaction(TransactionStatus transactionStatus) {
@@ -180,10 +181,12 @@ public class EasyDbSetup {
             }
             Priority prio = createPriorities(priorityDao);
             createViews(viewDao);
-            createSampleIssue(issueManager, project.getId(),
-                    workflowStatus,
-                    issueType.getId(), prio.getId(), "service",
-                    dev, jm.getUsername());
+            for (int i = 0; i < 20; i++) {
+                createSampleIssue(issueManager, project.getId(),
+                                  workflowStatus,
+                                  issueType.getId(), prio.getId(), "service",
+                                  dev, jm.getUsername());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

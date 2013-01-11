@@ -50,12 +50,14 @@ public class HomePage extends MainPage {
         ActivityLogWidget logWidget = new ActivityLogWidget("1");
         logWidget.setActivityLogs(activityLogManager.getLatestActivities());
         dashboard.addWidget(logWidget);
-        MyIssuesWidget myIssuesWidget = new MyIssuesWidget("1");
-        myIssuesWidget.setIssues(issueManager.getAssignedIssues(getUsername()));
-        dashboard.addWidget(logWidget);
+        if (isLoggedIn()) {
+            MyIssuesWidget myIssuesWidget = new MyIssuesWidget("2");
+            myIssuesWidget.setIssues(issueManager.getAssignedIssues(getUsername()));
+            dashboard.addWidget(myIssuesWidget);
+        }
         add(new DashboardPanel("dashboard", new Model<Dashboard>(dashboard)));
 
-
+        //todo: if we have an individual dashboard it must be loaded here
     }
 
 }

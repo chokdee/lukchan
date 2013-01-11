@@ -45,8 +45,9 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
 
     @Override
     public List<Issue> getAssignedIssues(User user) {
-        //getEntityManager().createQuery("select i from Issue where i.user = ?");
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Query query = getEntityManager().createQuery("FROM Issue i where i.assignee.id = ?");
+        query.setParameter(1, user.getId());
+        return query.getResultList();
     }
 
 
