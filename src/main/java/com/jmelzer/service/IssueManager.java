@@ -12,6 +12,8 @@ package com.jmelzer.service;
 
 import com.jmelzer.data.model.Issue;
 
+import java.util.List;
+
 import java.io.File;
 
 public interface IssueManager {
@@ -24,6 +26,8 @@ public interface IssueManager {
     void modifyComment(Long commentId, Long issueId, String string, String username);
 
     void deleteComment(Long commentId, String username);
+
+    List<Issue> getAssignedIssues(String username);
 
     void addAttachment(Issue issue, File[] file, String username);
 }

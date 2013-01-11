@@ -17,6 +17,7 @@ import com.jmelzer.data.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
+import java.util.List;
 
 @Repository
 public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
@@ -40,6 +41,12 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
                                             commentId);
         issue.removeComment(commentId);
         return issue;
+    }
+
+    @Override
+    public List<Issue> getAssignedIssues(User user) {
+        //getEntityManager().createQuery("select i from Issue where i.user = ?");
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 

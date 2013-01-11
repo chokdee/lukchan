@@ -31,6 +31,7 @@ import ro.fortsoft.wicket.dashboard.Widget;
 import ro.fortsoft.wicket.dashboard.web.WidgetView;
 
 /**
+ * shows the activities from activity log.
  */
 public class ActivityLogWidgetView extends WidgetView {
 
@@ -50,7 +51,7 @@ public class ActivityLogWidgetView extends WidgetView {
             @Override
             protected void populateItem(ListItem<ActivityLog> item) {
                 ActivityLog activityLog = item.getModelObject();
-                Link link = new BookmarkablePageLink("userlink", HomePage.class, null);
+                Link<HomePage> link = new BookmarkablePageLink<HomePage>("userlink", HomePage.class, null);
                 link.add(new Label("username", activityLog.getUpdateAuthor().getUsername()));
                 BufferedDynamicImageResource resource = new BufferedDynamicImageResource();
                 resource.setImage(ImageUtil.calcImage(activityLog.getUpdateAuthor().getAvatar()));
@@ -69,7 +70,7 @@ public class ActivityLogWidgetView extends WidgetView {
 
                 PageParameters pageParameters = new PageParameters();
                 pageParameters.set(0, activityLog.getIssue().getPublicId());
-                Link issueLink = new BookmarkablePageLink("issueLink", ShowIssuePage.class, pageParameters);
+                Link<ShowIssuePage> issueLink = new BookmarkablePageLink<ShowIssuePage>("issueLink", ShowIssuePage.class, pageParameters);
                 issueLink.add(new Label("issueLinkLabel", activityLog.getIssue().getPublicId()));
                 item.add(issueLink);
 

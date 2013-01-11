@@ -13,6 +13,8 @@ package com.jmelzer.data.dao;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
 
+import java.util.List;
+
 public interface IssueDao extends AbstractDao<Issue> {
 
     Issue findIssueByShortName(String shortName);
@@ -21,4 +23,6 @@ public interface IssueDao extends AbstractDao<Issue> {
 
 
     Issue deleteComment(Long commentId);
+
+    List<Issue> getAssignedIssues(User user);
 }

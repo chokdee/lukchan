@@ -71,8 +71,7 @@ public class ShowIssuePage extends MainPage {
             getSession().error("Invalid ID");
             throw new RestartResponseException(HomePage.class);
         }
-        addDirectly(new Label("title", String.format("[%s] %s",
-                                                     issue.getPublicId(), issue.getSummary())));
+        addDirectly(new Label("title", String.format("[%s] %s", issue.getPublicId(), issue.getSummary())));
         add(new Label("projectname", issue.getProject().getName()));
         Link link = new BookmarkablePageLink("self2", ShowIssuePage.class, parameters);
         link.add(new Label("issuesummary", issue.getSummary()));
