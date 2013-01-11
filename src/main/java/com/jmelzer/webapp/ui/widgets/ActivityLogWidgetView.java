@@ -40,6 +40,7 @@ public class ActivityLogWidgetView extends WidgetView {
 		super(id, model);
 
 		ActivityLogWidget widget = (ActivityLogWidget) model.getObject();
+        widget.setTitle(getString("title"));
         //comments
         ListView listView = new ListView<ActivityLog>("logs", widget.getActivityLogs()) {
 
