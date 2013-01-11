@@ -12,6 +12,8 @@ package com.jmelzer.service;
 
 import com.jmelzer.data.model.Issue;
 
+import java.util.List;
+
 public interface IssueManager {
     void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName, String reporter);
 
@@ -22,4 +24,6 @@ public interface IssueManager {
     void modifyComment(Long commentId, Long issueId, String string, String username);
 
     void deleteComment(Long commentId, String username);
+
+    List<Issue> getAssignedIssues(String username);
 }

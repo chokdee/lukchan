@@ -13,6 +13,7 @@
 package com.jmelzer.webapp.ui.widgets;
 
 import com.jmelzer.data.model.ActivityLog;
+import com.jmelzer.data.model.Issue;
 import org.apache.wicket.model.Model;
 import ro.fortsoft.wicket.dashboard.AbstractWidget;
 import ro.fortsoft.wicket.dashboard.Widget;
@@ -23,12 +24,12 @@ import java.util.List;
 /**
  * show the activities from activity log
  */
-public class ActivityLogWidget extends AbstractWidget {
+public class MyIssuesWidget extends AbstractWidget {
 
     private static final long serialVersionUID = -8782525898781644014L;
-    private transient List<ActivityLog> activityLogs;
+    private transient List<Issue> issues;
 
-    public ActivityLogWidget(String id) {
+    public MyIssuesWidget(String id) {
         super();
 
         this.id = id;
@@ -36,14 +37,14 @@ public class ActivityLogWidget extends AbstractWidget {
     }
 
     public WidgetView createView(String viewId) {
-        return new ActivityLogWidgetView(viewId, new Model<Widget>(this));
+        return new MyIssuesWidgetView(viewId, new Model<Widget>(this));
     }
 
-    public List<ActivityLog> getActivityLogs() {
-        return activityLogs;
+    public List<Issue> getIssues() {
+        return issues;
     }
 
-    public void setActivityLogs(List<ActivityLog> activityLogs) {
-        this.activityLogs = activityLogs;
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
     }
 }

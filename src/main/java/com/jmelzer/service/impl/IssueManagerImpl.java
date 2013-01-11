@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("issueManager")
 public class IssueManagerImpl implements IssueManager {
@@ -108,6 +109,16 @@ public class IssueManagerImpl implements IssueManager {
         activityLogManager.addActivity(username, issue,
                                        ActivityLog.Action.DELETE_COMMENT_ISSUE,
                                        "");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Issue> getAssignedIssues(String username) {
+        User user = userDao.findByUserName(username);
+        if (user == null) {
+            throw new IllegalArgumentException(username + " doesn't exists");
+        }
+        return issueDao.getAssignedIssues(user);
     }
 
     private Component findComponent(Project project, String componentName) {

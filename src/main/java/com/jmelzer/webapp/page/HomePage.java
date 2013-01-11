@@ -7,7 +7,9 @@ package com.jmelzer.webapp.page;
 
 
 import com.jmelzer.service.ActivityLogManager;
+import com.jmelzer.service.IssueManager;
 import com.jmelzer.webapp.ui.widgets.ActivityLogWidget;
+import com.jmelzer.webapp.ui.widgets.MyIssuesWidget;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -25,6 +27,8 @@ public class HomePage extends MainPage {
     Dashboard dashboard;
     @SpringBean(name = "activityLogManager")
     ActivityLogManager activityLogManager;
+    @SpringBean(name = "issueManager")
+    IssueManager issueManager;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -45,6 +49,9 @@ public class HomePage extends MainPage {
 
         ActivityLogWidget logWidget = new ActivityLogWidget("1");
         logWidget.setActivityLogs(activityLogManager.getLatestActivities());
+        dashboard.addWidget(logWidget);
+        MyIssuesWidget myIssuesWidget = new MyIssuesWidget("1");
+        myIssuesWidget.setIssues(issueManager.getAssignedIssues(getUsername()));
         dashboard.addWidget(logWidget);
         add(new DashboardPanel("dashboard", new Model<Dashboard>(dashboard)));
 
