@@ -294,7 +294,7 @@ public class ShowIssuePage extends MainPage {
         issueManager.modifyComment(id, issue.getId(), string, getUsername());
     }
 
-    public void uploadCompleted(File newFile) {
+    public void uploadCompleted(File[] newFile) {
         issueManager.addAttachment(issue, newFile, getUsername());
     }
 

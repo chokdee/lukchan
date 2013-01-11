@@ -105,8 +105,7 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
     }
 
     public Folder getUploadFolder() {
-        //todo inject
-        return new Folder("c:\\tmp\\wreckcontrol");
+        return new Folder((String) ctx.getBean("attachment.path"));
     }
 
     public TinyMCESettings getTinyMCESettings() {
@@ -116,9 +115,9 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
         }
         return tinyMCESettings;
     }
+
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.ctx = applicationContext;
     }
-
 
 }

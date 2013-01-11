@@ -43,7 +43,7 @@ public class IssueManagerImpl implements IssueManager {
     ImageMagick imageMagick;
 
     @Resource
-    ProjectDao  projectDao;
+    ProjectDao projectDao;
     @Resource
     IssueTypeDao issueTypeDao;
     @Resource
@@ -122,35 +122,37 @@ public class IssueManagerImpl implements IssueManager {
 
     @Override
     @Transactional
-    public void addAttachment(Issue issue, File file, String username) {
+    public void addAttachment(Issue issue, File[] files, String username) {
         Issue issueDb = issueDao.findOne(issue.getId());
         Attachment attachment = new Attachment();
         File dir = new File(attachmentPath);
         if (!dir.exists() && !dir.mkdirs()) {
             throw new RuntimeException("could not create directory " + attachmentPath);
         }
-        File newFile = new File(attachmentPath, file.getName());
-        try {
-            FileUtils.copyFile(file, newFile);
-        } catch (IOException e) {
-            logger.error("copy file", e);
-            throw new RuntimeException(e);
-        }
-        attachment.setFileName(newFile.getAbsolutePath());
-        issueDb.addAttachment(attachment);
+        for (File file : files) {
+            File newFile = new File(attachmentPath, file.getName());
+            try {
+                FileUtils.copyFile(file, newFile);
+            } catch (IOException e) {
+                logger.error("copy file", e);
+                throw new RuntimeException(e);
+            }
+            attachment.setFileName(newFile.getAbsolutePath());
+            issueDb.addAttachment(attachment);
 
-        //todo generate preview files
+            //todo generate preview files
 
-        String previewName = getPreviewName(newFile);
-        try {
-            //todo config sizes?
-            imageMagick.applyThumbnail(newFile.getAbsolutePath(),
-                                       previewName,
-                                       90, 90, 70);
-            attachment.setPreviewFileName(previewName);
-        } catch (IOException e) {
-            //todo: set default preview
-            logger.error("", e);
+            String previewName = getPreviewName(newFile);
+            try {
+                //todo config sizes?
+                imageMagick.applyThumbnail(newFile.getAbsolutePath(),
+                                           previewName,
+                                           90, 90, 70);
+                attachment.setPreviewFileName(previewName);
+            } catch (IOException e) {
+                //todo: set default preview
+                logger.error("", e);
+            }
         }
         issueDao.save(issueDb);
         activityLogManager.addActivity(username, issue, ActivityLog.Action.ADD_ATTACHMENT_ISSUE, null);

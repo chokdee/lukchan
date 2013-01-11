@@ -19,6 +19,16 @@
     </fieldset>
 </form>
 
+<div>
+    <h4>Current files in <span wicket:id="dir">(dir)</span>:</h4>
+    <table>
+        <tr wicket:id="fileList">
+            <td width="200"><span wicket:id="file">(file)</span></td>
+            <td width="200"><img wicket:id="previewimage">preview</img></td>
+            <td><a href="#" wicket:id="delete"><img src="delete.gif" border="0"/></a></td>
+        </tr>
+    </table>
+</div>
 <p>
     <a wicket:id="close">Fertig</a><br/>
 </body>
