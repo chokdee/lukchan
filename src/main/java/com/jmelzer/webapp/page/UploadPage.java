@@ -172,11 +172,17 @@ public class UploadPage extends WebPage {
 
                 @Override
                 protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                    caller.uploadCompleted(getUploadFolder().listFiles());
+                    caller.uploadCompleted(getUploadFolder().listFiles(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String name) {
+                            return !name.contains("preview");
+                        }
+                    }));
                     window.close(target);
                 }
             };
             add(submitButton);
+            getUploadFolder().delete();
         }
 
         /** @see org.apache.wicket.markup.html.form.Form#onSubmit() */

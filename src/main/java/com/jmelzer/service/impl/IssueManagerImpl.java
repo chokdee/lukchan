@@ -135,25 +135,28 @@ public class IssueManagerImpl implements IssueManager {
     @Transactional
     public void addAttachment(Issue issue, File[] files, String username) {
         Issue issueDb = issueDao.findOne(issue.getId());
-        Attachment attachment = new Attachment();
+
         File dir = new File(attachmentPath);
         if (!dir.exists() && !dir.mkdirs()) {
             throw new RuntimeException("could not create directory " + attachmentPath);
         }
+
         for (File file : files) {
+            Attachment attachment = new Attachment();
+            issueDb.addAttachment(attachment);
+            attachment.setFileName("dummy.jpg");
+            issueDao.save(issueDb);
+
             File newFile = new File(attachmentPath, file.getName());
+            attachment.setFileName(newFile.getAbsolutePath());
+            newFile = new File(dir, attachment.getFileName());
             try {
                 FileUtils.copyFile(file, newFile);
             } catch (IOException e) {
                 logger.error("copy file", e);
                 throw new RuntimeException(e);
             }
-            attachment.setFileName(newFile.getAbsolutePath());
-            issueDb.addAttachment(attachment);
-
-            //todo generate preview files
-
-            String previewName = getPreviewName(newFile);
+            String previewName = new File(dir, getPreviewName(attachment, newFile)).getAbsolutePath();
             try {
                 //todo config sizes?
                 imageMagick.applyThumbnail(newFile.getAbsolutePath(),
@@ -164,14 +167,14 @@ public class IssueManagerImpl implements IssueManager {
                 //todo: set default preview
                 logger.error("", e);
             }
+            issueDao.save(issueDb);
         }
-        issueDao.save(issueDb);
         activityLogManager.addActivity(username, issue, ActivityLog.Action.ADD_ATTACHMENT_ISSUE, null);
     }
 
-    private String getPreviewName(File newFile) {
-        int n = newFile.getAbsolutePath().lastIndexOf(".");
-        return newFile.getAbsolutePath().substring(0, n) + "-preview.jpg";
+    private String getPreviewName(Attachment attachment, File newFile) {
+//        int n = newFile.getAbsolutePath().lastIndexOf(".");
+        return attachment.getId() + "-preview.jpg";
     }
 
     private Component findComponent(Project project, String componentName) {

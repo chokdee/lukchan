@@ -35,6 +35,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.resource.BufferedDynamicImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -162,9 +163,11 @@ public class ShowIssuePage extends MainPage {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                //todo open the attachment
+                ExternalLink imageLink =new ExternalLink("imagelink", "http://localhost:8080/attachments/" + new File(attachment.getFileName()).getName());
                 Image image = new Image("previewimage", resource);
-                item.add(image);
+                item.add(imageLink);
+                imageLink.add(image);
 
             }
         };

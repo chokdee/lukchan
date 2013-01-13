@@ -70,7 +70,7 @@ public class Attachment implements Serializable {
     }
 
     public void setFileName(String fileName) {
-        this.fileName = fileName;
+        this.fileName = id + fileName.substring(fileName.lastIndexOf("."));
     }
     @Column(name = "preview_file_name", nullable = true)
     public String getPreviewFileName() {
