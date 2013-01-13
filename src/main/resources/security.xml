@@ -51,18 +51,13 @@
     </bean>
     <bean id="rememberMeFilter" class=
             "org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter" scope="singleton">
-        <!--<constructor-arg index="0" ref="authenticationManager"/>-->
-        <!--<constructor-arg index="1" ref="rememberMeServices"/>-->
-        <property name="authenticationSuccessHandler" ref="myAuthenticationSuccessHandler"/>
-        <property name="rememberMeServices" ref="rememberMeServices"/>
-        <property name="authenticationManager" ref="authenticationManager" />
+        <constructor-arg index="0" ref="authenticationManager"/>
+        <constructor-arg index="1" ref="rememberMeServices"/>
     </bean>
 
     <bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
         <constructor-arg index="0" value="springRocks"/>
         <constructor-arg index="1" ref="userDetailsService"/>
-        <!--<property name="userDetailsService" ref="userDetailsService"/>-->
-        <!--<property name="key" value="springRocks"/>-->
 
     </bean>
 
