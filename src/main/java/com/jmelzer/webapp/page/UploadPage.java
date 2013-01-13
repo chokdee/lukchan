@@ -73,7 +73,7 @@ public class UploadPage extends WebPage {
         @Override
         protected void populateItem(ListItem<File> listItem) {
             final File file = listItem.getModelObject();
-            listItem.add(new Label("file", file.getName()));
+//            listItem.add(new Label("file", file.getName()));
             BufferedDynamicImageResource resource = new BufferedDynamicImageResource();
             try {
                 resource.setImage(ImageIO.read(new ByteArrayInputStream(StreamUtils.loadFile(file))));
@@ -112,19 +112,21 @@ public class UploadPage extends WebPage {
 
     public void init() {
 
-        add(new AjaxLink("close") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void onClick(AjaxRequestTarget target) {
-                window.close(target);
-            }
-        });
+//        add(new AjaxLink("close") {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            public void onClick(AjaxRequestTarget target) {
+//                window.close(target);
+//            }
+//        });
         final FileUploadForm html5UploadForm = new FileUploadForm("html5Upload");
         add(html5UploadForm);
+        html5UploadForm.add(new Label("label_entry1", getString("label.entry1")));
+        html5UploadForm.add(new Label("label_entry2", getString("label.entry2")));
 
         // Add folder view
-        add(new Label("dir", getString("uploaded.attachments")));
+        add(new Label("current_file", getString("uploaded.attachments")));
         fileListView = new FileListView("fileList", new LoadableDetachableModel<List<File>>() {
             private static final long serialVersionUID = -6496403057605422710L;
 

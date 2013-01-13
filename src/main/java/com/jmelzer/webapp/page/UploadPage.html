@@ -6,30 +6,34 @@
 <body>
 <form wicket:id="html5Upload">
     <fieldset>
-        <legend>Please upload your files....</legend>
+        <span wicket:id="label_entry1"></span>
+        <br>
+        <span wicket:id="label_entry2"></span>
         <p>
             <label>File</label>
             <input wicket:id="fileInput" type="file" />
             <!--<label>Comment</label>-->
             <!--<textarea style="width:350px; height: 100px" id="descriptionId" wicket:id="textfield" ></textarea>-->
         </p>
-        <input type="submit" value="Upload!"/>
-        <input type="submit" wicket:id="ok" wicket:message="value:okbutton"/>
+        <input type="submit" wicket:message="value:upload"/>
+        <br>
+        <input style="margin-top: 20px" type="submit" wicket:id="ok" wicket:message="value:okbutton"/>
 
     </fieldset>
 </form>
 
 <div>
-    <h4>Current files in <span wicket:id="dir">(dir)</span>:</h4>
+    <h4><span wicket:id="current_file">(dir)</span>:</h4>
     <table>
         <tr wicket:id="fileList">
-            <td width="200"><span wicket:id="file">(file)</span></td>
+            <!--<td width="200"><span wicket:id="file">(file)</span></td>-->
             <td width="200"><img wicket:id="previewimage">preview</img></td>
-            <td><a href="#" wicket:id="delete"><img src="delete.gif" border="0"/></a></td>
+            <td><a href="#" wicket:id="delete"><img src="images/delete.gif" border="0"/></a></td>
         </tr>
     </table>
 </div>
 <p>
-    <a wicket:id="close">Fertig</a><br/>
+
+    <!--<a wicket:id="close">Fertig</a><br/>-->
 </body>
 </html>

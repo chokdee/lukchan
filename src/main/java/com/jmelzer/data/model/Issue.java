@@ -82,6 +82,7 @@ public class Issue extends ModelBase implements Serializable {
     public void setAttachments(Set<Attachment> attachments) {
         this.attachments = attachments;
     }
+
     @OneToMany(cascade = {CascadeType.ALL})
     @OrderBy("creationDate")
     public Set<Comment> getComments() {
@@ -180,7 +181,7 @@ public class Issue extends ModelBase implements Serializable {
         this.assignee = assignee;
     }
 
-    @ManyToOne(targetEntity = User.class )
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "reporter_id", nullable = false)
     public User getReporter() {
         return reporter;
@@ -314,5 +315,9 @@ public class Issue extends ModelBase implements Serializable {
         if (c != null) {
             comments.remove(c);
         }
+    }
+    @Transient
+    public List<Attachment> getAttachmentsAsList() {
+        return new ArrayList<Attachment>(attachments);
     }
 }

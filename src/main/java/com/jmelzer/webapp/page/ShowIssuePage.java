@@ -14,9 +14,11 @@ import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButton;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogButtons;
 import com.googlecode.wicket.jquery.ui.widget.dialog.DialogIcon;
 import com.googlecode.wicket.jquery.ui.widget.dialog.MessageDialog;
+import com.jmelzer.data.model.Attachment;
 import com.jmelzer.data.model.Comment;
 import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.User;
+import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.impl.ImageUtil;
 import com.jmelzer.webapp.ui.CommentModalWindow;
@@ -43,7 +45,10 @@ import org.apache.wicket.request.resource.ContextRelativeResource;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 public class ShowIssuePage extends MainPage {
@@ -108,9 +113,9 @@ public class ShowIssuePage extends MainPage {
         desc.setEscapeModelStrings(false);
         add(desc);
 
-        add(new Label("commentlabel", new StringResourceModel("comments", new Model(""))));
-        
+
         //comments
+        add(new Label("commentlabel", new StringResourceModel("comments", new Model(""))));
         listView = new ListView<Comment>("comments", issue.getCommentsAsList()) {
 
             private static final long serialVersionUID = 551542895268094109L;
@@ -140,6 +145,36 @@ public class ShowIssuePage extends MainPage {
         commentPanel.setOutputMarkupId(true);
         add(commentPanel);
         commentPanel.add(listView);
+
+        //comments
+        add(new Label("attachmentlabel", new StringResourceModel("attachments", new Model(""))));
+        ListView listViewA = new ListView<Attachment>("attachments", issue.getAttachmentsAsList()) {
+
+            private static final long serialVersionUID = 340516713243040332L;
+
+            @Override
+            protected void populateItem(ListItem<Attachment> item) {
+                Attachment attachment = item.getModelObject();
+                final File file = new File(attachment.getPreviewFileName());
+                BufferedDynamicImageResource resource = new BufferedDynamicImageResource();
+                try {
+                    resource.setImage(ImageIO.read(new ByteArrayInputStream(StreamUtils.loadFile(file))));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                Image image = new Image("previewimage", resource);
+                item.add(image);
+
+            }
+        };
+
+        listViewA.setOutputMarkupId(true);
+        add(listViewA);
+        WebMarkupContainer attachmentPanel = new WebMarkupContainer("attachmentPanel");
+        attachmentPanel.setOutputMarkupId(true);
+        add(attachmentPanel);
+        attachmentPanel.add(listViewA);
 
         createUploadPage();
         createCommentPage();
@@ -299,6 +334,7 @@ public class ShowIssuePage extends MainPage {
 
     class CommentMessageDialog extends MessageDialog {
         Comment comment;
+
         CommentMessageDialog() {
             super("confirmdialog",
                   ShowIssuePage.this.getString("warning"),
