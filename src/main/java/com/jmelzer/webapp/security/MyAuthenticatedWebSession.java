@@ -87,6 +87,13 @@ public class MyAuthenticatedWebSession extends AuthenticatedWebSession {
     }
 
     private void getRolesIfSignedIn(Roles roles) {
+        //hack
+        if (!isSignedIn()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication!=null && !"anonymousUser".equals(authentication.getPrincipal())) {
+                signIn(true);
+            }
+        }
         if (isSignedIn()) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             addRolesFromAuthentication(roles, authentication);
@@ -98,5 +105,7 @@ public class MyAuthenticatedWebSession extends AuthenticatedWebSession {
             roles.add(authority.getAuthority());
         }
     }
-
+    public void loginWithRememberMe() {
+        signIn(true);
+    }
 }

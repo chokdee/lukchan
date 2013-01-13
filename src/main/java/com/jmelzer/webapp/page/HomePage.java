@@ -16,6 +16,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import ro.fortsoft.wicket.dashboard.Dashboard;
 import ro.fortsoft.wicket.dashboard.DefaultDashboard;
+import ro.fortsoft.wicket.dashboard.WidgetLocation;
 import ro.fortsoft.wicket.dashboard.web.DashboardPanel;
 
 
@@ -47,12 +48,14 @@ public class HomePage extends MainPage {
         add(new Label("welcome", welcome));
         dashboard = new DefaultDashboard("default", "Default");
 
-        ActivityLogWidget logWidget = new ActivityLogWidget("1");
+        ActivityLogWidget logWidget = new ActivityLogWidget("1", getString("activitylog.title"));
         logWidget.setActivityLogs(activityLogManager.getLatestActivities());
         dashboard.addWidget(logWidget);
+        dashboard.setColumnCount(2);
         if (isLoggedIn()) {
-            MyIssuesWidget myIssuesWidget = new MyIssuesWidget("2");
+            MyIssuesWidget myIssuesWidget = new MyIssuesWidget("2", getString("myissues.title"));
             myIssuesWidget.setIssues(issueManager.getAssignedIssues(getUsername()));
+            myIssuesWidget.setLocation(new WidgetLocation(1,0));
             dashboard.addWidget(myIssuesWidget);
         }
         add(new DashboardPanel("dashboard", new Model<Dashboard>(dashboard)));

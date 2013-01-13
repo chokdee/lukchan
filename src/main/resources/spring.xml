@@ -95,6 +95,9 @@
             <jd:script location="classpath:sql/setup.sql"/>
             <!--<jd:script location="classpath:test-data.sql"/>-->
         </jd:embedded-database>
+        <bean id="easyDbSetup" class="com.jmelzer.service.impl.EasyDbSetup">
+            <property name="load" value="true"/>
+        </bean>
     </beans>
 
     <beans profile="staging, default">
@@ -109,6 +112,9 @@
                     <entry key="autocommit" value="false"/>
                 </map>
             </property>
+        </bean>
+        <bean id="easyDbSetup" class="com.jmelzer.service.impl.EasyDbSetup">
+            <property name="load" value="false"/>
         </bean>
     </beans>
 </beans>

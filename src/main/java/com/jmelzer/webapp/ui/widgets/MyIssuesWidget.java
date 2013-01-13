@@ -14,6 +14,7 @@ package com.jmelzer.webapp.ui.widgets;
 
 import com.jmelzer.data.model.ActivityLog;
 import com.jmelzer.data.model.Issue;
+import org.apache.wicket.Localizer;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.ISortState;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.ISortableDataProvider;
 import org.apache.wicket.extensions.markup.html.repeater.util.SingleSortState;
@@ -38,11 +39,13 @@ public class MyIssuesWidget extends AbstractWidget implements ISortableDataProvi
     private transient List<Issue> issues;
     private final SingleSortState<String> state = new SingleSortState<String>();
 
-    public MyIssuesWidget(String id) {
+
+    public MyIssuesWidget(String id, String title) {
         super();
 
+
         this.id = id;
-        title = "";
+        this.title = title;
     }
 
     public WidgetView createView(String viewId) {
@@ -65,6 +68,7 @@ public class MyIssuesWidget extends AbstractWidget implements ISortableDataProvi
             if (n >= first && result.size() < count) {
                 result.add(issue);
             }
+            n++;
         }
         return result.iterator();
     }

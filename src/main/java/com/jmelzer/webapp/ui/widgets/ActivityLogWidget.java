@@ -28,11 +28,11 @@ public class ActivityLogWidget extends AbstractWidget {
     private static final long serialVersionUID = -8782525898781644014L;
     private transient List<ActivityLog> activityLogs;
 
-    public ActivityLogWidget(String id) {
+    public ActivityLogWidget(String id, String title) {
         super();
 
         this.id = id;
-        title = "";
+        this.title = title;
     }
 
     public WidgetView createView(String viewId) {

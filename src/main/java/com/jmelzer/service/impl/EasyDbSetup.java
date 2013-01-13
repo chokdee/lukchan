@@ -8,11 +8,11 @@ import com.jmelzer.data.model.ui.ViewTab;
 import com.jmelzer.data.uimodel.Field;
 import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.Assert;
@@ -24,6 +24,8 @@ import javax.annotation.Resource;
  *
  */
 public class EasyDbSetup {
+
+    protected static Logger logger = LoggerFactory.getLogger(EasyDbSetup.class);
 
     Md5PasswordEncoder encoder = new Md5PasswordEncoder();
     @Resource
@@ -47,8 +49,17 @@ public class EasyDbSetup {
     @Resource
     JpaTransactionManager transactionManager;
 
+    boolean load;
+
+    public void setLoad(boolean load) {
+        this.load = load;
+    }
+
     @PostConstruct
     public void init() {
+        if (!load) {
+            return;
+        }
         TransactionTemplate template = new TransactionTemplate(transactionManager);
         template.execute(new TransactionCallback<Object>() {
             @Override
@@ -71,6 +82,7 @@ public class EasyDbSetup {
         });
 
     }
+
     public void setup() {
         try {
 
@@ -85,22 +97,23 @@ public class EasyDbSetup {
 
             User dev;
             User jm;
+            User admin;
             {
-                User user = userDao.findByUserNameNonLocked("admin");
-                if (user == null) {
-                    user = new User();
+                admin = userDao.findByUserNameNonLocked("admin");
+                if (admin == null) {
+                    admin = new User();
                 }
 
-                user.setName("admin");
-                user.setPassword(encoder.encodePassword("42", "admin"));
-                user.setEmail("admin@wreckcontrol.net");
-                user.setLoginName("admin");
-                user.setLocked(false);
-                user.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("admin.png")));
-                user.addRole(userRoleAdmin);
-                userDao.save(user);
-                 user = userDao.findByUserNameNonLocked("admin");
-                Assert.isTrue(user != null);
+                admin.setName("admin");
+                admin.setPassword(encoder.encodePassword("42", "admin"));
+                admin.setEmail("admin@wreckcontrol.net");
+                admin.setLoginName("admin");
+                admin.setLocked(false);
+                admin.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("admin.png")));
+                admin.addRole(userRoleAdmin);
+                userDao.save(admin);
+                admin = userDao.findByUserNameNonLocked("admin");
+                Assert.isTrue(admin != null);
             }
             {
                 jm = userDao.findByUserNameNonLocked("jm");
@@ -130,11 +143,11 @@ public class EasyDbSetup {
                 dev.addRole(userRoleDev);
                 userDao.save(dev);
             }
-            WorkflowStatus workflowStatus;
+            WorkflowStatus workflowStatusOpen;
+            WorkflowStatus workflowStatusInProgress;
             {
-                workflowStatus = new WorkflowStatus("Open", 1);
-                statusDao.save(workflowStatus);
-                statusDao.save(new WorkflowStatus("In Progress", 2));
+                statusDao.save(workflowStatusOpen = new WorkflowStatus("Open", 1));
+                statusDao.save(workflowStatusInProgress = new WorkflowStatus("In Progress", 2));
                 statusDao.save(new WorkflowStatus("Resolved", 3));
                 statusDao.save(new WorkflowStatus("Reopened", 4));
                 statusDao.save(new WorkflowStatus("Closed", 5));
@@ -172,20 +185,28 @@ public class EasyDbSetup {
                 }
                 projectDao.save(project);
             }
-            IssueType issueType;
+            IssueType issueTypeBug;
+            IssueType issueTypeFeature;
             {
-                issueTypeDao.save(new IssueType("Bug", "images/bug.gif"));
-                issueType = new IssueType("Feature", "images/newfeature.gif");
-                issueTypeDao.save(issueType);
+                issueTypeDao.save(issueTypeBug = new IssueType("Bug", "images/bug.gif"));
+                issueTypeDao.save(issueTypeFeature = new IssueType("Feature", "images/newfeature.gif"));
                 issueTypeDao.save(new IssueType("Task", "images/task.gif"));
             }
             Priority prio = createPriorities(priorityDao);
             createViews(viewDao);
-            for (int i = 0; i < 20; i++) {
-                createSampleIssue(issueManager, project.getId(),
-                                  workflowStatus,
-                                  issueType.getId(), prio.getId(), "service",
-                                  dev, jm.getUsername());
+            for (int i = 0; i < 10; i++) {
+                logger.info("create issue # " + i);
+                if (i % 2 == 0) {
+                    createSampleIssue(issueManager, project.getId(),
+                                      workflowStatusOpen,
+                                      issueTypeBug.getId(), prio.getId(), "service",
+                                      dev, jm.getUsername());
+                } else {
+                    createSampleIssue(issueManager, project.getId(),
+                                      workflowStatusInProgress,
+                                      issueTypeFeature.getId(), prio.getId(), "service",
+                                      dev, admin.getUsername());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,28 +225,28 @@ public class EasyDbSetup {
         issue.setAssignee(assignee);
         issue.setSummary("this is an example test issue.");
         issue.setDescription("Um <bold>Suchwort</bold>-Analysen erstellen zu k\u00F6nnen ben\u00F6tigen wir die M\u00F6glichkeit, einen Blick in den Index (in die f\u00FCr eine Kampagne erstellten Suchw\u00F6rter) zu werfen." +
-                "<br>" +
-                "Dabei haben wir im wesentlich zwei Anforderungen:.");
+                             "<br>" +
+                             "Dabei haben wir im wesentlich zwei Anforderungen:.");
         issue.setWorkflowStatus(workflowStatus);
         issueManager.create(issue,
-                projectId,
-                issueTypeId,
-                prioId,
-                componentName,
-                reporter);
+                            projectId,
+                            issueTypeId,
+                            prioId,
+                            componentName,
+                            reporter);
 
         issueManager.addComment(issue.getPublicId(), "Das ist doch alles nix hier", "developer");
-        Thread.sleep(1000L);
+        Thread.sleep(100L);
         issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
-        Thread.sleep(1000L);
+        Thread.sleep(100L);
         issueManager.addComment(issue.getPublicId(), "Doch doch dat funktioniert doch alles", "admin");
-        Thread.sleep(1000L);
+        Thread.sleep(100L);
         issueManager.addComment(issue.getPublicId(), " <H2>Demonstrating a few HTML features</H2>\\n" +
-                "\n" +
-                "</CENTER>\n" +
-                "\n" +
-                "HTML is really a very simple language. It consists of ordinary text, with commands that are enclosed by \"<\" and \">\" characters, or bewteen an \"&\" and a \";\". <P>\n" +
-                " ", "developer");
+                                                     "\n" +
+                                                     "</CENTER>\n" +
+                                                     "\n" +
+                                                     "HTML is really a very simple language. It consists of ordinary text, with commands that are enclosed by \"<\" and \">\" characters, or bewteen an \"&\" and a \";\". <P>\n" +
+                                                     " ", "developer");
     }
 
     private Priority createPriorities(PriorityDao priorityDao) {
