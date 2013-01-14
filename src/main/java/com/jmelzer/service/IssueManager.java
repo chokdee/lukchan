@@ -30,4 +30,6 @@ public interface IssueManager {
     List<Issue> getAssignedIssues(String username);
 
     void addAttachment(Issue issue, File[] file, String username);
+
+    void deleteAttachment(Long attachmentId, String username);
 }

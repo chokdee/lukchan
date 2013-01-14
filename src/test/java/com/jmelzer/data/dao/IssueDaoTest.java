@@ -236,5 +236,23 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
 
 
         issueDao.deleteComment(comment.getId());
+        issueDb = issueDao.findOne(issue.getId());
+        assertFalse(issueDb.getComments().iterator().hasNext());
+    }
+    @Test
+    public void testAttachment() {
+        Issue issue = createIssue();
+        issue.addAttachment(new Attachment("bla.jpg"));
+        issueDao.save(issue);
+
+        Issue issueDb = issueDao.findOne(issue.getId());
+        Attachment attachment = issueDb.getAttachments().iterator().next();
+        assertEquals("bla.jpg", attachment.getFileName());
+
+
+        issueDao.deleteAttachment(attachment.getId());
+
+        issueDb = issueDao.findOne(issue.getId());
+        assertFalse(issueDb.getAttachments().iterator().hasNext());
     }
 }

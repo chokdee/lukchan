@@ -40,6 +40,7 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
         Issue issue = querySingleResult("select i from Issue i join i.comments c where c.id = ?",
                                             commentId);
         issue.removeComment(commentId);
+        save(issue);
         return issue;
     }
 
@@ -48,6 +49,15 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
         Query query = getEntityManager().createQuery("FROM Issue i where i.assignee.id = ?");
         query.setParameter(1, user.getId());
         return query.getResultList();
+    }
+
+    @Override
+    public Issue deleteAttachment(Long attachmentId) {
+        Issue issue = querySingleResult("select i from Issue i join i.attachments a where a.id = ?",
+                                        attachmentId);
+        issue.removeAttachment(attachmentId);
+        save(issue);
+        return issue;
     }
 
 

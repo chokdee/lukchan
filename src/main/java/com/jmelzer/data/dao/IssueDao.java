@@ -25,4 +25,6 @@ public interface IssueDao extends AbstractDao<Issue> {
     Issue deleteComment(Long commentId);
 
     List<Issue> getAssignedIssues(User user);
+
+    Issue deleteAttachment(Long attachmentId);
 }

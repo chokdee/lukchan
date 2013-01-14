@@ -172,6 +172,16 @@ public class IssueManagerImpl implements IssueManager {
         activityLogManager.addActivity(username, issue, ActivityLog.Action.ADD_ATTACHMENT_ISSUE, null);
     }
 
+    @Override
+    @Transactional
+    public void deleteAttachment(Long attachmentId, String username) {
+        Issue issue = issueDao.deleteAttachment(attachmentId);
+        activityLogManager.addActivity(username,
+                                       issue,
+                                       ActivityLog.Action.DELETE_COMMENT_ISSUE,
+                                       "");
+    }
+
     private String getPreviewName(Attachment attachment, File newFile) {
 //        int n = newFile.getAbsolutePath().lastIndexOf(".");
         return attachment.getId() + "-preview.jpg";

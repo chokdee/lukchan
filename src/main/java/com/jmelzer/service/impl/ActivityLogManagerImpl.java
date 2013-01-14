@@ -67,6 +67,9 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
             case ADD_ATTACHMENT_ISSUE:
                 activityAsString = "{action.add_attachment} <ISSUE>";
                 break;
+            case DELETE_ATTACHMENT_ISSUE:
+                activityAsString = "{action.delete_attachment} <ISSUE>";
+                break;
             default:
                 throw new RuntimeException("action must be defined here");
         }

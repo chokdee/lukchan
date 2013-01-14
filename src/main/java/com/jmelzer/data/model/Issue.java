@@ -321,4 +321,18 @@ public class Issue extends ModelBase implements Serializable {
     public List<Attachment> getAttachmentsAsList() {
         return new ArrayList<Attachment>(attachments);
     }
+
+    public void removeAttachment(Long attachmentId) {
+        Attachment a = null;
+        for (Attachment attachment : attachments) {
+            if (attachmentId.equals(attachment.getId())) {
+                a = attachment;
+                break;
+            }
+        }
+        if (a != null) {
+            attachments.remove(a);
+        }
+
+    }
 }

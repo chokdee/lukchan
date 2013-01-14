@@ -45,6 +45,13 @@ public class Attachment implements Serializable {
         //todo add mime types here
     }
 
+    public Attachment() {
+    }
+
+    public Attachment(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     public Long getId() {

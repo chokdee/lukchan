@@ -25,6 +25,7 @@ import com.jmelzer.webapp.ui.CommentModalWindow;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.authroles.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
@@ -66,6 +67,7 @@ public class ShowIssuePage extends MainPage {
     WebMarkupContainer commentPanel;
     WebMarkupContainer attachmentPanel;
     CommentMessageDialog confirmDeleteCommentDialog;
+    AttachmentMessageDialog confirmDeleteAttachmentDialog;
     ListView<Attachment> listViewAttachments;
 
     public ShowIssuePage(final PageParameters parameters) {
@@ -170,6 +172,8 @@ public class ShowIssuePage extends MainPage {
                 item.add(imageLink);
                 imageLink.add(image);
 
+                createAttachmentDeleteButton(item);
+
             }
         };
 
@@ -185,6 +189,32 @@ public class ShowIssuePage extends MainPage {
 
         confirmDeleteCommentDialog = new CommentMessageDialog();
         this.add(confirmDeleteCommentDialog);
+
+        confirmDeleteAttachmentDialog = new AttachmentMessageDialog();
+        add(confirmDeleteAttachmentDialog);
+
+    }
+
+    private void createAttachmentDeleteButton(ListItem<Attachment> item) {
+        final Attachment attachment = item.getModelObject();
+        Form ajaxForm = new Form("attachmentForm");
+        item.add(ajaxForm);
+
+        ajaxForm.add(new AjaxLink("deleteAttachment") {
+
+            private static final long serialVersionUID = -2474375508537483502L;
+
+            @Override
+            public void onClick(AjaxRequestTarget target) {
+                confirmDeleteAttachmentDialog.setAttachment(attachment);
+                confirmDeleteAttachmentDialog.open(target);
+            }
+
+            @Override
+            public boolean isVisible() {
+                return isLoggedIn() || isAdmin();
+            }
+        });
 
     }
 
@@ -358,6 +388,32 @@ public class ShowIssuePage extends MainPage {
                 readIssue();
                 listView.setModelObject(issue.getCommentsAsList());
                 target.add(commentPanel);
+            }
+        }
+    }
+
+    class AttachmentMessageDialog extends MessageDialog {
+        private static final long serialVersionUID = -7638255994097672788L;
+        Attachment attachment;
+
+        AttachmentMessageDialog() {
+            super("confirmdialog2",
+                  ShowIssuePage.this.getString("warning"),
+                  ShowIssuePage.this.getString("confirm.delete"),
+                  DialogButtons.YES_NO, DialogIcon.INFO);
+        }
+
+
+        public void setAttachment(Attachment attachment) {
+            this.attachment = attachment;
+        }
+
+        protected void onClose(AjaxRequestTarget target, DialogButton button) {
+            if (button != null && button.toString().equals(LBL_YES)) {
+                ShowIssuePage.this.issueManager.deleteAttachment(attachment.getId(), getUsername());
+                readIssue();
+                listViewAttachments.setModelObject(issue.getAttachmentsAsList());
+                target.add(attachmentPanel);
             }
         }
     }

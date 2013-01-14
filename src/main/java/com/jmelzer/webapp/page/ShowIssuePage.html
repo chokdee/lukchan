@@ -84,12 +84,20 @@
                             <hr class="issue-header-line"/>
                             <div wicket:id="attachmentPanel">
                                 <ul wicket:id="attachments">
-                                    <div style="width: 100%; ">
+                                    <div style="width: 100%; float: left;">
+                                        <div style="width: 100px; float: left;">
                                         <a wicket:id="imagelink" target="_blank">
                                             <img wicket:id="previewimage" style="vertical-align:middle"/>
                                         </a>
-
-
+                                        </div>
+                                        <div style="margin-top: 30px">
+                                        <form action="#" wicket:id="attachmentForm">
+                                            <a href="#" wicket:id="deleteAttachment">
+                                                <img src="images/delete.gif" border="0"/>
+                                            </a>
+                                            <!--<button class="ym-button" wicket:id="deleteAttachment">delete</button>-->
+                                        </form>
+                                        </div>
 
                                     </div>
                                 </ul>
@@ -157,6 +165,7 @@
     <div wicket:id="modalUpload"></div>
     <div wicket:id="modalComment"></div>
     <div wicket:id="confirmdialog">[dialog]</div>
+    <div wicket:id="confirmdialog2">[dialog]</div>
    </span>
 
 </body>
