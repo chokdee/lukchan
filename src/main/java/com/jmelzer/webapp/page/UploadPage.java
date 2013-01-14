@@ -112,18 +112,11 @@ public class UploadPage extends WebPage {
 
     public void init() {
 
-//        add(new AjaxLink("close") {
-//            private static final long serialVersionUID = 1L;
-//
-//            @Override
-//            public void onClick(AjaxRequestTarget target) {
-//                window.close(target);
-//            }
-//        });
         final FileUploadForm html5UploadForm = new FileUploadForm("html5Upload");
         add(html5UploadForm);
         html5UploadForm.add(new Label("label_entry1", getString("label.entry1")));
         html5UploadForm.add(new Label("label_entry2", getString("label.entry2")));
+        add(new Label("title", getString("title")));
 
         // Add folder view
         add(new Label("current_file", getString("uploaded.attachments")));

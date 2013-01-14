@@ -64,7 +64,9 @@ public class ShowIssuePage extends MainPage {
     Issue issue;
     private ListView<Comment> listView;
     WebMarkupContainer commentPanel;
+    WebMarkupContainer attachmentPanel;
     CommentMessageDialog confirmDeleteCommentDialog;
+    ListView<Attachment> listViewAttachments;
 
     public ShowIssuePage(final PageParameters parameters) {
         currentName = parameters.get(0).toString();
@@ -149,7 +151,7 @@ public class ShowIssuePage extends MainPage {
 
         //comments
         add(new Label("attachmentlabel", new StringResourceModel("attachments", new Model(""))));
-        ListView listViewA = new ListView<Attachment>("attachments", issue.getAttachmentsAsList()) {
+        listViewAttachments = new ListView<Attachment>("attachments", issue.getAttachmentsAsList()) {
 
             private static final long serialVersionUID = 340516713243040332L;
 
@@ -163,7 +165,6 @@ public class ShowIssuePage extends MainPage {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                //todo open the attachment
                 ExternalLink imageLink =new ExternalLink("imagelink", "http://localhost:8080/attachments/" + new File(attachment.getFileName()).getName());
                 Image image = new Image("previewimage", resource);
                 item.add(imageLink);
@@ -172,12 +173,12 @@ public class ShowIssuePage extends MainPage {
             }
         };
 
-        listViewA.setOutputMarkupId(true);
-        add(listViewA);
-        WebMarkupContainer attachmentPanel = new WebMarkupContainer("attachmentPanel");
+        listViewAttachments.setOutputMarkupId(true);
+        add(listViewAttachments);
+        attachmentPanel = new WebMarkupContainer("attachmentPanel");
         attachmentPanel.setOutputMarkupId(true);
         add(attachmentPanel);
-        attachmentPanel.add(listViewA);
+        attachmentPanel.add(listViewAttachments);
 
         createUploadPage();
         createCommentPage();
@@ -301,8 +302,8 @@ public class ShowIssuePage extends MainPage {
 
             public void onClose(AjaxRequestTarget target) {
                 readIssue();
-                listView.setModelObject(issue.getCommentsAsList());
-                target.add(commentPanel);
+                listViewAttachments.setModelObject(issue.getAttachmentsAsList());
+                target.add(attachmentPanel);
 
             }
         });
@@ -310,7 +311,6 @@ public class ShowIssuePage extends MainPage {
             private static final long serialVersionUID = -7300960030846812464L;
 
             public boolean onCloseButtonClicked(AjaxRequestTarget target) {
-//                setResult("Modal window 1 - close button");
 
                 return true;
             }
@@ -320,6 +320,7 @@ public class ShowIssuePage extends MainPage {
     public void addComment(String string) {
         Object o = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (o instanceof String) {
+            //todo i18n
             getSession().error("Login please");
             return;
         }

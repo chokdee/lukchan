@@ -53,7 +53,7 @@ public class CommentPage extends WebPage {
 
         final Form form = new Form("commentForm");
         add(form);
-        form.add(new Label("commentlabel", new StringResourceModel("commentlabel", new Model(""))));
+        add(new Label("commentlabel", new StringResourceModel("commentlabel", new Model(""))));
         textModel.setString(value);
         TextArea textArea = new TextArea("textfield", textModel);
         textArea.add(new TinyMceBehavior(((WicketApplication) Application.get()).getTinyMCESettings()));

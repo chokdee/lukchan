@@ -75,6 +75,7 @@ public class Issue extends ModelBase implements Serializable {
     }
 
     @OneToMany(cascade = {CascadeType.ALL})
+    @OrderBy("id")
     public Set<Attachment> getAttachments() {
         return attachments;
     }
