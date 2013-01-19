@@ -10,8 +10,7 @@
 
 package com.jmelzer.data.dao;
 
-import com.jmelzer.data.model.Issue;
-import com.jmelzer.data.model.User;
+import com.jmelzer.data.model.*;
 
 import java.util.List;
 
@@ -29,4 +28,6 @@ public interface IssueDao extends AbstractDao<Issue> {
     Issue deleteAttachment(Long attachmentId);
 
     List<Issue> customQuery(String query);
+
+    List<Issue> findIssues(Long project, Long workflowStatus, Long issueType);
 }

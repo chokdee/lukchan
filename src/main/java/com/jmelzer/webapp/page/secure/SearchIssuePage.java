@@ -61,6 +61,10 @@ public class SearchIssuePage extends MainPage {
     WorkflowStatusManager workflowStatusManager;
 
     WebMarkupContainer resultPanel;
+    private final Model selectedIssueType;
+    private final Model selectedProject;
+    private final Model selectedWfStatus;
+    private IssueListProvider issueListProvider;
 
     public SearchIssuePage(final PageParameters parameters) {
 
@@ -74,7 +78,7 @@ public class SearchIssuePage extends MainPage {
             list.add(new SelectOption(project.getId(), project.getName()));
         }
         DropDownChoice projectChoice = new DropDownChoice("projectList",
-                                                          new Model(""),
+                                                          selectedProject = new Model(""),
                                                           list,
                                                           new GenericChoiceRenderer());
         add(projectChoice);
@@ -88,7 +92,7 @@ public class SearchIssuePage extends MainPage {
             list.add(new SelectOption(issueType.getKeyForOption(), issueType.getValueForOption()));
         }
         final DropDownChoice issueTypeChoice = new DropDownChoice("issueTypeList",
-                                                                  new Model(""),
+                                                                  selectedIssueType = new Model(""),
                                                                   list,
                                                                   new GenericChoiceRenderer());
         add(issueTypeChoice);
@@ -102,7 +106,7 @@ public class SearchIssuePage extends MainPage {
             list.add(new SelectOption(workflowStatuse.getKeyForOption(), workflowStatuse.getValueForOption()));
         }
         final DropDownChoice wfStatusChoice = new DropDownChoice("statusList",
-                                                                 new Model(""),
+                                                                 selectedWfStatus = new Model(""),
                                                                  list,
                                                                  new GenericChoiceRenderer());
         add(wfStatusChoice);
@@ -116,6 +120,8 @@ public class SearchIssuePage extends MainPage {
         resultPanel = new WebMarkupContainer("resultPanel");
         resultPanel.setOutputMarkupId(true);
         add(resultPanel);
+
+        System.out.println("selectedIssueType = " + selectedIssueType);
 
         List<IColumn<Issue, String>> columns = new ArrayList<IColumn<Issue, String>>();
         List<Issue> issueList = issueManager.getAssignedIssues("developer");
@@ -147,7 +153,22 @@ public class SearchIssuePage extends MainPage {
         columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("summary")), "summary"));
 
         resultPanel.add(new AjaxFallbackDefaultDataTable<Issue, String>("result", columns,
-                                                                        new IssueListProvider(issueList), 20));
+                                                                        issueListProvider = new IssueListProvider(issueList), 20));
+    }
+
+    private void filterIssues() {
+
+        List<Issue> issueList = issueManager.findIssues(getKeyForOption(selectedProject),
+                                                        getKeyForOption(selectedWfStatus),
+                                                        getKeyForOption(selectedIssueType));
+        issueListProvider.setIssues(issueList);
+    }
+    private Long getKeyForOption(Model model) {
+        if (model.getObject() instanceof SelectOptionI) {
+            return ((SelectOptionI) model.getObject()).getKeyForOption();
+        } else {
+            return null;
+        }
     }
 
     class AjaxTriggerSearch extends AjaxFormComponentUpdatingBehavior {
@@ -157,10 +178,11 @@ public class SearchIssuePage extends MainPage {
         public AjaxTriggerSearch() {
             super(("onchange"));
         }
-
         @Override
         protected void onUpdate(AjaxRequestTarget target) {
+            filterIssues();
             target.add(resultPanel);
         }
-    };
+
+    }
 }

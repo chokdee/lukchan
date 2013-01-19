@@ -182,6 +182,12 @@ public class IssueManagerImpl implements IssueManager {
                                        "");
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType) {
+        return issueDao.findIssues(project, workflowStatus, issueType);
+    }
+
     private String getPreviewName(Attachment attachment, File newFile) {
 //        int n = newFile.getAbsolutePath().lastIndexOf(".");
         return attachment.getId() + "-preview.jpg";

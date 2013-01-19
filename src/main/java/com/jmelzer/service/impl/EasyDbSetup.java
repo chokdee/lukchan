@@ -152,38 +152,71 @@ public class EasyDbSetup {
                 statusDao.save(new WorkflowStatus("Reopened", 4));
                 statusDao.save(new WorkflowStatus("Closed", 5));
             }
-            Project project;
+            Project projectTst;
             {
                 //dummy project for testing
-                project = new Project();
-                project.setName("Test");
-                project.setShortName("TST");
-                Project projectDb = projectDao.findOneByExample(project);
+                projectTst = new Project();
+                projectTst.setName("Test");
+                projectTst.setShortName("TST");
+                Project projectDb = projectDao.findOneByExample(projectTst);
                 if (projectDb != null) {
-                    project = projectDb;
+                    projectTst = projectDb;
                 }
-                project.setLead(userDao.findByUserName("jm"));
-                projectDao.save(project);
+                projectTst.setLead(userDao.findByUserName("jm"));
+                projectDao.save(projectTst);
 
                 {
                     Component component = new Component("service");
-                    project.addComponent(component);
+                    projectTst.addComponent(component);
                 }
                 {
                     Component component = new Component("frontend");
-                    project.addComponent(component);
+                    projectTst.addComponent(component);
                 }
                 {
                     ProjectVersion projectVersion = new ProjectVersion();
                     projectVersion.setVersionNumber("0.9");
-                    project.addVersion(projectVersion);
+                    projectTst.addVersion(projectVersion);
                 }
                 {
                     ProjectVersion projectVersion = new ProjectVersion();
                     projectVersion.setVersionNumber("1.0");
-                    project.addVersion(projectVersion);
+                    projectTst.addVersion(projectVersion);
                 }
-                projectDao.save(project);
+                projectDao.save(projectTst);
+            }
+            Project projectDummy;
+            {
+                //dummy project for testing
+                projectDummy = new Project();
+                projectDummy.setName("Dummy");
+                projectDummy.setShortName("DUM");
+                Project projectDb = projectDao.findOneByExample(projectDummy);
+                if (projectDb != null) {
+                    projectDummy = projectDb;
+                }
+                projectDummy.setLead(userDao.findByUserName("developer"));
+                projectDao.save(projectDummy);
+
+                {
+                    Component component = new Component("service");
+                    projectDummy.addComponent(component);
+                }
+                {
+                    Component component = new Component("frontend");
+                    projectDummy.addComponent(component);
+                }
+                {
+                    ProjectVersion projectVersion = new ProjectVersion();
+                    projectVersion.setVersionNumber("0.9");
+                    projectDummy.addVersion(projectVersion);
+                }
+                {
+                    ProjectVersion projectVersion = new ProjectVersion();
+                    projectVersion.setVersionNumber("1.0");
+                    projectDummy.addVersion(projectVersion);
+                }
+                projectDao.save(projectDummy);
             }
             IssueType issueTypeBug;
             IssueType issueTypeFeature;
@@ -197,12 +230,26 @@ public class EasyDbSetup {
             for (int i = 0; i < 10; i++) {
                 logger.info("create issue # " + i);
                 if (i % 2 == 0) {
-                    createSampleIssue(issueManager, project.getId(),
+                    createSampleIssue(issueManager, projectTst.getId(),
                                       workflowStatusOpen,
                                       issueTypeBug.getId(), prio.getId(), "service",
                                       dev, jm.getUsername());
                 } else {
-                    createSampleIssue(issueManager, project.getId(),
+                    createSampleIssue(issueManager, projectTst.getId(),
+                                      workflowStatusInProgress,
+                                      issueTypeFeature.getId(), prio.getId(), "service",
+                                      dev, admin.getUsername());
+                }
+            }
+            for (int i = 0; i < 10; i++) {
+                logger.info("create issue # " + i);
+                if (i % 2 == 0) {
+                    createSampleIssue(issueManager, projectDummy.getId(),
+                                      workflowStatusOpen,
+                                      issueTypeBug.getId(), prio.getId(), "service",
+                                      dev, jm.getUsername());
+                } else {
+                    createSampleIssue(issueManager, projectDummy.getId(),
                                       workflowStatusInProgress,
                                       issueTypeFeature.getId(), prio.getId(), "service",
                                       dev, admin.getUsername());

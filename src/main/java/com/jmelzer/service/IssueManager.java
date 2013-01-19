@@ -11,6 +11,9 @@
 package com.jmelzer.service;
 
 import com.jmelzer.data.model.Issue;
+import com.jmelzer.data.model.IssueType;
+import com.jmelzer.data.model.Project;
+import com.jmelzer.data.model.WorkflowStatus;
 
 import java.util.List;
 
@@ -32,4 +35,6 @@ public interface IssueManager {
     void addAttachment(Issue issue, File[] file, String username);
 
     void deleteAttachment(Long attachmentId, String username);
+
+    List<Issue> findIssues(Long project, Long workflowStatus, Long issueType);
 }

@@ -131,10 +131,13 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
     }
 
     private Issue createIssue() {
+        return createIssue("UST-1");
+    }
+    private Issue createIssue(String key) {
         Issue issue = new Issue();
 
         issue.setType(issueType);
-        issue.setPublicId("UST-1");
+        issue.setPublicId(key);
         project.addIssue(issue);
         issue.setSummary("summmmm");
         issue.setDueDate(new Date());
@@ -283,5 +286,35 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         issueDao.save(issue);
         issues=  issueDao.customQuery("project.id = " + project.getId());
         assertEquals(1, issues.size());
+    }
+    @Test
+    public void findIssues() {
+        assertTrue(issueDao.findIssues(null, null, null).size() > 0);
+        List<Issue> issues = issueDao.findIssues(project.getId(), null, null);
+        for (Issue issue : issues) {
+            assertEquals(project.getId(), issue.getProject().getId());
+        }
+        for (int i = 1; i < 11; i++) {
+            Issue issue = createIssue("UST-" + i);
+            issueDao.save(issue);
+        }
+        issues = issueDao.findIssues(null, workflowStatus.getId(), null);
+        assertEquals(10, issues.size() );
+        for (Issue issue : issues) {
+            assertEquals(workflowStatus.getId(), issue.getWorkflowStatus().getId());
+        }
+        issues = issueDao.findIssues(null, null, issueType.getId());
+        assertEquals(10, issues.size() );
+        for (Issue issue : issues) {
+            assertEquals(issueType.getId(), issue.getType().getId());
+        }
+
+        issues = issueDao.findIssues(project.getId(), workflowStatus.getId(), issueType.getId());
+        assertEquals(10, issues.size() );
+        for (Issue issue : issues) {
+            assertEquals(project.getId(), issue.getProject().getId());
+            assertEquals(issueType.getId(), issue.getType().getId());
+            assertEquals(workflowStatus.getId(), issue.getWorkflowStatus().getId());
+        }
     }
 }

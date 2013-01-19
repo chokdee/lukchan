@@ -11,9 +11,7 @@
 package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.IssueDao;
-import com.jmelzer.data.model.Comment;
-import com.jmelzer.data.model.Issue;
-import com.jmelzer.data.model.User;
+import com.jmelzer.data.model.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -63,6 +61,26 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
     @Override
     public List<Issue> customQuery(String queryString) {
         Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 and " + queryString);
+        return query.getResultList();
+
+    }
+
+    @Override
+    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType) {
+        String queryString = "";
+        if (project != null) {
+            queryString += " and ";
+            queryString += " project.id = " + project;
+        }
+        if (issueType != null) {
+            queryString += " and ";
+            queryString += " type.id = " + issueType;
+        }
+        if (workflowStatus!= null) {
+            queryString += " and ";
+            queryString += " workflowStatus.id = " + workflowStatus;
+        }
+        Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 " + queryString);
         return query.getResultList();
 
     }
