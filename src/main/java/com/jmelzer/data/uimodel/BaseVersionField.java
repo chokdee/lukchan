@@ -72,7 +72,7 @@ public abstract class BaseVersionField extends AbstractField {
             if (parentModel.getObject() instanceof SelectOption) {
                 SelectOption option = (SelectOption) parentModel.getObject();
                 List<String> list = new ArrayList<String>();
-                Set<ProjectVersion> versions =  projectDao.findOne(option.getKey()).getVersions();
+                Set<ProjectVersion> versions =  projectDao.findOne(option.getKeyForOption()).getVersions();
                 for (ProjectVersion version : versions) {
                     list.add(version.getVersionNumber());
                 }

@@ -12,6 +12,11 @@ package com.jmelzer.service;
 
 import com.jmelzer.data.model.Project;
 
+import java.util.List;
+
 public interface ProjectManager {
     void save(Project project);
+
+    List<Project> getAll();
+
 }

@@ -10,16 +10,19 @@
 
 package com.jmelzer.data.model;
 
+import com.jmelzer.data.model.ui.SelectOptionI;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Workflow Status entity
  */
 @Entity
 @Table(name = "workflow_status")
-public class WorkflowStatus extends ModelBase {
+public class WorkflowStatus extends ModelBase implements SelectOptionI {
     private static final long serialVersionUID = -394877377723475416L;
 
     String name;
@@ -62,5 +65,17 @@ public class WorkflowStatus extends ModelBase {
 
     public void setIconPath(String iconPath) {
         this.iconPath = iconPath;
+    }
+
+    @Override
+    @Transient
+    public Long getKeyForOption() {
+        return getId();
+    }
+
+    @Override
+    @Transient
+    public String getValueForOption() {
+        return getName();
     }
 }

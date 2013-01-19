@@ -5,7 +5,7 @@
 
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title> Wreckcontrol </title>
+        <!--<title> Wreckcontrol </title>-->
         <meta name="Author" content="J. Melzer">
         <meta name="Keywords" content="Bugtracker">
 
@@ -16,10 +16,17 @@
         <link href="yaml/core/iehacks.css" rel="stylesheet" type="text/css"/>
         <![endif]-->
 
+        <!--<script src="js/jquery-ui-1.9.2.custom.js"></script>-->
+        <!--<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.0.min.js"></script>-->
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+        <script src="js/jquery-1.8.3.js"></script>
+        <script src="js/jquery-ui-1.9.2.custom.js"></script>
+
         <!--[if lt IE 9]>
         <script src="js/html5.js"></script>
         <![endif]-->
-        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+        <!--<link rel="stylesheet" type="text/css" href="css/hot-sneaks/jquery-ui-1.9.2.custom.css" />-->
+        <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />-->
 
     </wicket:head>
 </head>
@@ -61,11 +68,12 @@
 
                         <!-- Submenu 2 -->
                         <ul class="children">
+                            <!--todo i18n-->
                             <li>
                                 <a href="createissue">Create new</a>
                             </li>
                             <li>
-                                <a href="">Science</a>
+                                <a href="searchissue">Search</a>
                             </li>
                         </ul>
                         <!-- .submenu 2 -->
@@ -77,14 +85,14 @@
 
                         <!-- Submenu 3 -->
                         <ul class="children">
-                            <li>
+                           <!-- <li>
                                 <a href="">Edit My Address</a>
                             </li>
                             <li>
                                 <a href="">View Order</a>
-                            </li>
+                            </li>-->
                             <li>
-                                <a href="">Change Password</a>
+                                <a href="changepassword">Change Password</a>
                             </li>
                         </ul>
                         <!-- .submenu 3 -->

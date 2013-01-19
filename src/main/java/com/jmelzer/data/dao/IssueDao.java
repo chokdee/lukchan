@@ -27,4 +27,6 @@ public interface IssueDao extends AbstractDao<Issue> {
     List<Issue> getAssignedIssues(User user);
 
     Issue deleteAttachment(Long attachmentId);
+
+    List<Issue> customQuery(String query);
 }

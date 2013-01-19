@@ -12,6 +12,9 @@ package com.jmelzer.service;
 
 import com.jmelzer.data.model.IssueType;
 
+import java.util.List;
+
 public interface IssueTypeManager {
     void save(IssueType issueType);
+    List<IssueType> getAll();
 }

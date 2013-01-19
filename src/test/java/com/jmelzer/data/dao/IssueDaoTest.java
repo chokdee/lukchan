@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.persistence.PersistenceException;
 
 import java.util.Date;
+import java.util.List;
 
 import static junit.framework.Assert.*;
 
@@ -254,5 +255,33 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
 
         issueDb = issueDao.findOne(issue.getId());
         assertFalse(issueDb.getAttachments().iterator().hasNext());
+    }
+
+    @Test
+    public void getAssignedIssues() {
+        List<Issue> issues=  issueDao.getAssignedIssues(user);
+        assertEquals(0, issues.size());
+        Issue issue = createIssue();
+        issue.setAssignee(user);
+        issueDao.save(issue);
+        issues =  issueDao.getAssignedIssues(user);
+        assertEquals(1, issues.size());
+    }
+
+    @Test
+    public void customQuery() {
+        List<Issue> issues=  issueDao.customQuery("id > 0");
+        assertTrue(issues.size() > 0);
+
+        try {
+            issueDao.customQuery("bla = 1");
+            fail("invalid query");
+        } catch (PersistenceException e) {
+            //ok
+        }
+        Issue issue = createIssue();
+        issueDao.save(issue);
+        issues=  issueDao.customQuery("project.id = " + project.getId());
+        assertEquals(1, issues.size());
     }
 }

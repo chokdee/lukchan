@@ -46,8 +46,8 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
 
     @Override
     public List<Issue> getAssignedIssues(User user) {
-        Query query = getEntityManager().createQuery("FROM Issue i where i.assignee.id = ?");
-        query.setParameter(1, user.getId());
+        Query query = getEntityManager().createQuery("select i from Issue i where i.assignee.id = :id");
+        query.setParameter("id", user.getId());
         return query.getResultList();
     }
 
@@ -58,6 +58,13 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
         issue.removeAttachment(attachmentId);
         save(issue);
         return issue;
+    }
+
+    @Override
+    public List<Issue> customQuery(String queryString) {
+        Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 and " + queryString);
+        return query.getResultList();
+
     }
 
 

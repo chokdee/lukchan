@@ -124,7 +124,7 @@ public class CreateIssuePage extends MainPage {
         }
 
         Long getKey(long id) {
-            return ((SelectOptionI) ((Model) model.get(id)).getObject()).getKey();
+            return ((SelectOptionI) ((Model) model.get(id)).getObject()).getKeyForOption();
         }
     }
 

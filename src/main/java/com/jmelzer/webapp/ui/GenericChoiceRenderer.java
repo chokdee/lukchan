@@ -22,7 +22,7 @@ public class GenericChoiceRenderer implements IChoiceRenderer {
         if (object instanceof String) {
             return object;
         }
-        return ((SelectOptionI) object).getValue();
+        return ((SelectOptionI) object).getValueForOption();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class GenericChoiceRenderer implements IChoiceRenderer {
         if (object instanceof String) {
             return (String) object;
         } else if (object instanceof SelectOptionI) {
-            return "" + ((SelectOptionI) object).getKey();
+            return "" + ((SelectOptionI) object).getKeyForOption();
         } else {
             return null;
         }

@@ -7,6 +7,7 @@ package com.jmelzer.webapp;
 
 import com.jmelzer.webapp.examples.ChoicePage;
 import com.jmelzer.webapp.page.*;
+import com.jmelzer.webapp.page.secure.SearchIssuePage;
 import com.jmelzer.webapp.page.secure.UserSettings;
 import com.jmelzer.webapp.security.MyAuthenticatedWebSession;
 import org.apache.wicket.RuntimeConfigurationType;
@@ -70,6 +71,7 @@ public class WicketApplication extends AuthenticatedWebApplication implements Ap
         mount(new MountedMapper("changepassword", ChangePasswordPage.class));
         mount(new MountedMapper("createissue", CreateIssuePage.class));
         mountPage("/issue", ShowIssuePage.class);
+        mountPage("/searchissue", SearchIssuePage.class);
         mount(new MountedMapper("choice", ChoicePage.class));
         mount(new MountedMapper("secure/usersettings", UserSettings.class));
 

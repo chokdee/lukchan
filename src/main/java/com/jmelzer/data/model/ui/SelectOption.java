@@ -23,12 +23,12 @@ public class SelectOption implements SelectOptionI, Serializable {
     }
 
     @Override
-    public Long getKey() {
+    public Long getKeyForOption() {
         return key;
     }
 
     @Override
-    public String getValue() {
+    public String getValueForOption() {
         return value;
     }
 }

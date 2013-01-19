@@ -11,6 +11,6 @@
 package com.jmelzer.data.model.ui;
 
 public interface SelectOptionI {
-    Long getKey();
-    String getValue();
+    Long getKeyForOption();
+    String getValueForOption();
 }

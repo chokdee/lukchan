@@ -73,9 +73,9 @@ public class ComponentField extends AbstractField {
         public List<String> getObject() {
             if (parentModel.getObject() instanceof SelectOption) {
                 SelectOption option = (SelectOption) parentModel.getObject();
-                System.out.println("key = " + option.getKey());
+                System.out.println("key = " + option.getKeyForOption());
                 List<String> list = new ArrayList<String>();
-                Set<com.jmelzer.data.model.Component> components =  projectDao.findOne(option.getKey()).getComponents();
+                Set<com.jmelzer.data.model.Component> components =  projectDao.findOne(option.getKeyForOption()).getComponents();
                 for (com.jmelzer.data.model.Component component : components) {
                     list.add(component.getName());
                 }

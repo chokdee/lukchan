@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("workflowStatusManager")
 public class WorkflowStatusManagerImpl implements WorkflowStatusManager {
@@ -28,5 +29,11 @@ public class WorkflowStatusManagerImpl implements WorkflowStatusManager {
     @Transactional
     public void save(WorkflowStatus workflowStatus) {
         statusDao.save(workflowStatus);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<WorkflowStatus> getAll() {
+        return statusDao.findAll();
     }
 }

@@ -1,0 +1,96 @@
+<!--
+
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--suppress ALL -->
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <wicket:head>
+        <title wicket:id="title"></title>
+        <meta name="description" content="Wreckcontrol"/>
+        <meta name="keywords"
+              content="wicket,cool,hot,neat"/>
+
+        <!--<script>
+            $(function () {
+                $("#rerun")
+                        .button()
+                        .click(function () {
+                                   alert("Running the last action");
+                               })
+                        .next()
+                        .button({
+                                    text: false,
+                                    icons: {
+                                        primary: "ui-icon-triangle-1-s"
+                                    }
+                                })
+                        .click(function () {
+                                   var menu = $(this).parent().next().show().position({
+                                                                                          my: "left top",
+                                                                                          at: "left bottom",
+                                                                                          of: this
+                                                                                      });
+                                   $(document).one("click", function () {
+                                       menu.hide();
+                                   });
+                                   return false;
+                               })
+                        .parent()
+                        .buttonset()
+                        .next()
+                        .hide()
+                        .menu();
+            });
+        </script>-->
+    </wicket:head>
+</head>
+<body>
+
+<span wicket:id="border">
+        <div class="aui-panel">
+            <section class="ym-grid linearize-level-1">
+                <div class="ym-g20 ym-gl">
+                    <h3>Filter</h3>
+                    <span wicket:id="dummy"/>
+                </div>
+                <aside class="ym-g75 ym-gr">
+                    <div class="ym-gbox-right ym-clearfix" style="min-height: 500px">
+                        <h3>Suche</h3>
+
+                        <div style="width: 100%; border-top: solid 1px #d3d3d3"/>
+                        <!--<input type="submit" class="ym-button" value="submit" id="submit" name="submit"/>-->
+                        <!--<div style="width: 150px">
+                            <div>
+                                <button id="rerun">Project:</button>
+                                <button id="select">Test</button>
+                            </div>
+                            <ul>
+                                <li><a href="#">GUI</a></li>
+                                <li><a href="#">Bla</a></li>
+                                <li><a href="#">Blub</a></li>
+                            </ul>
+                        </div>-->
+                        <div style="width: 100%;margin-top: 10px;">
+                            <div style="float:left; ">
+                                <span wicket:id="projectLabel"/>
+                                <select wicket:id="projectList"/>
+                            </div>
+                            <div style="float:left; margin-left: 10px">
+                                <span wicket:id="issueTypeLabel"/>
+                                <select wicket:id="issueTypeList"/>
+                            </div>
+                            <div style="float:left; margin-left: 10px">
+                                <span wicket:id="statusLabel"/>
+                                <select wicket:id="statusList"/>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+        </div>
+    </span>
+
+</body>
+</html>

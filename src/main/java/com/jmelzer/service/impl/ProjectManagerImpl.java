@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("projectManager")
 public class ProjectManagerImpl implements ProjectManager {
@@ -28,5 +29,11 @@ public class ProjectManagerImpl implements ProjectManager {
     public void save(Project project) {
         projectDao.save(project);
         //todo add activity
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Project> getAll() {
+        return projectDao.findAll();
     }
 }

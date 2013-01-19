@@ -69,7 +69,7 @@ public class GenericChoiceComponent extends Panel implements IPanel {
         List<SelectOptionI> list = new ArrayList<SelectOptionI>(choices.size());
         for (Object o : choices) {
             SelectOptionI choice = (SelectOptionI) o;
-            list.add(new SelectOption(choice.getKey(), choice.getValue()));
+            list.add(new SelectOption(choice.getKeyForOption(), choice.getValueForOption()));
         }
         downChoice = new DropDownChoice("choice",
                                         model,

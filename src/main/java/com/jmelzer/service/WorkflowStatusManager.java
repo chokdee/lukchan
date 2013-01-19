@@ -12,6 +12,10 @@ package com.jmelzer.service;
 
 import com.jmelzer.data.model.WorkflowStatus;
 
+import java.util.List;
+
 public interface WorkflowStatusManager {
     void save(WorkflowStatus workflowStatus);
+
+    List<WorkflowStatus> getAll();
 }

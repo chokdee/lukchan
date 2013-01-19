@@ -67,13 +67,13 @@ public class Priority extends ModelBase implements SelectOptionI {
 
     @Override
     @Transient
-    public Long getKey() {
+    public Long getKeyForOption() {
         return getId();
     }
 
     @Override
     @Transient
-    public String getValue() {
+    public String getValueForOption() {
         return getName();
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("issueTypeManager")
 public class IssueTypeManagerImpl implements IssueTypeManager {
@@ -28,5 +29,11 @@ public class IssueTypeManagerImpl implements IssueTypeManager {
     @Transactional
     public void save(IssueType issueType) {
         issueTypeDao.save(issueType);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<IssueType> getAll() {
+        return issueTypeDao.findAll();
     }
 }

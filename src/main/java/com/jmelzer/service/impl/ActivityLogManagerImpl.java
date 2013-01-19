@@ -49,8 +49,7 @@ public class ActivityLogManagerImpl implements ActivityLogManager, ApplicationCo
         activityLog.setAuthor(userDao.findByUserName(username));
         activityLog.setUpdateAuthor(userDao.findByUserName(username));
 
-        String activityAsString = null;
-        //todo: i18n
+        String activityAsString;
         switch (action) {
             case CREATE_ISSUE:
                 activityAsString = "{action.created} <ISSUE>";
