@@ -13,22 +13,16 @@
 package com.jmelzer.webapp.ui.widgets;
 
 import com.jmelzer.data.model.Issue;
-import com.jmelzer.webapp.page.ShowIssuePage;
+import com.jmelzer.webapp.ui.IssueIconPanel;
+import com.jmelzer.webapp.ui.LinkIssuePanel;
 import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.resource.ContextRelativeResource;
 import ro.fortsoft.wicket.dashboard.Widget;
 import ro.fortsoft.wicket.dashboard.web.WidgetView;
 
@@ -56,7 +50,7 @@ public class MyIssuesWidgetView extends WidgetView {
             @Override
             public void populateItem(Item<ICellPopulator<Issue>> cellItem, String componentId,
                                      IModel<Issue> model) {
-                cellItem.add(new IconPanel(componentId, model));
+                cellItem.add(new IssueIconPanel(componentId,  model));
             }
         });
         columns.add(new AbstractColumn<Issue, String>(new Model<String>("ID")) {
@@ -77,27 +71,5 @@ public class MyIssuesWidgetView extends WidgetView {
         add(new AjaxFallbackDefaultDataTable<Issue, String>("table", columns, widget, 4));
     }
 
-    class IconPanel extends Panel {
 
-        private static final long serialVersionUID = -5021985106255271221L;
-
-        public IconPanel(String id, IModel<Issue> model) {
-            super(id, model);
-            add(new Image("issuetypeimage", new ContextRelativeResource(model.getObject().getType().getIconPath())));
-        }
-    }
-
-    class LinkIssuePanel extends Panel {
-
-        private static final long serialVersionUID = -1249266452194393237L;
-
-        public LinkIssuePanel(String id, IModel<Issue> model) {
-            super(id, model);
-            PageParameters pageParameters = new PageParameters();
-            pageParameters.set(0, model.getObject().getPublicId());
-            Link<ShowIssuePage> issueLink = new BookmarkablePageLink<ShowIssuePage>("issueLink", ShowIssuePage.class, pageParameters);
-            issueLink.add(new Label("issueLinkLabel", model.getObject().getPublicId()));
-            add(issueLink);
-        }
-    }
 }

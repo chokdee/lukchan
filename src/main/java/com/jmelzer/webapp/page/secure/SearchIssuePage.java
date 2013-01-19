@@ -10,6 +10,7 @@
 
 package com.jmelzer.webapp.page.secure;
 
+import com.jmelzer.data.model.Issue;
 import com.jmelzer.data.model.IssueType;
 import com.jmelzer.data.model.Project;
 import com.jmelzer.data.model.WorkflowStatus;
@@ -21,10 +22,21 @@ import com.jmelzer.service.ProjectManager;
 import com.jmelzer.service.WorkflowStatusManager;
 import com.jmelzer.webapp.page.MainPage;
 import com.jmelzer.webapp.ui.GenericChoiceRenderer;
+import com.jmelzer.webapp.ui.IssueIconPanel;
+import com.jmelzer.webapp.ui.IssueListProvider;
+import com.jmelzer.webapp.ui.LinkIssuePanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.extensions.ajax.markup.html.repeater.data.table.AjaxFallbackDefaultDataTable;
+import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -32,6 +44,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("WicketForgeJavaIdInspection")
 public class SearchIssuePage extends MainPage {
     private static final long serialVersionUID = -3918755272288042123L;
 
@@ -46,6 +59,8 @@ public class SearchIssuePage extends MainPage {
 
     @SpringBean(name = "workflowStatusManager")
     WorkflowStatusManager workflowStatusManager;
+
+    WebMarkupContainer resultPanel;
 
     public SearchIssuePage(final PageParameters parameters) {
 
@@ -63,17 +78,7 @@ public class SearchIssuePage extends MainPage {
                                                           list,
                                                           new GenericChoiceRenderer());
         add(projectChoice);
-        projectChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-
-
-            private static final long serialVersionUID = -2461473282928483661L;
-
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-                //trigger search
-                System.out.println("target = " + target);
-            }
-        });
+        projectChoice.add(new AjaxTriggerSearch());
         projectChoice.setOutputMarkupId(true);
 
         add(new Label("issueTypeLabel", "Issue Type:"));
@@ -83,20 +88,11 @@ public class SearchIssuePage extends MainPage {
             list.add(new SelectOption(issueType.getKeyForOption(), issueType.getValueForOption()));
         }
         final DropDownChoice issueTypeChoice = new DropDownChoice("issueTypeList",
-                                                          new Model(""),
-                                                          list,
-                                                          new GenericChoiceRenderer());
+                                                                  new Model(""),
+                                                                  list,
+                                                                  new GenericChoiceRenderer());
         add(issueTypeChoice);
-        issueTypeChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-            private static final long serialVersionUID = 8900134452591999405L;
-
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-
-                //todo trigger search
-                System.out.println("target = " + target);
-            }
-        });
+        issueTypeChoice.add(new AjaxTriggerSearch());
         issueTypeChoice.setOutputMarkupId(true);
 
         add(new Label("statusLabel", "Status:"));
@@ -106,22 +102,65 @@ public class SearchIssuePage extends MainPage {
             list.add(new SelectOption(workflowStatuse.getKeyForOption(), workflowStatuse.getValueForOption()));
         }
         final DropDownChoice wfStatusChoice = new DropDownChoice("statusList",
-                                                                  new Model(""),
-                                                                  list,
-                                                                  new GenericChoiceRenderer());
+                                                                 new Model(""),
+                                                                 list,
+                                                                 new GenericChoiceRenderer());
         add(wfStatusChoice);
-        wfStatusChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-            private static final long serialVersionUID = 8900134452591999405L;
-
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-
-                //todo trigger search
-                System.out.println("target = " + target);
-            }
-        });
+        wfStatusChoice.add(new AjaxTriggerSearch());
         wfStatusChoice.setOutputMarkupId(true);
 
-
+        createResultPanel();
     }
+
+    private void createResultPanel() {
+        resultPanel = new WebMarkupContainer("resultPanel");
+        resultPanel.setOutputMarkupId(true);
+        add(resultPanel);
+
+        List<IColumn<Issue, String>> columns = new ArrayList<IColumn<Issue, String>>();
+        List<Issue> issueList = issueManager.getAssignedIssues("developer");
+
+        // Typ (Icon) | Issue key | Priority | Status | Summary
+        columns.add(new AbstractColumn<Issue, String>(new Model<String>("Type")) {
+
+            private static final long serialVersionUID = 8923217104203573321L;
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Issue>> cellItem, String componentId,
+                                     IModel<Issue> model) {
+                cellItem.add(new IssueIconPanel(componentId, model));
+            }
+        });
+        columns.add(new AbstractColumn<Issue, String>(new Model<String>("ID")) {
+
+            private static final long serialVersionUID = 1334159427720431587L;
+
+            @Override
+            public void populateItem(Item<ICellPopulator<Issue>> cellItem, String componentId,
+                                     IModel<Issue> model) {
+                cellItem.add(new LinkIssuePanel(componentId, model));
+            }
+        });
+//        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("id")), "publicId"));
+        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("priority")), "priority.name"));
+        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("status")), "workflowStatus.name"));
+        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("summary")), "summary"));
+
+        resultPanel.add(new AjaxFallbackDefaultDataTable<Issue, String>("result", columns,
+                                                                        new IssueListProvider(issueList), 20));
+    }
+
+    class AjaxTriggerSearch extends AjaxFormComponentUpdatingBehavior {
+
+        private static final long serialVersionUID = 8900134452591999405L;
+
+        public AjaxTriggerSearch() {
+            super(("onchange"));
+        }
+
+        @Override
+        protected void onUpdate(AjaxRequestTarget target) {
+            target.add(resultPanel);
+        }
+    };
 }
