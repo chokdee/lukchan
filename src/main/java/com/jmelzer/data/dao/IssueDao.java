@@ -29,5 +29,5 @@ public interface IssueDao extends AbstractDao<Issue> {
 
     List<Issue> customQuery(String query);
 
-    String buildQueryString(Long project, Long workflowStatus, Long issueType);
+    String buildQueryString(Long project, Long workflowStatus, Long issueType, Long userId);
 }

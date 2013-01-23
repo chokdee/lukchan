@@ -184,14 +184,14 @@ public class IssueManagerImpl implements IssueManager {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType) {
-        String q = issueDao.buildQueryString(project, workflowStatus, issueType);
+    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType, Long userId) {
+        String q = issueDao.buildQueryString(project, workflowStatus, issueType, userId);
         return issueDao.customQuery(q);
     }
 
     @Override
-    public String buildQuery(Long project, Long workflowStatus, Long issueType) {
-        return issueDao.buildQueryString(project, workflowStatus, issueType);
+    public String buildQuery(Long project, Long workflowStatus, Long issueType, Long userId) {
+        return issueDao.buildQueryString(project, workflowStatus, issueType, userId);
     }
 
     private String getPreviewName(Attachment attachment, File newFile) {

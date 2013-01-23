@@ -36,6 +36,6 @@ public interface IssueManager {
 
     void deleteAttachment(Long attachmentId, String username);
 
-    List<Issue> findIssues(Long project, Long workflowStatus, Long issueType);
-    String buildQuery(Long project, Long workflowStatus, Long issueType);
+    List<Issue> findIssues(Long project, Long workflowStatus, Long issueType, Long userId);
+    String buildQuery(Long project, Long workflowStatus, Long issueType, Long userId);
 }

@@ -142,6 +142,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         issue.setSummary("summmmm");
         issue.setDueDate(new Date());
         issue.setReporter(user);
+        issue.setAssignee(user);
         issue.setWorkflowStatus(workflowStatus);
         return issue;
     }
@@ -289,8 +290,8 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
     }
     @Test
     public void findIssues() {
-        assertTrue(issueDao.customQuery(issueDao.buildQueryString(null, null, null)).size() > 0);
-        List<Issue> issues = issueDao.customQuery(issueDao.buildQueryString(project.getId(), null, null));
+        assertTrue(issueDao.customQuery(issueDao.buildQueryString(null, null, null, null)).size() > 0);
+        List<Issue> issues = issueDao.customQuery(issueDao.buildQueryString(project.getId(), null, null, null));
         for (Issue issue : issues) {
             assertEquals(project.getId(), issue.getProject().getId());
         }
@@ -298,18 +299,24 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
             Issue issue = createIssue("UST-" + i);
             issueDao.save(issue);
         }
-        issues = issueDao.customQuery(issueDao.buildQueryString(null, workflowStatus.getId(), null));
+        issues = issueDao.customQuery(issueDao.buildQueryString(null, workflowStatus.getId(), null, null));
         assertEquals(10, issues.size() );
         for (Issue issue : issues) {
             assertEquals(workflowStatus.getId(), issue.getWorkflowStatus().getId());
         }
-        issues = issueDao.customQuery(issueDao.buildQueryString(null, null, issueType.getId()));
+        issues = issueDao.customQuery(issueDao.buildQueryString(null, null, issueType.getId(), null));
         assertEquals(10, issues.size() );
         for (Issue issue : issues) {
             assertEquals(issueType.getId(), issue.getType().getId());
         }
 
-        issues = issueDao.customQuery(issueDao.buildQueryString(project.getId(), workflowStatus.getId(), issueType.getId()));
+        issues = issueDao.customQuery(issueDao.buildQueryString(null, null, null, user.getId()));
+        assertEquals(10, issues.size() );
+        for (Issue issue : issues) {
+            assertEquals(user.getId(), issue.getAssignee().getId());
+        }
+
+        issues = issueDao.customQuery(issueDao.buildQueryString(project.getId(), workflowStatus.getId(), issueType.getId(), user.getId()));
         assertEquals(10, issues.size() );
         for (Issue issue : issues) {
             assertEquals(project.getId(), issue.getProject().getId());

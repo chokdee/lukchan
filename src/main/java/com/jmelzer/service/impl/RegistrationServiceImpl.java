@@ -16,7 +16,7 @@ import com.jmelzer.data.model.User;
 import com.jmelzer.data.model.exceptions.ActivationCodeException;
 import com.jmelzer.data.model.exceptions.UserNotFoundException;
 import com.jmelzer.service.RegistrationService;
-import com.jmelzer.service.UserService;
+import com.jmelzer.service.UserManager;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -46,14 +46,14 @@ public class RegistrationServiceImpl implements RegistrationService {
     ActivationCodeDao activationCodeDao;
 
     @Resource
-    UserService userService;
+    UserManager userManager;
 
     @Override
     @Transactional
     public User register(String email, String userName, String pw, String name) {
 
         // Do the registration logic...
-        User user = userService.createUser(email, userName, pw, name);
+        User user = userManager.createUser(email, userName, pw, name);
         ActivationCode activationCode = createCode(user, ActivationCode.REGISTER);
         activationCodeDao.save(activationCode);
         sendConfirmationEmail(user, activationCode.getActivationcode());
@@ -82,14 +82,14 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new ActivationCodeException(ActivationCodeException.Type.used);
         }
         code.setUsed(true);
-        userService.unlockUser(code.getUserId());
+        userManager.unlockUser(code.getUserId());
         activationCodeDao.save(code);
     }
 
     @Override
     @Transactional
     public void sendPasswordLink(String email) throws UserNotFoundException {
-        User user = userService.findUserByEmail(email);
+        User user = userManager.findUserByEmail(email);
         if (user == null) {
             throw new UserNotFoundException(email);
         }
@@ -108,7 +108,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (code.getUsed() != null && code.getUsed()) {
             throw new ActivationCodeException(ActivationCodeException.Type.used);
         }
-        userService.changePassword(code.getUserId(), newPassword);
+        userManager.changePassword(code.getUserId(), newPassword);
         code.setUsed(true);
         activationCodeDao.save(code);
     }

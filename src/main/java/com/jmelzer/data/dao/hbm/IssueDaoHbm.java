@@ -67,7 +67,7 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
     }
 
     @Override
-    public String buildQueryString(Long project, Long workflowStatus, Long issueType) {
+    public String buildQueryString(Long project, Long workflowStatus, Long issueType, Long userId) {
         String queryString = "";
         if (project != null) {
             queryString += " and ";
@@ -80,6 +80,10 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
         if (workflowStatus!= null) {
             queryString += " and ";
             queryString += " workflowStatus.id = " + workflowStatus;
+        }
+        if (userId!= null) {
+            queryString += " and ";
+            queryString += " assignee.id = " + userId;
         }
         return queryString;
     }

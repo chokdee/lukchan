@@ -41,7 +41,7 @@ public class RegistrationServiceTest {
     RegistrationService registrationService;
 
     @Resource
-    UserService userService;
+    UserManager userManager;
 
     @Resource
     ActivationCodeDao activationCodeDao;
@@ -64,7 +64,7 @@ public class RegistrationServiceTest {
     @Test
     public void testPw() throws Exception {
 
-        userService.createUser(EMAIL, "admin", "42", "admin");
+        userManager.createUser(EMAIL, "admin", "42", "admin");
 
         int sizeBefore = activationCodeDao.findAll().size();
 

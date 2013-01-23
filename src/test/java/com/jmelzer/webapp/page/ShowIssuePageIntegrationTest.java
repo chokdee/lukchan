@@ -9,10 +9,8 @@ import com.jmelzer.data.model.*;
 import com.jmelzer.service.*;
 import com.jmelzer.webapp.utils.PageParametersUtil;
 import org.apache.commons.io.FileUtils;
-import org.apache.wicket.*;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
@@ -40,7 +38,7 @@ public class ShowIssuePageIntegrationTest extends AbstractPageIntegrationTest {
     @Resource
     WorkflowStatusManager workflowStatusManager;
     @Resource
-    UserService userManager;
+    UserManager userManager;
     @Resource
     PageTestUtil pageTestUtil;
     @Resource(name = "attachment.path")

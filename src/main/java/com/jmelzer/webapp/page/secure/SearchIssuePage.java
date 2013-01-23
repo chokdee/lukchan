@@ -10,16 +10,10 @@
 
 package com.jmelzer.webapp.page.secure;
 
-import com.jmelzer.data.model.Issue;
-import com.jmelzer.data.model.IssueType;
-import com.jmelzer.data.model.Project;
-import com.jmelzer.data.model.WorkflowStatus;
+import com.jmelzer.data.model.*;
 import com.jmelzer.data.model.ui.SelectOption;
 import com.jmelzer.data.model.ui.SelectOptionI;
-import com.jmelzer.service.IssueManager;
-import com.jmelzer.service.IssueTypeManager;
-import com.jmelzer.service.ProjectManager;
-import com.jmelzer.service.WorkflowStatusManager;
+import com.jmelzer.service.*;
 import com.jmelzer.webapp.page.MainPage;
 import com.jmelzer.webapp.ui.GenericChoiceRenderer;
 import com.jmelzer.webapp.ui.IssueIconPanel;
@@ -57,6 +51,9 @@ public class SearchIssuePage extends MainPage {
     @SpringBean(name = "issueTypeManager")
     IssueTypeManager issueTypeManager;
 
+    @SpringBean(name = "userManager")
+    UserManager userManager;
+
     @SpringBean(name = "workflowStatusManager")
     WorkflowStatusManager workflowStatusManager;
 
@@ -64,6 +61,7 @@ public class SearchIssuePage extends MainPage {
     private final Model selectedIssueType;
     private final Model selectedProject;
     private final Model selectedWfStatus;
+    private final Model selectedAssignee;
     private IssueListProvider issueListProvider;
     private Label queryLabel;
 
@@ -114,6 +112,20 @@ public class SearchIssuePage extends MainPage {
         wfStatusChoice.add(new AjaxTriggerSearch());
         wfStatusChoice.setOutputMarkupId(true);
 
+        add(new Label("assigneeLabel", "Assignee:"));
+        List<User> userList = userManager.getAll();
+        list = new ArrayList<SelectOptionI>(userList.size());
+        for (User user : userList) {
+            list.add(new SelectOption(user.getKeyForOption(), user.getValueForOption()));
+        }
+        final DropDownChoice assigneeChoice = new DropDownChoice("assigneeList",
+                                                                 selectedAssignee = new Model(""),
+                                                                 list,
+                                                                 new GenericChoiceRenderer());
+        add(assigneeChoice);
+        assigneeChoice.add(new AjaxTriggerSearch());
+        assigneeChoice.setOutputMarkupId(true);
+
         createResultPanel();
     }
 
@@ -162,11 +174,13 @@ public class SearchIssuePage extends MainPage {
 
         List<Issue> issueList = issueManager.findIssues(getKeyForOption(selectedProject),
                                                         getKeyForOption(selectedWfStatus),
-                                                        getKeyForOption(selectedIssueType));
+                                                        getKeyForOption(selectedIssueType),
+                                                        getKeyForOption(selectedAssignee));
         issueListProvider.setIssues(issueList);
         queryLabel.setDefaultModel(new Model(issueManager.buildQuery(getKeyForOption(selectedProject),
                                                            getKeyForOption(selectedWfStatus),
-                                                           getKeyForOption(selectedIssueType))));
+                                                           getKeyForOption(selectedIssueType),
+                                                           getKeyForOption(selectedAssignee))));
     }
     private Long getKeyForOption(Model model) {
         if (model.getObject() instanceof SelectOptionI) {

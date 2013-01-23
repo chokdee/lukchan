@@ -5,9 +5,7 @@
 
 package com.jmelzer.webapp.page;
 
-import com.jmelzer.data.dao.DaoUtil;
-import com.jmelzer.data.dao.UserDao;
-import com.jmelzer.service.UserService;
+import com.jmelzer.service.UserManager;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
 
@@ -16,7 +14,7 @@ import javax.annotation.Resource;
 public class LoginPageIntegrationTest extends AbstractPageIntegrationTest {
 
     @Resource
-    UserService userService;
+    UserManager userManager;
     @Resource
     PageTestUtil pageTestUtil;
 

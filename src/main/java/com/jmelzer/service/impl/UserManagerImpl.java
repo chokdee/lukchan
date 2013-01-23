@@ -15,7 +15,7 @@ import com.jmelzer.data.dao.UserRoleDao;
 import com.jmelzer.data.model.User;
 import com.jmelzer.data.model.UserRole;
 import com.jmelzer.data.util.StreamUtils;
-import com.jmelzer.service.UserService;
+import com.jmelzer.service.UserManager;
 import com.jmelzer.service.batch.Setup;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -24,9 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
-@Service
-public class UserServiceImpl implements UserService {
+@Service("userManager")
+public class UserManagerImpl implements UserManager {
     Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 
     @Resource
@@ -84,5 +85,10 @@ public class UserServiceImpl implements UserService {
         User user = userDao.findOne(userId);
         user.setPassword(encoder.encodePassword(newPassword, user.getLoginName()));
         userDao.save(user);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.findAll();
     }
 }

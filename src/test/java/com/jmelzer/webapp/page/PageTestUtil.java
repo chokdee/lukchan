@@ -11,7 +11,7 @@
 package com.jmelzer.webapp.page;
 
 import com.jmelzer.data.model.User;
-import com.jmelzer.service.UserService;
+import com.jmelzer.service.UserManager;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.springframework.stereotype.Component;
@@ -21,10 +21,10 @@ import javax.annotation.Resource;
 @Component
 public class PageTestUtil {
     @Resource
-    UserService userService;
+    UserManager userManager;
 
     public User login(WicketTester tester) {
-        User user = userService.createUser("bla@bla.de", "admin", "42", "admin");
+        User user = userManager.createUser("bla@bla.de", "admin", "42", "admin");
 
         //start and render the test page
         tester.startPage(LoginPage.class);

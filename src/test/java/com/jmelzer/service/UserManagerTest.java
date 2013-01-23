@@ -33,17 +33,17 @@ import static junit.framework.Assert.fail;
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
 @ActiveProfiles(profiles = "test")
 @Transactional
-public class UserServiceTest {
+public class UserManagerTest {
     @Resource
-    UserService userService;
+    UserManager userManager;
 
     @Test
     public void testCreateUser() throws Exception {
-        User user = userService.createUser("bla@bla.de", "test", "testpw", "name");
+        User user = userManager.createUser("bla@bla.de", "test", "testpw", "name");
         assertNotNull(user);
 
         try {
-            userService.createUser("bla@bla.de", "test", "testpw", "name");
+            userManager.createUser("bla@bla.de", "test", "testpw", "name");
             fail("duplicate entry");
         } catch (DuplicateKeyException e) {
             //ok
