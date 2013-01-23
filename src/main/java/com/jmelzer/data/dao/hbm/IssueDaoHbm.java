@@ -60,13 +60,14 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
 
     @Override
     public List<Issue> customQuery(String queryString) {
-        Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 and " + queryString);
+        String q = "select i from Issue i where 1 = 1 ";
+        Query query = getEntityManager().createQuery(q + queryString);
         return query.getResultList();
 
     }
 
     @Override
-    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType) {
+    public String buildQueryString(Long project, Long workflowStatus, Long issueType) {
         String queryString = "";
         if (project != null) {
             queryString += " and ";
@@ -80,10 +81,14 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
             queryString += " and ";
             queryString += " workflowStatus.id = " + workflowStatus;
         }
-        Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 " + queryString);
-        return query.getResultList();
-
+        return queryString;
     }
+//    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType) {
+//
+//        Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 " + queryString);
+//        return query.getResultList();
+//
+//    }
 
 
 }

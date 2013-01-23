@@ -17,7 +17,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-/** Represents a Prority, can be extend from the admin panels. */
+/**
+ * Represents a Prority, can be extend from the admin panels.
+ * todo: add icon for this.
+ */
 @Entity
 @Table(name = "priority")
 public class Priority extends ModelBase implements SelectOptionI {
@@ -56,6 +59,7 @@ public class Priority extends ModelBase implements SelectOptionI {
     public void setStatusColour(String statusColour) {
         this.statusColour = statusColour;
     }
+
     @Column(name = "porder", nullable = false, unique = true)
     public int getOrder() {
         return order;

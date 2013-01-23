@@ -65,6 +65,7 @@ public class SearchIssuePage extends MainPage {
     private final Model selectedProject;
     private final Model selectedWfStatus;
     private IssueListProvider issueListProvider;
+    private Label queryLabel;
 
     public SearchIssuePage(final PageParameters parameters) {
 
@@ -147,11 +148,12 @@ public class SearchIssuePage extends MainPage {
                 cellItem.add(new LinkIssuePanel(componentId, model));
             }
         });
-//        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("id")), "publicId"));
+        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("summary")), "summary"));
+        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("assignee")), "assignee.name"));
+        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("reporter")), "reporter.name"));
         columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("priority")), "priority.name"));
         columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("status")), "workflowStatus.name"));
-        columns.add(new PropertyColumn<Issue, String>(new Model<String>(getString("summary")), "summary"));
-
+        resultPanel.add(queryLabel = new Label("queryLabel", ""));
         resultPanel.add(new AjaxFallbackDefaultDataTable<Issue, String>("result", columns,
                                                                         issueListProvider = new IssueListProvider(issueList), 20));
     }
@@ -162,6 +164,9 @@ public class SearchIssuePage extends MainPage {
                                                         getKeyForOption(selectedWfStatus),
                                                         getKeyForOption(selectedIssueType));
         issueListProvider.setIssues(issueList);
+        queryLabel.setDefaultModel(new Model(issueManager.buildQuery(getKeyForOption(selectedProject),
+                                                           getKeyForOption(selectedWfStatus),
+                                                           getKeyForOption(selectedIssueType))));
     }
     private Long getKeyForOption(Model model) {
         if (model.getObject() instanceof SelectOptionI) {
