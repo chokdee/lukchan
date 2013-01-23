@@ -633,3 +633,38 @@ table.dataview tr th.wicket_orderNone {
 table.dataview tr th a { font-weight: normal; }
 table.dataview #message { padding-left: 3px; }
 table.dataview caption { padding-bottom: 2px; }
+
+/*
+.text-query-container .text-submit {
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAn0lEQVR42q2RoQ6GMAyEp/oCc1OovcAcqgo1FIpfobB7f0cht6QhLeFPaHJiu37brQsB1VpLokm0Qz9REVHwSsysgEVURZtakwUlNJyNUe2TiOHNFtjjRSdNNf0e5+EZA3qKBc4PYPLAFe8jBxwB5rtRYLABxT5d60TCyK/I+JqEmzb1TezBVTV5Ym8QEdFPDdjjV7Bz4GdwDv8U4As6AFxBlH64u1cRAAAAAElFTkSuQmCC") no-repeat scroll 2px center transparent;
+    border: medium none;
+    cursor: pointer;
+    height: 22px;
+    margin-left: -90px;
+    outline: medium none;
+    position: relative;
+    text-indent: -9999px;
+    width: 22px;
+}*/
+
+input[type="search"] {
+    background: url("../images/search-icon.png") no-repeat scroll 1px center #ffffff;
+    outline: medium none;
+    position: relative;
+    width: 82px;
+    border: 1px solid #BBBBBB;
+    border-radius: 3px 3px 3px 3px;
+    height: 16px;
+    padding-top: 1px;
+    padding-right: 0;
+    padding-left: 28px;
+    padding-bottom: 3px;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: middle;
+
+}
+
+input:-moz-placeholder {
+    color: #999999;
+}

@@ -2,9 +2,10 @@
 
   -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML>
 <!--suppress ALL -->
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<!--<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">-->
+<html >
 <head>
     <wicket:head>
         <title wicket:id="title"></title>
@@ -88,6 +89,13 @@
                             <div style="float:left; margin-left: 10px">
                                 <span wicket:id="assigneeLabel"/>
                                 <select wicket:id="assigneeList"/>
+                            </div>
+                            <div style="float:left; margin-left: 10px">
+                                <div class="text-query-container">
+                                    <input type="search" placeholder="Contains text" name="text" id="searcher-query"
+                                           class="search-entry text ajs-dirty-warning-exempt"/>
+                                    <!--<input type="submit" tabindex="-1" class="text-submit"/>-->
+                                </div>
                             </div>
                         </div>
                         <div style="min-height: 50px; width: 100%"/>
