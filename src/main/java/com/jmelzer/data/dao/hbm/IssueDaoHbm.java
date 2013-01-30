@@ -12,7 +12,10 @@ package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.IssueDao;
 import com.jmelzer.data.model.*;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
@@ -106,9 +109,13 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
                 .matching(text)
                 .createQuery();
 
+
 // wrap Lucene query in a javax.persistence.Query
-        javax.persistence.Query persistenceQuery =
+        FullTextQuery persistenceQuery =
                 fullTextEntityManager.createFullTextQuery(query, Issue.class);
+
+        org.apache.lucene.search.Sort sort = new Sort(new SortField("id", SortField.LONG));
+        persistenceQuery.setSort(sort);
 
 // execute search
         List result = persistenceQuery.getResultList();

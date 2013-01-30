@@ -8,6 +8,7 @@ import com.jmelzer.data.model.ui.ViewTab;
 import com.jmelzer.data.uimodel.Field;
 import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -19,6 +20,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.File;
 
 /**
  *
@@ -84,6 +86,7 @@ public class EasyDbSetup {
     }
 
     public void setup() {
+
         try {
 
 

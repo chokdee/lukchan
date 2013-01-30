@@ -51,9 +51,10 @@ public abstract class AbstractBatch {
         }
         catch (Exception e) {
             log.error("runit", e);
-
+            System.exit(-2);
 
         }
+        System.exit(0);
     }
 
     abstract void doIt() throws Exception;

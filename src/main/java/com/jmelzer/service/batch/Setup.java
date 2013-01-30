@@ -19,11 +19,22 @@ import com.jmelzer.data.uimodel.Field;
 import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
 import com.jmelzer.service.impl.EasyDbSetup;
+import org.apache.commons.io.FileUtils;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Setup extends AbstractBatch {
 
     public static void main(String[] args) {
+        //delete index directory
+        try {
+            FileUtils.deleteDirectory(new File("c:/tmp/lukchan/indexes"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
 
         Setup batch = new Setup();
         batch.run();

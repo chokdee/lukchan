@@ -185,20 +185,20 @@ public class SearchIssuePage extends MainPage {
 
     private void filterIssues() {
         System.out.println("fullText = " + fullText);
-
+        String query = "";
+        List<Issue> issueList;
         if (fullText.getObject() != null) {
-            queryLabel.setDefaultModel(new Model("textsearch = " + fullText.getObject()));
+            query = "textsearch = " + fullText.getObject();
+            issueList = issueManager.fullText((String) fullText.getObject());
         } else {
-            List<Issue> issueList = issueManager.findIssues(getKeyForOption(selectedProject),
-                                                            getKeyForOption(selectedWfStatus),
-                                                            getKeyForOption(selectedIssueType),
-                                                            getKeyForOption(selectedAssignee));
-            issueListProvider.setIssues(issueList);
-            queryLabel.setDefaultModel(new Model(issueManager.buildQuery(getKeyForOption(selectedProject),
-                                                                         getKeyForOption(selectedWfStatus),
-                                                                         getKeyForOption(selectedIssueType),
-                                                                         getKeyForOption(selectedAssignee))));
+            query = issueManager.buildQuery(getKeyForOption(selectedProject),
+                                    getKeyForOption(selectedWfStatus),
+                                    getKeyForOption(selectedIssueType),
+                                    getKeyForOption(selectedAssignee));
+            issueList = issueManager.findIssues(query);
         }
+        queryLabel.setDefaultModel(new Model(query));
+        issueListProvider.setIssues(issueList);
     }
     private Long getKeyForOption(Model model) {
         if (model.getObject() instanceof SelectOptionI) {

@@ -11,15 +11,19 @@
 package com.jmelzer.data.dao;
 
 import com.jmelzer.data.model.*;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -347,7 +351,9 @@ public class IssueDaoTest extends AbstractBaseDaoTest {
     }
 
     @Test
-    public void testFullText() {
+    public void testFullText() throws IOException {
+
+
         for (int i = 1; i < 11; i++) {
             Issue issue = createIssue("UST-" + i);
             issueDao.save(issue);
@@ -357,7 +363,15 @@ public class IssueDaoTest extends AbstractBaseDaoTest {
         FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
         fullTextEntityManager.flushToIndexes();
 
-        assertTrue(issueDao.fullTextQuery("summmmm").size() > 0);
         assertTrue(issueDao.fullTextQuery("lucky").size() > 0);
+
+        List<Issue> list = issueDao.fullTextQuery("summmmm");
+        assertEquals(10, issueDao.fullTextQuery("summmmm").size());
+        long lastId = 0;
+        for (int i = 0; i < 10; i++) {
+            Long id = list.get(i).getId();
+            assertTrue(id > lastId);
+            lastId = id;
+        }
     }
 }

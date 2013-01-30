@@ -183,6 +183,11 @@ public class IssueManagerImpl implements IssueManager {
     }
 
     @Override
+    public List<Issue> findIssues(String query) {
+        return issueDao.customQuery(query);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType, Long userId) {
         String q = issueDao.buildQueryString(project, workflowStatus, issueType, userId);
@@ -192,6 +197,12 @@ public class IssueManagerImpl implements IssueManager {
     @Override
     public String buildQuery(Long project, Long workflowStatus, Long issueType, Long userId) {
         return issueDao.buildQueryString(project, workflowStatus, issueType, userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Issue> fullText(String text) {
+        return issueDao.fullTextQuery(text);
     }
 
     private String getPreviewName(Attachment attachment, File newFile) {

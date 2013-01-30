@@ -10,7 +10,7 @@
 
 package com.jmelzer.data.model;
 
-import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,7 +29,8 @@ public abstract class ModelBase implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    @DocumentId
+    @Field(index = Index.YES, store = Store.YES, analyze = Analyze.NO )
+    @NumericField
     public Long getId() {
         return id;
     }

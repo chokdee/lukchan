@@ -11,13 +11,9 @@
 package com.jmelzer.service;
 
 import com.jmelzer.data.model.Issue;
-import com.jmelzer.data.model.IssueType;
-import com.jmelzer.data.model.Project;
-import com.jmelzer.data.model.WorkflowStatus;
-
-import java.util.List;
 
 import java.io.File;
+import java.util.List;
 
 public interface IssueManager {
     void create(Issue issue, Long projectId, Long issueTypeId, Long prioId, String componentName, String reporter);
@@ -36,6 +32,17 @@ public interface IssueManager {
 
     void deleteAttachment(Long attachmentId, String username);
 
+    List<Issue> findIssues(String query);
+
     List<Issue> findIssues(Long project, Long workflowStatus, Long issueType, Long userId);
+
     String buildQuery(Long project, Long workflowStatus, Long issueType, Long userId);
+
+    /**
+     * triggers the full text search.
+     *
+     * @param text to be searched for.
+     * @return list, never null
+     */
+    List<Issue> fullText(String text);
 }

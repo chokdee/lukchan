@@ -24,6 +24,7 @@
   <!--<logger name="org.springframework.security" level="DEBUG"/>-->
   <!--<logger name="org.apache.velocity" level="DEBUG"/>-->
   <logger name="org.apache.wicket" level="DEBUG"/>
+    <logger name="org.hibernate.search" level="ALL"/>
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>

@@ -43,7 +43,9 @@
             </value>
         </property>
     </bean>
-
+    <bean id="indexpath" class="java.lang.String">
+        <constructor-arg value="${index.dir}"/>
+    </bean>
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
@@ -57,9 +59,9 @@
         <property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml"/>
         <property name="jpaPropertyMap">
             <map>
-                <entry key="hibernate.search.default.directory_provider" value="org.hibernate.search.store.impl.FSDirectoryProvider"/>
+                <entry key="hibernate.search.default.directory_provider" value="${index.directory_provider}"/>
                 <!--todo config it-->
-                <entry key="hibernate.search.default.indexBase" value="c:/tmp/lukchan/indexes"/>
+                <entry key="hibernate.search.default.indexBase" value="${index.dir}"/>
                 <entry key="hibernate.search.lucene_version" value="LUCENE_35"/>
             </map>
         </property>

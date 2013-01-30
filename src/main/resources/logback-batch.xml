@@ -19,6 +19,7 @@
     </encoder>
   </appender>
   <logger name="com.jmelzer" level="INFO"/>
+  <logger name="org.hibernate.search" level="ALL"/>
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
