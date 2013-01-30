@@ -8,6 +8,7 @@ import com.jmelzer.data.model.ui.ViewTab;
 import com.jmelzer.data.uimodel.Field;
 import com.jmelzer.data.util.StreamUtils;
 import com.jmelzer.service.IssueManager;
+import com.jmelzer.service.SavedSearchManager;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,8 @@ public class EasyDbSetup {
     IssueManager issueManager;
     @Resource
     ViewDao viewDao;
+    @Resource
+    SavedSearchManager savedSearchManager;
     @Resource
     ActivationCodeDao activationCodeDao;
     @Resource
@@ -131,6 +134,7 @@ public class EasyDbSetup {
                 jm.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("user.png")));
                 jm.addRole(userRoleUser);
                 userDao.save(jm);
+                savedSearchManager.save(new SavedSearch("My First search", " and publicId = 'TST-1'", jm));
             }
             {
                 dev = userDao.findByUserNameNonLocked("developer");
@@ -145,6 +149,9 @@ public class EasyDbSetup {
                 dev.setAvatar(StreamUtils.toByteArray(getClass().getResourceAsStream("user.png")));
                 dev.addRole(userRoleDev);
                 userDao.save(dev);
+                savedSearchManager.save(new SavedSearch("My First search", " and publicId = 'TST-1'", dev));
+                savedSearchManager.save(new SavedSearch("different query", " and publicId = 'TST-1'", dev));
+                savedSearchManager.save(new SavedSearch("blah blub", " and publicId = 'TST-1'", dev));
             }
             WorkflowStatus workflowStatusOpen;
             WorkflowStatus workflowStatusInProgress;

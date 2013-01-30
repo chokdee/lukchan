@@ -21,8 +21,8 @@ public class LabelDaoHbm extends AbstractDaoHbm<Label> implements LabelDao {
 
     @Override
     public Label findByName(String name) {
-        Query query = getEntityManager().createQuery("from Label where name = ?");
-        query.setParameter(1, name);
+        Query query = getEntityManager().createQuery("select l from Label l where l.name = :name");
+        query.setParameter("name", name);
         return (Label) query.getSingleResult();
     }
 }

@@ -30,6 +30,10 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -57,6 +61,9 @@ public class SearchIssuePage extends MainPage {
 
     @SpringBean(name = "workflowStatusManager")
     WorkflowStatusManager workflowStatusManager;
+
+    @SpringBean(name = "savedSearchManager")
+    SavedSearchManager savedSearchManager;
 
     WebMarkupContainer resultPanel;
     private final Model selectedIssueType;
@@ -140,6 +147,25 @@ public class SearchIssuePage extends MainPage {
         add(fullTextField);
 
         createResultPanel();
+
+        createSavedSearches();
+    }
+
+    private void createSavedSearches() {
+        ListView listView = new ListView<SavedSearch>("savedsearches", savedSearchManager.getAllByUser(getUsername())) {
+            private static final long serialVersionUID = -6677904794696833036L;
+
+            @Override
+            protected void populateItem(ListItem<SavedSearch> item) {
+                SavedSearch savedSearch = item.getModelObject();
+                PageParameters parameters = new PageParameters();
+                parameters.add("filter", savedSearch.getName());
+                Link link = new BookmarkablePageLink("filterlink", SearchIssuePage.class, parameters);
+                link.add(new Label("filtername", savedSearch.getName()));
+                item.add(link);
+            }
+        };
+        add(listView);
     }
 
     private void createResultPanel() {

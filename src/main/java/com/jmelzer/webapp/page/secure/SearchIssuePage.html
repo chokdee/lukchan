@@ -13,38 +13,6 @@
         <meta name="keywords"
               content="wicket,cool,hot,neat"/>
 
-        <!--<script>
-            $(function () {
-                $("#rerun")
-                        .button()
-                        .click(function () {
-                                   alert("Running the last action");
-                               })
-                        .next()
-                        .button({
-                                    text: false,
-                                    icons: {
-                                        primary: "ui-icon-triangle-1-s"
-                                    }
-                                })
-                        .click(function () {
-                                   var menu = $(this).parent().next().show().position({
-                                                                                          my: "left top",
-                                                                                          at: "left bottom",
-                                                                                          of: this
-                                                                                      });
-                                   $(document).one("click", function () {
-                                       menu.hide();
-                                   });
-                                   return false;
-                               })
-                        .parent()
-                        .buttonset()
-                        .next()
-                        .hide()
-                        .menu();
-            });
-        </script>-->
     </wicket:head>
 </head>
 <body>
@@ -55,24 +23,19 @@
                 <div class="ym-g20 ym-gl">
                     <h3>Filter</h3>
                     <span wicket:id="dummy"/>
+                    <h3>Gespeicherte Suchen</h3>
+                    <ul style="padding:0">
+                        <li wicket:id="savedsearches" >
+                            <!--<span wicket:id="city">Text</span>-->
+                            <a wicket:id="filterlink"><span wicket:id="filtername"></span></a>
+                        </li>
+                    </ul>
                 </div>
                 <aside class="ym-g75 ym-gr">
                     <div class="ym-gbox-right ym-clearfix" style="min-height: 500px">
                         <h3>Suche</h3>
 
                         <div style="width: 100%; border-top: solid 1px #d3d3d3"/>
-                        <!--<input type="submit" class="ym-button" value="submit" id="submit" name="submit"/>-->
-                        <!--<div style="width: 150px">
-                            <div>
-                                <button id="rerun">Project:</button>
-                                <button id="select">Test</button>
-                            </div>
-                            <ul>
-                                <li><a href="#">GUI</a></li>
-                                <li><a href="#">Bla</a></li>
-                                <li><a href="#">Blub</a></li>
-                            </ul>
-                        </div>-->
                         <div style="width: 100%;margin-top: 10px; margin-bottom: 10px">
                             <div style="float:left; ">
                                 <span wicket:id="projectLabel"/>
