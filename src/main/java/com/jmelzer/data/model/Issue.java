@@ -10,12 +10,16 @@
 
 package com.jmelzer.data.model;
 
+import org.hibernate.search.annotations.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "issue")
+@Indexed
+@Analyzer(impl = org.apache.lucene.analysis.standard.StandardAnalyzer.class)
 public class Issue extends ModelBase implements Serializable {
 
 
@@ -86,6 +90,8 @@ public class Issue extends ModelBase implements Serializable {
 
     @OneToMany(cascade = {CascadeType.ALL})
     @OrderBy("creationDate")
+    //@Field(index = Index.YES, store = Store.YES)
+    @IndexedEmbedded
     public Set<Comment> getComments() {
         return comments;
     }
@@ -218,7 +224,8 @@ public class Issue extends ModelBase implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
-
+    @Field(index = Index.YES, store = Store.YES)
+    @Boost(2.0f)
     public String getSummary() {
         return summary;
     }
@@ -279,6 +286,8 @@ public class Issue extends ModelBase implements Serializable {
     }
 
     @Column(name = "description", length = 4048)
+    @Field(index = Index.YES, store = Store.YES)
+    @Boost(0.5f)
     public String getDescription() {
         return description;
     }

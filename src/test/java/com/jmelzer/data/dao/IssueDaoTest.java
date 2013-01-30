@@ -11,18 +11,21 @@
 package com.jmelzer.data.dao;
 
 import com.jmelzer.data.model.*;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-
 import java.util.Date;
 import java.util.List;
 
 import static junit.framework.Assert.*;
 
-public class IssueDaoTest extends AbstractBaseDaoTest{
+public class IssueDaoTest extends AbstractBaseDaoTest {
 
     @Resource
     IssueDao issueDao;
@@ -44,6 +47,8 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
 
     WorkflowStatus workflowStatus;
     User user;
+    @PersistenceContext
+    EntityManager em;
 
     @Before
     public void before() {
@@ -79,6 +84,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         user = DaoUtil.createUser("1", userDao);
 
     }
+
     @Test
     public void saveError() {
         Issue issue = new Issue();
@@ -90,6 +96,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
             //ok
         }
     }
+
     @Test
     public void saveDuplicateKey() {
         Issue issue = createIssue();
@@ -133,6 +140,13 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
     private Issue createIssue() {
         return createIssue("UST-1");
     }
+
+    private Issue createIssueAndSave() {
+        Issue issue = createIssue("UST-1");
+        issueDao.save(issue);
+        return issue;
+    }
+
     private Issue createIssue(String key) {
         Issue issue = new Issue();
 
@@ -196,7 +210,6 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         issueDao.save(issueDb);
 
 
-
         issueDb.setAssignee(user);
         issueDao.save(issueDb);
 
@@ -223,6 +236,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         assertEquals("1", issueDb.getComments().iterator().next().getText());
 
     }
+
     @Test
     public void testComment() {
         Issue issue = createIssue();
@@ -244,6 +258,7 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         issueDb = issueDao.findOne(issue.getId());
         assertFalse(issueDb.getComments().iterator().hasNext());
     }
+
     @Test
     public void testAttachment() {
         Issue issue = createIssue();
@@ -263,19 +278,23 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
 
     @Test
     public void getAssignedIssues() {
-        List<Issue> issues=  issueDao.getAssignedIssues(user);
+        List<Issue> issues = issueDao.getAssignedIssues(user);
         assertEquals(0, issues.size());
         Issue issue = createIssue();
         issue.setAssignee(user);
         issueDao.save(issue);
-        issues =  issueDao.getAssignedIssues(user);
+        issues = issueDao.getAssignedIssues(user);
         assertEquals(1, issues.size());
     }
 
     @Test
     public void customQuery() {
-        List<Issue> issues=  issueDao.customQuery(" and id > 0");
-        assertTrue(issues.size() > 0);
+
+        List<Issue> issues = issueDao.customQuery(" and id > 0");
+        assertEquals(0, issues.size());
+        createIssueAndSave();
+        issues = issueDao.customQuery(" and id > 0");
+        assertEquals(1, issues.size());
 
         try {
             issueDao.customQuery("and bla = 1");
@@ -283,45 +302,62 @@ public class IssueDaoTest extends AbstractBaseDaoTest{
         } catch (PersistenceException e) {
             //ok
         }
-        Issue issue = createIssue();
+        Issue issue = createIssue("TST-111");
         issueDao.save(issue);
-        issues=  issueDao.customQuery("and project.id = " + project.getId());
-        assertEquals(1, issues.size());
+        issues = issueDao.customQuery("and project.id = " + project.getId());
+        assertEquals(2, issues.size());
     }
+
     @Test
     public void findIssues() {
+        createIssueAndSave();
         assertTrue(issueDao.customQuery(issueDao.buildQueryString(null, null, null, null)).size() > 0);
         List<Issue> issues = issueDao.customQuery(issueDao.buildQueryString(project.getId(), null, null, null));
         for (Issue issue : issues) {
             assertEquals(project.getId(), issue.getProject().getId());
         }
-        for (int i = 1; i < 11; i++) {
+        for (int i = 2; i < 12; i++) {
             Issue issue = createIssue("UST-" + i);
             issueDao.save(issue);
         }
         issues = issueDao.customQuery(issueDao.buildQueryString(null, workflowStatus.getId(), null, null));
-        assertEquals(10, issues.size() );
+        assertEquals(11, issues.size());
         for (Issue issue : issues) {
             assertEquals(workflowStatus.getId(), issue.getWorkflowStatus().getId());
         }
         issues = issueDao.customQuery(issueDao.buildQueryString(null, null, issueType.getId(), null));
-        assertEquals(10, issues.size() );
+        assertEquals(11, issues.size());
         for (Issue issue : issues) {
             assertEquals(issueType.getId(), issue.getType().getId());
         }
 
         issues = issueDao.customQuery(issueDao.buildQueryString(null, null, null, user.getId()));
-        assertEquals(10, issues.size() );
+        assertEquals(11, issues.size());
         for (Issue issue : issues) {
             assertEquals(user.getId(), issue.getAssignee().getId());
         }
 
         issues = issueDao.customQuery(issueDao.buildQueryString(project.getId(), workflowStatus.getId(), issueType.getId(), user.getId()));
-        assertEquals(10, issues.size() );
+        assertEquals(11, issues.size());
         for (Issue issue : issues) {
             assertEquals(project.getId(), issue.getProject().getId());
             assertEquals(issueType.getId(), issue.getType().getId());
             assertEquals(workflowStatus.getId(), issue.getWorkflowStatus().getId());
         }
+    }
+
+    @Test
+    public void testFullText() {
+        for (int i = 1; i < 11; i++) {
+            Issue issue = createIssue("UST-" + i);
+            issueDao.save(issue);
+            issue.addComment(new Comment("lucky", user));
+            issueDao.save(issue);
+        }
+        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(em);
+        fullTextEntityManager.flushToIndexes();
+
+        assertTrue(issueDao.fullTextQuery("summmmm").size() > 0);
+        assertTrue(issueDao.fullTextQuery("lucky").size() > 0);
     }
 }

@@ -12,6 +12,9 @@ package com.jmelzer.data.dao.hbm;
 
 import com.jmelzer.data.dao.IssueDao;
 import com.jmelzer.data.model.*;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -87,12 +90,31 @@ public class IssueDaoHbm extends AbstractDaoHbm<Issue> implements IssueDao {
         }
         return queryString;
     }
-//    public List<Issue> findIssues(Long project, Long workflowStatus, Long issueType) {
-//
-//        Query query = getEntityManager().createQuery("select i from Issue i where 1 = 1 " + queryString);
-//        return query.getResultList();
-//
-//    }
 
+    @Override
+    public List<Issue> fullTextQuery(String text) {
+        FullTextEntityManager fullTextEntityManager  = Search.getFullTextEntityManager(entityManager);
+
+// create native Lucene query unsing the query DSL
+// alternatively you can write the Lucene query using the Lucene query parser
+// or the Lucene programmatic API. The Hibernate Search DSL is recommended though
+        QueryBuilder qb = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder().forEntity( Issue.class ).get();
+        org.apache.lucene.search.Query query = qb
+                .keyword()
+                .onFields("summary", "comments.text")
+                .matching(text)
+                .createQuery();
+
+// wrap Lucene query in a javax.persistence.Query
+        javax.persistence.Query persistenceQuery =
+                fullTextEntityManager.createFullTextQuery(query, Issue.class);
+
+// execute search
+        List result = persistenceQuery.getResultList();
+
+
+        return result;
+    }
 
 }

@@ -10,6 +10,8 @@
 
 package com.jmelzer.data.model;
 
+import org.hibernate.search.annotations.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -18,6 +20,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "comment")
+@Indexed
+@Analyzer(impl = org.apache.lucene.analysis.standard.StandardAnalyzer.class)
 public class Comment extends ModelBase {
     private static final long serialVersionUID = -745137151059463600L;
 
@@ -36,6 +40,7 @@ public class Comment extends ModelBase {
     }
 
     @Column(name = "text", length = 4048, nullable = false)
+    @Field(index = Index.YES, store = Store.YES)
     public String getText() {
         return text;
     }

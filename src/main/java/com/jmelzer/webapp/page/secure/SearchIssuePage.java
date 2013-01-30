@@ -29,6 +29,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColu
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -64,6 +65,7 @@ public class SearchIssuePage extends MainPage {
     private final Model selectedAssignee;
     private IssueListProvider issueListProvider;
     private Label queryLabel;
+    private final Model fullText;
 
     public SearchIssuePage(final PageParameters parameters) {
 
@@ -126,6 +128,17 @@ public class SearchIssuePage extends MainPage {
         assigneeChoice.add(new AjaxTriggerSearch());
         assigneeChoice.setOutputMarkupId(true);
 
+        TextField fullTextField = new TextField("fullText", fullText = new Model("")) {
+            private static final long serialVersionUID = -1366344398428212110L;
+
+            @Override
+            protected String getInputType() {
+                return "search";
+            }
+        };
+        fullTextField.add(new AjaxTriggerSearch());
+        add(fullTextField);
+
         createResultPanel();
     }
 
@@ -171,16 +184,21 @@ public class SearchIssuePage extends MainPage {
     }
 
     private void filterIssues() {
+        System.out.println("fullText = " + fullText);
 
-        List<Issue> issueList = issueManager.findIssues(getKeyForOption(selectedProject),
-                                                        getKeyForOption(selectedWfStatus),
-                                                        getKeyForOption(selectedIssueType),
-                                                        getKeyForOption(selectedAssignee));
-        issueListProvider.setIssues(issueList);
-        queryLabel.setDefaultModel(new Model(issueManager.buildQuery(getKeyForOption(selectedProject),
-                                                           getKeyForOption(selectedWfStatus),
-                                                           getKeyForOption(selectedIssueType),
-                                                           getKeyForOption(selectedAssignee))));
+        if (fullText.getObject() != null) {
+            queryLabel.setDefaultModel(new Model("textsearch = " + fullText.getObject()));
+        } else {
+            List<Issue> issueList = issueManager.findIssues(getKeyForOption(selectedProject),
+                                                            getKeyForOption(selectedWfStatus),
+                                                            getKeyForOption(selectedIssueType),
+                                                            getKeyForOption(selectedAssignee));
+            issueListProvider.setIssues(issueList);
+            queryLabel.setDefaultModel(new Model(issueManager.buildQuery(getKeyForOption(selectedProject),
+                                                                         getKeyForOption(selectedWfStatus),
+                                                                         getKeyForOption(selectedIssueType),
+                                                                         getKeyForOption(selectedAssignee))));
+        }
     }
     private Long getKeyForOption(Model model) {
         if (model.getObject() instanceof SelectOptionI) {

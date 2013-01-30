@@ -54,7 +54,7 @@ public class UserManagerImpl implements UserManager {
         user.addRole(userRoleUser);
 
         try {
-            byte[] b = StreamUtils.toByteArray(Setup.class.getResourceAsStream("user.png"));
+            byte[] b = StreamUtils.toByteArray(getClass().getResourceAsStream("user.png"));
             user.setAvatar(b);
         } catch (IOException e) {
             throw new RuntimeException(e);

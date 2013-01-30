@@ -11,24 +11,11 @@
     <context:property-placeholder
             location="classpath:app-${wenv:test}.properties" />
 
-    <!--<bean id="hibernateSessionFactory"
-          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
-    </bean>-->
-
-    <!--<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-        <property name="allowCreate" value="false"/>
-        <property name="sessionFactory" ref="hibernateSessionFactory"/>
-    </bean>-->
 
 
     <context:component-scan base-package="com.jmelzer"/>
 
-    <!--<bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="sessionFactory" ref="hibernateSessionFactory"/>
-    </bean>-->
+
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
@@ -67,6 +54,15 @@
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource" />
+        <property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml"/>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.search.default.directory_provider" value="org.hibernate.search.store.impl.FSDirectoryProvider"/>
+                <!--todo config it-->
+                <entry key="hibernate.search.default.indexBase" value="c:/tmp/lukchan/indexes"/>
+                <entry key="hibernate.search.lucene_version" value="LUCENE_35"/>
+            </map>
+        </property>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="showSql" value="false" />
@@ -92,12 +88,12 @@
             <!--<property name="suppressClose" value="true"/>-->
         </bean>
         <jd:embedded-database id="dataSource2" type="HSQL">
-            <jd:script location="classpath:sql/setup.sql"/>
+            <jd:script location="classpath:sql/setup.sql" execution="INIT"/>
             <!--<jd:script location="classpath:test-data.sql"/>-->
         </jd:embedded-database>
-        <bean id="easyDbSetup" class="com.jmelzer.service.impl.EasyDbSetup">
+        <!--<bean id="easyDbSetup" class="com.jmelzer.service.impl.EasyDbSetup">
             <property name="load" value="true"/>
-        </bean>
+        </bean>-->
     </beans>
 
     <beans profile="staging, default">
